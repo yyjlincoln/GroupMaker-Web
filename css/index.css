@@ -1,3 +1,8 @@
+html, body {
+    padding: 0;
+    margin: 0;
+}
+
 p.title{
     font-size: 60px;
     font-weight: 800;
@@ -7,21 +12,22 @@ p.title{
     margin-bottom: 0;
     top: 42%;
     position: relative;
-    animation-name: animationX;
-    animation-delay: 2s;
-    animation-duration: 3s;
+    animation-name: fIn,animationX;
+    animation-delay: 0s,2s;
+    animation-duration: 1s,3s;
     animation-fill-mode: forwards;
     animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
 #cbox{
-    position: relative;
+    position: absolute;
     display: flex;
     flex-direction: column;
     height: 100%;
+    width: 100%;
 }
 
-p.t2{
+.t2{
     font-size: 60px;
     font-weight: 800;
     font-family: 'Ubuntu', sans-serif;
@@ -38,6 +44,8 @@ p.t2{
     animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
+
+
 @keyframes animationX{
     0%{
         font-size: 60px;
@@ -46,13 +54,13 @@ p.t2{
     }
     50%{
         font-size: 40px;
-        top: 35%;
+        top: 37%;
         color: rgb(100,100, 100);
         opacity: 1;
     }
     100%{
         font-size: 40px;
-        top: 35%;
+        top: 37%;
         color: rgb(100,100, 100);
         opacity: 0;
     }
@@ -69,9 +77,87 @@ p.t2{
         top: 37%;
         opacity: 1;
     }
+    80%{
+        font-size: 65px;
+        top: 34%;
+        opacity: 1;
+    }
     100%{
+        font-size: 65px;
+        top: 15%;
+        opacity: 1;
+    }
+}
+
+@keyframes animationZ{
+    0%{
         font-size: 65px;
         top: 35%;
         opacity: 1;
     }
+    100%{
+        font-size: 67px;
+        top: 34%;
+        opacity: 1;
+    }
+}
+
+
+@keyframes fIn{
+    0%{
+        font-size: 70px;
+        top: 38%;
+        opacity: 0;
+    }
+    100%{
+        font-size: 60px;
+        top: 42%;
+        opacity: 1;
+    }
+}
+#background-animation-layer{
+    position: absolute;
+    /* background-image: url('../media/Background.jpg'); */
+    background-position: center;
+    background-size: cover;
+    height: 100%;
+    width: 100%;
+}
+
+#container{
+    position: relative;
+    top: 19%;
+    justify-content: center;
+    width: 100%;
+    animation-name: loginanimation;
+    animation-delay: 5s;
+    animation-duration: 1s;
+    animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+    animation-fill-mode: forwards;
+    opacity: 0;
+}
+
+@keyframes loginanimation{
+    0%{
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    100%{
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}
+
+#loginform{
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    min-width: 350px;
+    max-width: 420px;
+}
+
+.pd{
+    margin-bottom: 40px;
 }

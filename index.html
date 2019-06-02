@@ -3,19 +3,51 @@
 <head>
     <title>Hello World for PaceMaker</title>
     <!-- Link JS & CSS -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
     <link rel="stylesheet" type="text/css" href="./css/common.css">
     <link rel="stylesheet" type="text/css" href="./css/index.css">
-    <script src="./js/jquery-3.4.1.min.js"></script>
-    <script src="./js/index.js"></script>
-    <!-- Link Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet">
 </head>
 
 <body>
+    <div id="background-animation-layer"></div>
     <div id="cbox">
         <p class="title">The ultimate team-up solution</p>
         <p class="t2">Pace Maker</p>
+        <div id="container">
+            <form id="loginform" onsubmit="try {login()} catch (e) {} finally {return false}">
+                <div class="mdc-text-field pd">
+                    <input type="text" id="my-text-field" class="mdc-text-field__input" name="username">
+                    <label class="mdc-floating-label" for="my-text-field">User Name</label>
+                    <div class="mdc-line-ripple"></div>
+                </div>
+
+                <div class="mdc-text-field pd">
+                    <input type="password" id="my-text-field" class="mdc-text-field__input" name="password">
+                    <label class="mdc-floating-label" for="my-text-field">Password</label>
+                    <div class="mdc-line-ripple"></div>
+                </div>
+
+                <button class="mdc-button mdc-button--outlined" type="submit" >Login</button>
+            </form>
+        </div>
     </div>
+
+    <script src="./js/jquery-3.4.1.min.js"></script>
+    <script src="./js/index.js"></script>
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+    <script>
+        var x = document.querySelectorAll('.mdc-text-field')
+        console.log(x)
+        try {
+            for (var n = 0; n <= x.length; n++) {
+                mdc.textField.MDCTextField.attachTo(x[n]);
+            }
+        } catch (error) {
+
+        }        
+    </script>
 </body>
 
 </html>

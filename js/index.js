@@ -1,1 +1,3 @@
-console.log("Javascript Loaded")
+function login(){
+    console.log('Login')
+}
