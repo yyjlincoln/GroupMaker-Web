@@ -16,7 +16,7 @@
         <p class="title">The ultimate team-up solution</p>
         <p class="t2">Pace Maker</p>
         <div id="container">
-            <form id="loginform" onsubmit="try {login()} catch (e) {} finally {return false}">
+            <form id="loginform" onsubmit="try {login(loginform.username.value,loginform.password.value)} catch (e) {} finally {return false}">
                 <div class="mdc-text-field pd">
                     <input type="text" id="my-text-field" class="mdc-text-field__input" name="username">
                     <label class="mdc-floating-label" for="my-text-field">User Name</label>
