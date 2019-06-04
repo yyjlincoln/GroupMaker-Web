@@ -1,9 +1,7 @@
-html, body {
-    padding: 0;
-    margin: 0;
-}
-
 p.title{
+    /*  */
+    display: none;
+    /*  */
     font-size: 60px;
     font-weight: 800;
     font-family: 'Ubuntu', sans-serif;
@@ -12,11 +10,11 @@ p.title{
     margin-bottom: 0;
     top: 42%;
     position: relative;
-    animation-name: fIn,animationX;
+    /* animation-name: fIn,animationX;
     animation-delay: 0s,2s;
-    animation-duration: 1s,3s;
-    /* animation-delay: 0.1s,0.1s;
-    animation-duration: 0.1s,0.1s; */
+    animation-duration: 1s,3s; */
+    animation-delay: 0.1s,0.1s;
+    animation-duration: 0.1s,0.1s;
     animation-fill-mode: forwards;
     animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
 }
@@ -39,7 +37,7 @@ p.title{
     top: 45%;
     position: relative;
     animation-name: animationY;
-    animation-delay: 2s;
+    animation-delay: 0s;
     animation-duration: 3s;
     /* animation-delay: 0s;
     animation-duration: 0.1s; */
@@ -95,7 +93,7 @@ p.title{
     100%{
         display: unset;
         font-size: 65px;
-        top: 15%;
+        top: 20%;
         opacity: 1;
     }
 }
@@ -126,11 +124,11 @@ p.title{
 
 #container{
     position: relative;
-    top: 19%;
+    top: 24%;
     justify-content: center;
     width: 100%;
     animation-name: loginanimation;
-    animation-delay: 5s;
+    animation-delay: 3s;
     animation-duration: 1s;
     /* animation-delay: 0s;
     animation-duration: 0.1s; */

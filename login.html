@@ -13,7 +13,7 @@
 <body>
     <div id="background-animation-layer"></div>
     <div id="cbox">
-        <p class="title">The ultimate team-up solution</p>
+        <!-- <p class="title">The ultimate team-up solution</p> -->
         <p class="t2">Pace Maker</p>
         <div id="container">
             <form id="loginform" onsubmit="try {login(loginform.username.value,loginform.password.value)} catch (e) {} finally {return false}">
@@ -41,7 +41,7 @@
     <script src="./js/common.js"></script>
     <script>
         var x = document.querySelectorAll('.mdc-text-field')
-        console.log(x)
+        // console.log(x)
         try {
             for (var n = 0; n <= x.length; n++) {
                 mdc.textField.MDCTextField.attachTo(x[n]);

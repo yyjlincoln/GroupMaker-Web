@@ -7,14 +7,60 @@
     <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./css/material-components-web.min.css">
     <link rel="stylesheet" type="text/css" href="./css/common.css">
-    <link rel="stylesheet" type="text/css" href="./css/main.css">
+    <link rel="stylesheet" type="text/css" href="./css/index.css">
+    <link rel="stylesheet" type="text/css" href="./css/jquery-ui.css" />
 </head>
 
 <body>
+    <div id="navbar">
+        <div class="flex">
+            <div class="title mdc-button" style="margin-left: 10px;margin-right: 10px;">Pacemaker</div>
+        </div>
+        <div id="search">
+            <div class="mdc-text-field mdc-text-field--no-label mdc-text-field--with-trailing-icon title-inline"
+                id="search">
+                <form id="searchBar" class="search-style"
+                    onsubmit="try{search(searchBar.searchInput.value);}catch(err){}finally{return false}">
+                    <i class="material-icons mdc-text-field__icon" tabindex="0" role="button"
+                        onclick="search(searchBar.searchInput.value)">search</i>
+                    <input type="text" placeholder="Search a group..." class="mdc-text-field__input"
+                        style="border: none;" name="searchInput">
+                    <div class="mdc-line-ripple"></div>
+                </form>
+            </div>
+        </div>
+        <div id="userinfo" class="flex" onclick="top.location='login.html'">
+            <div id="userimg"></div>
+            <div id="nickname" class="subtitle">Sign in to your account</div>
+        </div>
+    </div>
+    <div id="main-container">
+        <div id="left-container">
+            <div id="placeholder"></div>
+            something here
+        </div>
+        <div id="right-container">
+            <div id="placeholder"></div>
+            something here
+        </div>
+    </div>
+
     <script src="./js/material-components-web.min.js"></script>
     <script src="./js/jquery-3.4.1.min.js"></script>
-    <script src="./js/main.js"></script>
     <script src="./js/common.js"></script>
+    <script src="./js/jquery-ui.js"></script>
+    <script src="./js/index.js"></script>
+    <script>
+        var x = document.querySelectorAll('.mdc-text-field')
+        // console.log(x)
+        try {
+            for (var n = 0; n <= x.length; n++) {
+                mdc.textField.MDCTextField.attachTo(x[n]);
+            }
+        } catch (error) {
+
+        }
+    </script>
 </body>
 
 </html>

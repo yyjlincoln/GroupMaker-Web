@@ -1,5 +1,13 @@
 function login(user, pass) {
+    $("#loginbtn").text("Loading...")
+    $("#loginbtn").attr("disabled",true)
     loginform.password.value = ""
+    if(user==""||pass==""){
+        Err('User name / password can not be blank.')
+        $("#loginbtn").text("Login")
+        $("#loginbtn").attr("disabled",false)
+        return
+    }
     console.log("Login", user, pass)
     // [TODO] Encryption, etc
     sendlogin("<encrypted login>", (stat, token, nickname, userid = user) => {
@@ -28,6 +36,8 @@ function login(user, pass) {
                 Err("Unspecific error. Please <a href='login.html'>Refresh</a> and try again. [Code:" + String(stat) + "]")
                 break
         }
+        $("#loginbtn").text("Login")
+        $("#loginbtn").attr("disabled",false)
     })
 }
 
@@ -40,7 +50,7 @@ function loginSuccess(token, userid, nickname) {
     $("#loginbtn").text("Redirecting...")
     $("#loginbtn").attr("disabled",true)
     setTimeout(() => {
-        top.location="main.html"
+        top.location="/"
     }, 1000);
 }
 
