@@ -25,7 +25,7 @@ function login(user, pass) {
                 Err("Internal server error. Please try again later.")
                 break
             default:
-                Err("Unspecific error. Please <a href='index.html'>Refresh</a> and try again. [Code:" + String(stat) + "]")
+                Err("Unspecific error. Please <a href='login.html'>Refresh</a> and try again. [Code:" + String(stat) + "]")
                 break
         }
     })
