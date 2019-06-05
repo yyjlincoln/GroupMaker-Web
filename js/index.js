@@ -34,6 +34,20 @@ $(document).ready(() => {
 
 })
 
-function search(searchValue){
-    console.log(searchValue)
+function search(searchValue,callback=null){
+    if(callback==null){
+        callback=(searchValue,result)=>{
+            // Search Result Update
+        }
+    }
+    var result="<dev> Search result of: "+searchValue
+    callback(searchValue,result)
+}
+
+function presearch(searchValue){
+    console.log("Presearch Started")
+    search(searchValue,(searchv,result)=>{
+        console.log("Presearch:",searchv,result)
+    })
+    console.log("Presearch Completed")
 }

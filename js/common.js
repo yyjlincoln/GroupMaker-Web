@@ -14,3 +14,12 @@ function getCookie(cname) {
     }
     return "";
 }
+
+x = $('.mdc-text-field')
+for (var n = 0; n < x.length; n++) {
+    mdc.textField.MDCTextField.attachTo(x[n]);
+}
+x = $('.mdc-button')
+for (var n = 0; n < x.length; n++) {
+    mdc.ripple.MDCRipple.attachTo(x[n])
+}
