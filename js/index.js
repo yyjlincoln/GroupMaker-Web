@@ -16,10 +16,12 @@ $(document).ready(() => {
         setCookie("left", $("#left-container").width())
         $("#right-container").width($(window).width() - $("#left-container").width())
         $("#right-container").css("left", $("#left-container").width())
+        $("#wrapper").width($("#left-container").width()-4)
     })
     $(window).on('resize', ()=>{
         $("#right-container").width($(window).width() - $("#left-container").width())
         $("#right-container").css("left", $("#left-container").width())
+        $("#wrapper").width($("#left-container").width()-8)
     })
     var x = getCookie("left")
     try {
@@ -27,6 +29,7 @@ $(document).ready(() => {
             $("#left-container").css("width", x + "px")
             $("#right-container").width($(window).width() - $("#left-container").width())
             $("#right-container").css("left", $("#left-container").width())
+            $("#wrapper").width($("#left-container").width()-4)
         }
     } catch (error) {
 

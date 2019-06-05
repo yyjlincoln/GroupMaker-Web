@@ -14,7 +14,8 @@
 <body>
     <div id="navbar">
         <div class="flex">
-            <div class="title mdc-button" style="margin-left: 10px;margin-right: 10px;" onclick="setTimeout(()=>{ top.location=''},200)">Pacemaker</div>
+            <div class="title mdc-button" style="margin-left: 10px;margin-right: 10px;"
+                onclick="setTimeout(()=>{ top.location=''},200)">Pacemaker</div>
         </div>
         <div id="search">
             <div class="mdc-text-field mdc-text-field--no-label mdc-text-field--with-trailing-icon title-inline"
@@ -30,7 +31,8 @@
             </div>
         </div>
         <div id="userinfo" class="flex" onclick="top.location='login.html'">
-            <div id="loginbutton" class="title mdc-button" style="margin-left: 10px;margin-right: 10px;font-size: 20px;">Sign In</div>
+            <div id="loginbutton" class="title mdc-button"
+                style="margin-left: 10px;margin-right: 10px;font-size: 20px;">Sign In</div>
             <div style="display: none">
                 <div id="userimg"></div>
                 <div id="nickname" class="subtitle">Sign in to your account</div>
@@ -39,9 +41,76 @@
     </div>
     <div id="main-container">
         <div id="left-container">
-            <div id="placeholder"></div>
-            <div id="l-i-container">
-                
+            <!-- Fix the problem caused by the scroll bar -->
+            <div id="wrapper" class="">
+                <!-- Groups -->
+                <div class="inner-left-container">
+                    <div id="placeholder"></div>
+                    <titlex style="padding-top: 20px;">Groups you joined:</titlex>
+                </div>
+                <ul class="mdc-list mdc-list--two-line">
+                    <li class="mdc-list-item">
+                        <span class="mdc-list-item__text">
+                            <span class="mdc-list-item__primary-text">First-line text</span>
+                            <span class="mdc-list-item__secondary-text">Second-line text</span>
+                        </span>
+                    </li>
+                    <li class="mdc-list-item">
+                        <span class="mdc-list-item__text">
+                            <span class="mdc-list-item__primary-text">First-line text</span>
+                            <span class="mdc-list-item__secondary-text">Second-line text</span>
+                        </span>
+                    </li>
+                    <li class="mdc-list-item">
+                        <span class="mdc-list-item__text">
+                            <span class="mdc-list-item__primary-text">First-line text</span>
+                            <span class="mdc-list-item__secondary-text">Second-line text</span>
+                        </span>
+                    </li>
+
+                    <!-- More -->
+                    <li class="mdc-list-item">
+                        <span class="mdc-list-item__text">
+                            <span class="mdc-list-item__primary-text">More groups</span>
+                            <span class="mdc-list-item__secondary-text">Show all your groups</span>
+                        </span>
+                    </li>
+
+                </ul>
+
+
+                <!-- Chats -->
+                <div class="inner-left-container">
+                    <titlex style="padding-top: 20px;">Continue with...</titlex>
+                </div>
+                <ul class="mdc-list mdc-list--two-line">
+                    <li class="mdc-list-item">
+                        <span class="mdc-list-item__text">
+                            <span class="mdc-list-item__primary-text">First-line text</span>
+                            <span class="mdc-list-item__secondary-text">Second-line text</span>
+                        </span>
+                    </li>
+                    <li class="mdc-list-item">
+                        <span class="mdc-list-item__text">
+                            <span class="mdc-list-item__primary-text">First-line text</span>
+                            <span class="mdc-list-item__secondary-text">Second-line text</span>
+                        </span>
+                    </li>
+                    <li class="mdc-list-item">
+                        <span class="mdc-list-item__text">
+                            <span class="mdc-list-item__primary-text">First-line text</span>
+                            <span class="mdc-list-item__secondary-text">Second-line text</span>
+                        </span>
+                    </li>
+
+                    <!-- More -->
+                    <li class="mdc-list-item">
+                        <span class="mdc-list-item__text">
+                            <span class="mdc-list-item__primary-text">More chats</span>
+                            <span class="mdc-list-item__secondary-text">Show all your chats</span>
+                        </span>
+                    </li>
+                </ul>
             </div>
         </div>
         <div id="right-container">
