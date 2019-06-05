@@ -41,4 +41,23 @@ function flushMaterial() {
     }
 }
 
+function sendlogin(user, pass, callback) {
+    console.log("Login", user, pass)
+    encrypted = encryptLogin(user, pass)
+    // [TODO] Send encrypted login
+
+
+    // [DEV] Environment START
+    var stat = 0
+    var token = "123123123"
+    var nickname = "Dev Test Nickname"
+    document._callback = callback
+    document._callback(stat, token, nickname)
+    // [DEV] Environment END
+}
+
+function encryptLogin(user, pass) {
+    // [DEV] [TODO]
+    return user + pass
+}
 flushMaterial()

@@ -1,16 +1,18 @@
+// This is js for login PAGE, not the login procedure.
+
 function login(user, pass) {
     $("#loginbtn").text("Loading...")
-    $("#loginbtn").attr("disabled",true)
+    $("#loginbtn").attr("disabled", true)
     loginform.password.value = ""
-    if(user==""||pass==""){
+    if (user == "" || pass == "") {
         Err('User name / password can not be blank.')
         $("#loginbtn").text("Login")
-        $("#loginbtn").attr("disabled",false)
+        $("#loginbtn").attr("disabled", false)
         return
     }
     console.log("Login", user, pass)
     // [TODO] Encryption, etc
-    sendlogin("<encrypted login>", (stat, token, nickname, userid = user) => {
+    sendlogin(user, pass, (stat, token, nickname, userid = user) => {
         console.log("Login stat", stat, "Token", token)
         switch (stat) {
             case 0:
@@ -37,7 +39,7 @@ function login(user, pass) {
                 break
         }
         $("#loginbtn").text("Login")
-        $("#loginbtn").attr("disabled",false)
+        $("#loginbtn").attr("disabled", false)
     })
 }
 
@@ -48,26 +50,12 @@ function loginSuccess(token, userid, nickname) {
     setCookie("userid", userid, 3)
     setCookie("nickname", nickname, 3)
     $("#loginbtn").text("Redirecting...")
-    $("#loginbtn").attr("disabled",true)
+    $("#loginbtn").attr("disabled", true)
     setTimeout(() => {
-        top.location="index.html"
+        top.location = "index.html"
     }, 1000);
 }
 
-function sendlogin(encryptedLogin, callback) {
-    console.log("Encrypted login", encryptedLogin)
-    // [TODO] Send encrypted login
-
-
-    // [DEV] Environment START
-    var stat = 0
-    var token = "123123123"
-    var nickname = "Dev Test Nickname"
-    document._callback = callback
-    document._callback(stat, token, nickname)
-    // [DEV] Environment END
-
-}
 
 function Success(msg) {
     // $('#notification-no-material-banner').slideUp()
