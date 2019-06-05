@@ -17,11 +17,13 @@ $(document).ready(() => {
         $("#right-container").width($(window).width() - $("#left-container").width())
         $("#right-container").css("left", $("#left-container").width())
         $("#wrapper").width($("#left-container").width()-4)
+        _DEV()
     })
     $(window).on('resize', ()=>{
         $("#right-container").width($(window).width() - $("#left-container").width())
         $("#right-container").css("left", $("#left-container").width())
         $("#wrapper").width($("#left-container").width()-8)
+        _DEV()
     })
     var x = getCookie("left")
     try {
@@ -54,3 +56,12 @@ function presearch(searchValue){
     })
     console.log("Presearch Completed")
 }
+
+
+// Dev Start
+_DEV=()=>{
+$("#inner-right-container").html("<p>Cookie Info</p><p>Userid:"+getCookie("userid")+"</p><p>Nickname:"+getCookie("nickname")+"</p><p>Token:"+getCookie("token")+"</p><p>Left:"+getCookie("left")+"</p>")
+}
+// Dev End
+
+_DEV()
