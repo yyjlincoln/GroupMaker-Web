@@ -1,4 +1,5 @@
 #left-container{
+    overflow-x: hidden;
     position: fixed;
     height: 100%;
     width: 20%;
@@ -12,6 +13,7 @@
 }
 
 #right-container{
+    overflow-x: hidden;
     position: absolute;
     height: 100%;
     width: 80%;
@@ -21,6 +23,7 @@
 }
 
 #main-container{
+    overflow-x: hidden;
     position: absolute;
     height: 100%;
     width: 100%;
@@ -111,4 +114,9 @@ a{
     width: 80%;
     padding-left: 10%;
     padding-right: 10%;
+    min-width: 125px;
+}
+
+#loginbutton{
+    min-width: 105px;
 }
