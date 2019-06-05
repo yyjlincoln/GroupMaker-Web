@@ -37,6 +37,23 @@ $(document).ready(() => {
 
     }
 
+    // This is a bad way
+    $($(".ui-resizable-handle")[0]).on("dblclick", () => {
+        $("#left-container").width(320)
+        setCookie("left","")
+        $("#right-container").width($(window).width() - $("#left-container").width())
+        $("#right-container").css("left", $("#left-container").width())
+        $("#wrapper").width($("#left-container").width() - 4)
+        _DEV()
+    })
+    $($(".ui-resizable-handle")[1]).on("dblclick", () => {
+        $("#left-container").width(320)
+        setCookie("left","")
+        $("#right-container").width($(window).width() - $("#left-container").width())
+        $("#right-container").css("left", $("#left-container").width())
+        $("#wrapper").width($("#left-container").width() - 4)
+        _DEV()
+    })
 })
 
 function search(searchValue, callback = null) {
@@ -160,7 +177,7 @@ function loggedout() {
 
 // Dev Start
 _DEV = () => {
-    $("#inner-right-container").html("<p>Cookie Info</p><p>Userid:" + getCookie("userid") + "</p><p>Nickname:" + getCookie("nickname") + "</p><p>Token:" + getCookie("token") + "</p><p>Left:" + getCookie("left") + "</p>"+ "</p><p>Sessionid:" + getCookie("sessionid") + "</p>")
+    $("#inner-right-container").html("<p>Cookie Info</p><p>Userid:" + getCookie("userid") + "</p><p>Nickname:" + getCookie("nickname") + "</p><p>Token:" + getCookie("token") + "</p><p>Left:" + getCookie("left") + "</p>" + "</p><p>Sessionid:" + getCookie("sessionid") + "</p>")
 }
 // Dev End
 
