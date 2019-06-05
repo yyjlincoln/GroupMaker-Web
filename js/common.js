@@ -60,4 +60,18 @@ function encryptLogin(user, pass) {
     // [DEV] [TODO]
     return user + pass
 }
+
+function verifySession(session,token,callback){
+    document._verifySession_callback=callback
+    // [DEV] [TODO]
+    document._verifySession_callback(true)
+}
+
+function getSession(userid,token,callback){
+    session="sessionid"
+    document._getSession_callback=callback
+    // [DEV] [TODO]
+    document._getSession_callback(session)
+}
+
 flushMaterial()

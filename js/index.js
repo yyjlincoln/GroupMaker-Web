@@ -13,7 +13,7 @@ $(document).ready(() => {
         minWidth: 200
     });
     $("#left-container").resize(() => {
-        setCookie("left", $("#left-container").width(),365)
+        setCookie("left", $("#left-container").width(), 365)
         $("#right-container").width($(window).width() - $("#left-container").width())
         $("#right-container").css("left", $("#left-container").width())
         $("#wrapper").width($("#left-container").width() - 4)
@@ -57,15 +57,15 @@ function presearch(searchValue) {
     console.log("Presearch Completed")
 }
 
-function insertChats(title, subtitle, redirect="#") {
+function insertChats(title, subtitle, redirect = "#") {
     try {
         var rawhtml = "<li class=\"mdc-list-item fadeIn\" onclick=\"top.location=\'#redirect\'\"><span class=\"mdc-list-item__text\"><span class=\"mdc-list-item__primary-text\"><insert CHATS-TITLE></insert></span><span class=\"mdc-list-item__secondary-text\"><insert CHATS-SUBTITLE></insert></span></span></li>"
-        document.insertPoints.Chats.html(document.insertPoints.Chats.html().replace("fadeIn", "") + rawhtml.replace("#redirect",redirect).replace("<insert CHATS-TITLE></insert>", title).replace("<insert CHATS-SUBTITLE></insert>", subtitle).replace("<script>", ""))
+        document.insertPoints.Chats.html(document.insertPoints.Chats.html().replace("fadeIn", "") + rawhtml.replace("#redirect", redirect).replace("<insert CHATS-TITLE></insert>", title).replace("<insert CHATS-SUBTITLE></insert>", subtitle).replace("<script>", ""))
         flushMaterial()
     } catch (e) { console.log(e); return false }
 }
 
-function insertGroups(title, subtitle,redirect="#") {
+function insertGroups(title, subtitle, redirect = "#") {
     try {
         var rawhtml = "<li class=\"mdc-list-item fadeIn\" onclick=\"top.location=\'#redirect\'\"><span class=\"mdc-list-item__text\"><span class=\"mdc-list-item__primary-text\"><insert CHATS-TITLE></insert></span><span class=\"mdc-list-item__secondary-text\"><insert CHATS-SUBTITLE></insert></span></span></li>"
         document.insertPoints.Groups.html(document.insertPoints.Groups.html().replace("fadeIn", "") + rawhtml.replace("<insert CHATS-TITLE></insert>", title).replace("<insert CHATS-SUBTITLE></insert>", subtitle).replace("<script>", ""))
@@ -92,11 +92,75 @@ function initInsertPoints() {
     return insertPoints
 }
 
+document.loggedIn = false
 document.insertPoints = initInsertPoints()
+document.token = getCookie("token")
+document.nickname = getCookie("nickname")
+document.userid = getCookie("userid")
+
+session_trial = getCookie("sessionid")
+
+// 1) Get session from cookie
+// 2) If Yes verify()
+// 3)     Verify Yes, OK
+// 4)     Verify No, getSession()
+// 5)         GetSession Yes, OK
+// 6)         GetSession No, <Token Expired, Login Expired>
+// 7) If No getSession()
+// 8)     No Token:
+// 9)         <Not logged in>
+// 10)    Have Token getSession():
+// 11)        GetSession Yes, OK
+// 12)        GetSession No, <Token Expired>
+
+if (document.userid != "" && document.token != "") {
+    if (session_trial != "") {
+        verifySession(session_trial, document.token, (stat) => {
+            if (stat == true) {
+                document.loggedIn = true // valid token, valid sessionid
+                loggedin()
+            } else {
+                // invalid sessionid, unknown token
+                getSession(document.userid, document.token, (sessionid) => {
+                    if (sessionid != false) {
+                        // valid token, valid session id
+                        document.sessionid = sessionid
+                        setCookie("sessionid", sessionid)
+                    } else {
+                        // Invalid token, invalid session id
+                        loggedout()
+                    }
+                })
+            }
+        })
+    } else {
+        getSession(document.userid, document.token, (sessionid) => {
+            if (sessionid != false) {
+                // valid token, valid session id
+                document.sessionid = sessionid
+                setCookie("sessionid", sessionid)
+            } else {
+                // Invalid token, invalid session id
+                loggedout()
+            }
+        })
+    }
+} else {
+    loggedout()
+}
+
+function loggedin() {
+    console.log('Logged in')
+    document.loggedIn = true
+}
+
+function loggedout() {
+    $("#left-top-banner").text("Please log in to continue.")
+}
 
 // Dev Start
 _DEV = () => {
-    $("#inner-right-container").html("<p>Cookie Info</p><p>Userid:" + getCookie("userid") + "</p><p>Nickname:" + getCookie("nickname") + "</p><p>Token:" + getCookie("token") + "</p><p>Left:" + getCookie("left") + "</p>")
+    $("#inner-right-container").html("<p>Cookie Info</p><p>Userid:" + getCookie("userid") + "</p><p>Nickname:" + getCookie("nickname") + "</p><p>Token:" + getCookie("token") + "</p><p>Left:" + getCookie("left") + "</p>"+ "</p><p>Sessionid:" + getCookie("sessionid") + "</p>")
 }
 // Dev End
 
