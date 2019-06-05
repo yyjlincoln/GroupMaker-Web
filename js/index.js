@@ -37,10 +37,15 @@ $(document).ready(() => {
 
     }
 
+    // Init Left and Right container & SlideBar
+    $("#right-container").width($(window).width() - $("#left-container").width())
+    $("#right-container").css("left", $("#left-container").width())
+    $("#slideBar").width($("#left-container").width())
+
     // This is a bad way
     $($(".ui-resizable-handle")[0]).on("dblclick", () => {
         $("#left-container").width(320)
-        setCookie("left","")
+        setCookie("left", "")
         $("#right-container").width($(window).width() - $("#left-container").width())
         $("#right-container").css("left", $("#left-container").width())
         $("#wrapper").width($("#left-container").width() - 4)
@@ -48,7 +53,7 @@ $(document).ready(() => {
     })
     $($(".ui-resizable-handle")[1]).on("dblclick", () => {
         $("#left-container").width(320)
-        setCookie("left","")
+        setCookie("left", "")
         $("#right-container").width($(window).width() - $("#left-container").width())
         $("#right-container").css("left", $("#left-container").width())
         $("#wrapper").width($("#left-container").width() - 4)
@@ -109,6 +114,21 @@ function initInsertPoints() {
     return insertPoints
 }
 
+function showSlideBar() {
+    if (!document.slideBar) {
+        $("#slideBar").animate({left: 0 })
+        document.slideBar=true
+    } else {
+        $("#slideBar").animate({ left: -$("#slideBar").width()})
+        document.slideBar=false
+    }
+}
+
+
+$("#slideBar").css("left",-$("#left-container").width())
+const drawer = mdc.drawer.MDCDrawer.attachTo(document.querySelector('.mdc-drawer'));
+
+document.slideBar = false
 document.loggedIn = false
 document.insertPoints = initInsertPoints()
 document.token = getCookie("token")
