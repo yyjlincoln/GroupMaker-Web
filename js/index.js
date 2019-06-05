@@ -13,7 +13,7 @@ $(document).ready(() => {
         minWidth: 200
     });
     $("#left-container").resize(() => {
-        setCookie("left", $("#left-container").width())
+        setCookie("left", $("#left-container").width(),365)
         $("#right-container").width($(window).width() - $("#left-container").width())
         $("#right-container").css("left", $("#left-container").width())
         $("#wrapper").width($("#left-container").width() - 4)
