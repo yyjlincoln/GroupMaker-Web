@@ -14,7 +14,7 @@
 <body>
     <div id="navbar">
         <div class="flex">
-            <div id="test" class="title mdc-button" style="margin-left: 10px;margin-right: 10px;">Pacemaker</div>
+            <div class="title mdc-button" style="margin-left: 10px;margin-right: 10px;" onclick="setTimeout(()=>{ top.location=''},200)">Pacemaker</div>
         </div>
         <div id="search">
             <div class="mdc-text-field mdc-text-field--no-label mdc-text-field--with-trailing-icon title-inline"
@@ -30,7 +30,7 @@
             </div>
         </div>
         <div id="userinfo" class="flex" onclick="top.location='login.html'">
-            <div class="title mdc-button" style="margin-left: 10px;margin-right: 10px;font-size: 20px;">Sign In</div>
+            <div id="loginbutton" class="title mdc-button" style="margin-left: 10px;margin-right: 10px;font-size: 20px;">Sign In</div>
             <div style="display: none">
                 <div id="userimg"></div>
                 <div id="nickname" class="subtitle">Sign in to your account</div>
