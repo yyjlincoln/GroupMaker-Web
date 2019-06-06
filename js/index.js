@@ -193,8 +193,8 @@ function initInsertPoints() {
 
 function showSlideBar() {
     if (!document.slideBar) {
-        $("#slideBar").animate({ left: 0 }, 300)
-        $("#cover").fadeIn(300)
+        $("#slideBar").animate({ left: 0 }, 200)
+        $("#cover").fadeIn(200)
         document.slideBar = true
     } else {
         $("#slideBar").animate({ left: -$("#slideBar").width() }, 200)
