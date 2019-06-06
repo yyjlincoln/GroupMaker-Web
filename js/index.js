@@ -58,6 +58,7 @@ $(document).ready(() => {
 
         $("#slideBar").width($("#left-container").width())
         $("#slideBar").css("left", -$("#slideBar").width())
+        $("#userSlideBar").css("left", $(window).width() + $("#userSlideBar").width())
 
         $("#searchResultDisplay").width($("#searchBar").width())
         $("#searchResultDisplay").css("left", $("#searchBar").offset().left)
@@ -70,6 +71,7 @@ $(document).ready(() => {
 
         $("#slideBar").width($("#left-container").width())
         $("#slideBar").css("left", -$("#slideBar").width())
+        $("#userSlideBar").css("left", $(window).width() + $("#userSlideBar").width())
 
         $("#searchResultDisplay").width($("#searchBar").width())
         $("#searchResultDisplay").css("left", $("#searchBar").offset().left)
@@ -77,7 +79,7 @@ $(document).ready(() => {
     })
     var x = getCookie("left")
     try {
-        if (x != "" && Number(x) <= 400 && Number(x) >= 200) {
+        if (x != "" && Number(x) <= 800 && Number(x) >= 200) {
             $("#left-container").css("width", x + "px")
             $("#right-container").width($(window).width() - $("#left-container").width())
             $("#right-container").css("left", $("#left-container").width())
@@ -94,6 +96,7 @@ $(document).ready(() => {
     $("#slideBar").css("left", -$("#slideBar").width())
     $("#searchResultDisplay").width($("#searchBar").width())
     $("#searchResultDisplay").css("left", $("#searchBar").offset().left)
+    $("#userSlideBar").css("left", $(window).width() + $("#userSlideBar").width())
 
     // This is a bad way
     $($(".ui-resizable-handle")[0]).on("dblclick", () => {
@@ -135,7 +138,7 @@ function presearch(searchValue) {
     if (searchValue != "") {
         updateSearchResult("Showing results for \"" + searchValue + "\"", "#", true)
     } else {
-        updateSearchResult(undefined,undefined,true)
+        updateSearchResult(undefined, undefined, true)
     }
     console.log("Presearch Completed")
 }
@@ -208,6 +211,7 @@ $("#slideBar").css("left", -$("#left-container").width())
 // const drawer = mdc.drawer.MDCDrawer.attachTo(document.querySelector('.mdc-drawer'));
 
 document.slideBar = false
+document.userSlideBar = false
 document.loggedIn = false
 document.insertPoints = initInsertPoints()
 document.token = getCookie("token")
@@ -258,6 +262,7 @@ if (document.userid != "" && document.token != "") {
                 // valid token, valid session id
                 document.sessionid = sessionid
                 setCookie("sessionid", sessionid)
+                loggedin(sessionid)
             } else {
                 // Invalid token, invalid session id
                 loggedout()
@@ -272,10 +277,40 @@ function loggedin(sessionid) {
     console.log('Logged in')
     document.loggedIn = true
     document.sessionid = sessionid
+    // $("#loginbutton").text("My Profile")
+    $("#loginbutton").hide()
+    $("#userIcon").show()
+    $("#userinfo").attr("onclick", "showUserSlideBar()")
+    $("nickname").text(document.nickname)
+    $("userid").text(document.userid)
+    $("token").text(document.token)
+    $("sessionid").text(document.sessionid)
+    getImgURL('infobackground',(url)=>{
+        $(".userInfoBackground").css("background-image","url("+url+")")
+        $("userInfoBackground").css("background-image","url("+url+")")
+    })
+    getImgURL('usericon',(url)=>{
+        $(".userIcon").css("background-image","url("+url+")")
+        $("userIcon").css("background-image","url("+url+")")
+    })
+
+
 }
 
 function loggedout() {
     $("#left-top-banner").text("Please log in to continue.")
+}
+
+function showUserSlideBar() {
+    if (!document.userSlideBar) {
+        $("#userSlideBar").animate({ left: $(window).width() - $("#userSlideBar").width() }, 200)
+        $("#cover").fadeIn(200)
+        document.userSlideBar = true
+    } else {
+        $("#userSlideBar").animate({ left: $(window).width() }, 200)
+        document.userSlideBar = false
+        $("#cover").fadeOut(200)
+    }
 }
 
 // Dev Start

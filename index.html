@@ -39,8 +39,9 @@
             </div>
         </div>
         <div id="userinfo" class="flex" onclick="top.location='login.html'">
+            <div class="userIcon" style="width: 50px;height:50px;margin-left: 20px;margin-right: 20px;"></div>
             <div id="loginbutton" class="title mdc-button"
-                style="margin-left: 10px;margin-right: 10px;font-size: 20px;">My Profile</div>
+                style="margin-left: 10px;margin-right: 10px;font-size: 20px;">Login</div>
             <!-- <div style="display: none">
                 <div id="userimg"></div>
                 <div id="nickname" class="subtitle">Sign in to your account</div>
@@ -60,7 +61,36 @@
         </ul>
 
     </div>
-    <div id="cover" style="display: none" onclick="showSlideBar()"></div>
+
+    <div id="userSlideBar">
+        <div id="placeholder" style="height: 70px"></div>
+
+        <titlex>
+            <div class="userInfoBackground">
+                <div id="userInfoCard" class="inner-left-container" style="padding-top: 20px; background-color: rgba(255,255, 255, 0.3)">
+                    Logged in as: <nickname></nickname>
+                </div>
+            </div>
+        </titlex>
+        <ul class="mdc-list mdc-list--two-line">
+            <insertPoint what="userSlideBar"></insertPoint>
+            <li class="mdc-list-item" onclick="logout(true)">
+                    <span class="mdc-list-item__text">
+                        <span class="mdc-list-item__primary-text">Switch account</span>
+                        <span class="mdc-list-item__secondary-text">Log out and log back in</span>
+                    </span>
+                </li>
+            <li class="mdc-list-item" onclick="logout()">
+                <span class="mdc-list-item__text">
+                    <span class="mdc-list-item__primary-text">Log out</span>
+                    <span class="mdc-list-item__secondary-text"><nickname></nickname> (<userid></userid>)</span>
+                </span>
+            </li>
+        </ul>
+
+    </div>
+    <div id="cover" style="display: none"
+        onclick="document.userSlideBar=true;document.slideBar=true;showSlideBar();showUserSlideBar()"></div>
     <div id="main-container">
         <div id="left-container">
             <!-- Fix the problem caused by the scroll bar -->

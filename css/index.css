@@ -113,7 +113,7 @@ a{
 
 #cover{
     background: rgba(0, 0, 0, 0.3);
-    position: absolute;
+    position: fixed;
     width: 100%;
     height: 100%;
     z-index: 9998;
@@ -147,13 +147,26 @@ titlex{
     overflow-x:hidden;
 }
 
-#slideBar{
-    position: absolute;
+#slideBar,#userSlideBar{
+    position: fixed;
     z-index: 9999;
     background-color: #f3f5f9;
     height: 100%;
     left: -100%;
+    overflow-y: auto;
+    overflow-x: hidden;
     /* background-color: white; */
+}
+
+#userSlideBar{
+    width: 300px;
+}
+
+#userInfoCard{
+    height: 125px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
 }
 
 #searchResultDisplay{
@@ -172,4 +185,10 @@ titlex{
     flex-direction: column;
     justify-content: center;
     flex-basis: content;
+}
+
+.userInfoBackground,.userIcon,userIcon,userInfoBackground{
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }

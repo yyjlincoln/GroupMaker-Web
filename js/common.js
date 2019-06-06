@@ -1,18 +1,29 @@
 function setCookie(cname, cvalue, exdays) {
-    var d = new Date();
-    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-    var expires = "expires=" + d.toGMTString();
-    document.cookie = cname + "=" + cvalue + "; " + expires;
+    var d = new Date()
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000))
+    var expires = "expires=" + d.toGMTString()
+    document.cookie = cname + "=" + cvalue + "; " + expires
 }
 
 function getCookie(cname) {
-    var name = cname + "=";
-    var ca = document.cookie.split(';');
+    var name = cname + "="
+    var ca = document.cookie.split(';')
     for (var i = 0; i < ca.length; i++) {
-        var c = ca[i].trim();
-        if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+        var c = ca[i].trim()
+        if (c.indexOf(name) == 0) return c.substring(name.length, c.length)
     }
-    return "";
+    return ""
+}
+
+function deleteAllCookies() {
+    var cookies = document.cookie.split(";")
+
+    for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i];
+        var eqPos = cookie.indexOf("=")
+        var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie
+        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT"
+    }
 }
 
 function flushMaterial() {
@@ -81,6 +92,31 @@ function getSession(userid, token, callback) {
     document._getSession_callback = callback
     // [DEV] [TODO]
     document._getSession_callback(session)
+}
+
+function logout(switchAccount = false) {
+    deleteAllCookies()
+    if (switchAccount == true) {
+        top.location = "login.html"
+    } else {
+        top.location = ""
+    }
+}
+
+function getImgURL(type, callback) {
+    var session = document.sessionid
+    var token = document.token
+    var userid = document.userid
+
+    // [DEV] [TODO]
+
+    switch (type) {
+        case "infobackground":
+            callback('https://yyjlincoln.github.io/istweb/Media/1.jpg')
+            break
+        case "usericon":
+            callback('https://yyjlincoln.github.io/istweb/Media/uparrow.svg')
+    }
 }
 
 flushMaterial()
