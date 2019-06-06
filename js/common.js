@@ -28,6 +28,13 @@ function flushMaterial() {
         mdc.ripple.MDCRipple.attachTo(x[n])
     }
 
+
+    const iconButton = new mdc.ripple.MDCRipple($('.mdc-icon-button')[0])
+    iconButton.unbounded=true;
+    for (var n = 0; n < x.length; n++) {
+        mdc.ripple.MDCRipple.attachTo(x[n])
+    }
+
     // Apply style for .mdc-list
 
     // x = $(".mdc-list")

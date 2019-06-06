@@ -14,8 +14,9 @@
 <body>
     <div id="navbar">
         <div class="flex">
-            <div class="title mdc-button" style="margin-left: 10px;margin-right: 10px;"
-                onclick="showSlideBar()">Pacemaker</div>
+            <button class="mdc-icon-button material-icons" onclick="showSlideBar()"
+                style="margin-left: 10px;">list</button>
+            <div class="title mdc-button" style="margin-right: 10px;" onclick="showSlideBar()">dashboard</div>
         </div>
         <div id="search">
             <div class="mdc-text-field mdc-text-field--no-label mdc-text-field--with-trailing-icon title-inline"
@@ -45,14 +46,14 @@
         <ul class="mdc-list mdc-list--two-line">
             <li class="mdc-list-item">
                 <span class="mdc-list-item__text">
-                    <span class="mdc-list-item__primary-text">Link title</span>
-                    <span class="mdc-list-item__secondary-text">Subtitle</span>
+                    <span class="mdc-list-item__primary-text">Dashboard</span>
+                    <span class="mdc-list-item__secondary-text">Go to dashboard</span>
                 </span>
             </li>
         </ul>
 
-        </div>
-        <div id="cover" style="display: none" onclick="showSlideBar()"></div>
+    </div>
+    <div id="cover" style="display: none" onclick="showSlideBar()"></div>
     <div id="main-container">
         <div id="left-container">
             <!-- Fix the problem caused by the scroll bar -->
