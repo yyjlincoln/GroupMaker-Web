@@ -116,13 +116,13 @@ function initInsertPoints() {
 
 function showSlideBar() {
     if (!document.slideBar) {
-        $("#slideBar").animate({left: 0 })
-        $("#cover").fadeIn()
+        $("#slideBar").animate({left: 0 },300)
+        $("#cover").fadeIn(300)
         document.slideBar=true
     } else {
-        $("#slideBar").animate({ left: -$("#slideBar").width()})
+        $("#slideBar").animate({ left: -$("#slideBar").width()},200)
         document.slideBar=false
-        $("#cover").fadeOut()
+        $("#cover").fadeOut(200)
     }
 }
 
