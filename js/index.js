@@ -6,23 +6,73 @@ $(document).ready(() => {
     // document.write("<p>ID="+getCookie("userid")+"</p>")
     // document.write("<p>Token="+getCookie("token")+"</p>")
     // document.close()
+
+    document.searchDisplay = false
     $("#left-container").resizable({
         // ghost: true,
         handles: 'e, w',
         maxWidth: 500,
         minWidth: 200
     });
+
+    document.preventSlideUp = false
+    document.mouseOnSearch = false
+
+    $("#searchInputTextBox").on("focus", () => {
+        document.searchFocused = true
+        $("#searchResultDisplay").slideDown(200)
+    })
+
+    $("#searchInputTextBox").on("focusout", () => {
+        document.searchFocused = false
+        if (document.preventSlideUp == false) {
+            $("#searchResultDisplay").slideUp(200)
+        }
+    })
+    $("#search").mouseover(() => {
+        // console.log('mouseonsearch')
+        document.mouseOnSearch = true
+    })
+    $("#search").mouseout(() => {
+        // console.log('mouseoutof search')
+        document.mouseOnSearch = false
+    })
+    $("#searchResultDisplay").mouseover(() => {
+        document.preventSlideUp = true
+    })
+
+    $("#searchResultDisplay").mouseout(() => {
+        // alert('1')
+        document.preventSlideUp = false
+        if (document.mouseOnSearch == false && document.searchFocused == false) {
+            $("#searchResultDisplay").slideUp(200)
+        }
+    })
+
+
     $("#left-container").resize(() => {
         setCookie("left", $("#left-container").width(), 365)
         $("#right-container").width($(window).width() - $("#left-container").width())
         $("#right-container").css("left", $("#left-container").width())
         $("#wrapper").width($("#left-container").width() - 4)
+
+        $("#slideBar").width($("#left-container").width())
+        $("#slideBar").css("left", -$("#slideBar").width())
+
+        $("#searchResultDisplay").width($("#searchBar").width())
+        $("#searchResultDisplay").css("left", $("#searchBar").offset().left)
         _DEV()
     })
     $(window).on('resize', () => {
         $("#right-container").width($(window).width() - $("#left-container").width())
         $("#right-container").css("left", $("#left-container").width())
         $("#wrapper").width($("#left-container").width() - 8)
+
+        $("#slideBar").width($("#left-container").width())
+        $("#slideBar").css("left", -$("#slideBar").width())
+
+        $("#searchResultDisplay").width($("#searchBar").width())
+        $("#searchResultDisplay").css("left", $("#searchBar").offset().left)
         _DEV()
     })
     var x = getCookie("left")
@@ -37,10 +87,13 @@ $(document).ready(() => {
 
     }
 
-    // Init Left and Right container & SlideBar
+    // Init Left and Right container & SlideBar + SearchDisplay
     $("#right-container").width($(window).width() - $("#left-container").width())
     $("#right-container").css("left", $("#left-container").width())
     $("#slideBar").width($("#left-container").width())
+    $("#slideBar").css("left", -$("#slideBar").width())
+    $("#searchResultDisplay").width($("#searchBar").width())
+    $("#searchResultDisplay").css("left", $("#searchBar").offset().left)
 
     // This is a bad way
     $($(".ui-resizable-handle")[0]).on("dblclick", () => {
@@ -49,6 +102,9 @@ $(document).ready(() => {
         $("#right-container").width($(window).width() - $("#left-container").width())
         $("#right-container").css("left", $("#left-container").width())
         $("#wrapper").width($("#left-container").width() - 4)
+
+        $("#slideBar").width($("#left-container").width())
+        $("#slideBar").css("left", -$("#slideBar").width())
         _DEV()
     })
     $($(".ui-resizable-handle")[1]).on("dblclick", () => {
@@ -76,6 +132,11 @@ function presearch(searchValue) {
     search(searchValue, (searchv, result) => {
         console.log("Presearch:", searchv, result)
     })
+    if (searchValue != "") {
+        updateSearchResult("Showing results for \"" + searchValue + "\"", "#", true)
+    } else {
+        updateSearchResult(undefined,undefined,true)
+    }
     console.log("Presearch Completed")
 }
 
@@ -83,6 +144,22 @@ function insertChats(title, subtitle, redirect = "#") {
     try {
         var rawhtml = "<li class=\"mdc-list-item fadeIn\" onclick=\"top.location=\'#redirect\'\"><span class=\"mdc-list-item__text\"><span class=\"mdc-list-item__primary-text\"><insert CHATS-TITLE></insert></span><span class=\"mdc-list-item__secondary-text\"><insert CHATS-SUBTITLE></insert></span></span></li>"
         document.insertPoints.Chats.html(document.insertPoints.Chats.html().replace("fadeIn", "") + rawhtml.replace("#redirect", redirect).replace("<insert CHATS-TITLE></insert>", title).replace("<insert CHATS-SUBTITLE></insert>", subtitle).replace("<script>", ""))
+        flushMaterial()
+    } catch (e) { console.log(e); return false }
+}
+
+function updateSearchResult(title, redirect = "#", clear = false) {
+    try {
+        var rawhtml = "<ul class=\"mdc-list\" style=\"padding: 0px;\" onclick=\"top.location='#redirect'\"><li class=\"mdc-list-item\" tabindex=\"0\"><span class=\"mdc-list-item__text\">$content$</span></li>"
+        if (!clear) {
+            document.insertPoints.searchResult.html(document.insertPoints.searchResult.html() + rawhtml.replace("#redirect", redirect).replace("$content$", title).replace("<script>", ""))
+        } else {
+            if (title != undefined) {
+                document.insertPoints.searchResult.html(rawhtml.replace("#redirect", redirect).replace("$content$", title).replace("<script>", ""))
+            } else {
+                document.insertPoints.searchResult.html("")
+            }
+        }
         flushMaterial()
     } catch (e) { console.log(e); return false }
 }
@@ -116,18 +193,18 @@ function initInsertPoints() {
 
 function showSlideBar() {
     if (!document.slideBar) {
-        $("#slideBar").animate({left: 0 },300)
+        $("#slideBar").animate({ left: 0 }, 300)
         $("#cover").fadeIn(300)
-        document.slideBar=true
+        document.slideBar = true
     } else {
-        $("#slideBar").animate({ left: -$("#slideBar").width()},200)
-        document.slideBar=false
+        $("#slideBar").animate({ left: -$("#slideBar").width() }, 200)
+        document.slideBar = false
         $("#cover").fadeOut(200)
     }
 }
 
 
-$("#slideBar").css("left",-$("#left-container").width())
+$("#slideBar").css("left", -$("#left-container").width())
 // const drawer = mdc.drawer.MDCDrawer.attachTo(document.querySelector('.mdc-drawer'));
 
 document.slideBar = false
@@ -157,7 +234,8 @@ if (document.userid != "" && document.token != "") {
         verifySession(session_trial, document.token, (stat) => {
             if (stat == true) {
                 document.loggedIn = true // valid token, valid sessionid
-                loggedin()
+                document.sessionid = session_trial
+                loggedin(session_trial)
             } else {
                 // invalid sessionid, unknown token
                 getSession(document.userid, document.token, (sessionid) => {
@@ -165,6 +243,8 @@ if (document.userid != "" && document.token != "") {
                         // valid token, valid session id
                         document.sessionid = sessionid
                         setCookie("sessionid", sessionid)
+                        document.sessionid = sessionid
+                        loggedin(sessionid)
                     } else {
                         // Invalid token, invalid session id
                         loggedout()
@@ -188,9 +268,10 @@ if (document.userid != "" && document.token != "") {
     loggedout()
 }
 
-function loggedin() {
+function loggedin(sessionid) {
     console.log('Logged in')
     document.loggedIn = true
+    document.sessionid = sessionid
 }
 
 function loggedout() {

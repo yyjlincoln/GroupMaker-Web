@@ -69,9 +69,9 @@
     position: relative;
     justify-content: center;
     width: 100%;
-    min-width: 400px;
+    min-width: 200px;
     height: 100%;
-    max-width: 600px;
+    max-width: 800px;
     display: flex;
 }
 #placeholder{
@@ -131,7 +131,7 @@ a{
 }
 
 #loginbutton{
-    min-width: 105px;
+    min-width: 150px;
 }
 
 titlex{
@@ -153,4 +153,22 @@ titlex{
     background-color: #f3f5f9;
     height: 100%;
     /* background-color: white; */
+}
+
+#searchResultDisplay{
+    position: fixed;
+    transition: all 0.3s ease;
+    background-color: rgba(255,255,255,1);
+    left: 0;
+    top: 60px;
+    overflow-x: hidden;
+    width: 100%;
+    max-height: 500px;
+    /* min-width: 200px; */
+    height: fit-content;
+    /* max-width: 600px; */
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    flex-basis: content;
 }

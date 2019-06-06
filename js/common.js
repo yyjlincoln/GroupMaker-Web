@@ -17,35 +17,37 @@ function getCookie(cname) {
 
 function flushMaterial() {
     // Apply style for .mdc-text-field
-    x = $('.mdc-text-field')
-    for (var n = 0; n < x.length; n++) {
-        mdc.textField.MDCTextField.attachTo(x[n]);
-    }
+    try {
+        x = $('.mdc-text-field')
+        for (var n = 0; n < x.length; n++) {
+            mdc.textField.MDCTextField.attachTo(x[n]);
+        }
 
-    // Apply style for .mdc-button
-    x = $('.mdc-button')
-    for (var n = 0; n < x.length; n++) {
-        mdc.ripple.MDCRipple.attachTo(x[n])
-    }
+        // Apply style for .mdc-button
+        x = $('.mdc-button')
+        for (var n = 0; n < x.length; n++) {
+            mdc.ripple.MDCRipple.attachTo(x[n])
+        }
 
 
-    const iconButton = new mdc.ripple.MDCRipple($('.mdc-icon-button')[0])
-    iconButton.unbounded=true;
-    for (var n = 0; n < x.length; n++) {
-        mdc.ripple.MDCRipple.attachTo(x[n])
-    }
+        const iconButton = new mdc.ripple.MDCRipple($('.mdc-icon-button')[0])
+        iconButton.unbounded = true;
+        for (var n = 0; n < x.length; n++) {
+            mdc.ripple.MDCRipple.attachTo(x[n])
+        }
 
-    // Apply style for .mdc-list
+        // Apply style for .mdc-list
 
-    // x = $(".mdc-list")
-    // for (var n = 0; n < x.length; n++) {
-    //     mdc.list.MDCList.attachTo(x[n])
-    // }
+        // x = $(".mdc-list")
+        // for (var n = 0; n < x.length; n++) {
+        //     mdc.list.MDCList.attachTo(x[n])
+        // }
 
-    x = $(".mdc-list-item")
-    for (var n = 0; n < x.length; n++) {
-        mdc.ripple.MDCRipple.attachTo(x[n])
-    }
+        x = $(".mdc-list-item")
+        for (var n = 0; n < x.length; n++) {
+            mdc.ripple.MDCRipple.attachTo(x[n])
+        }
+    } catch (e) { console.log(e) }
 }
 
 function sendlogin(user, pass, callback) {
@@ -68,15 +70,15 @@ function encryptLogin(user, pass) {
     return user + pass
 }
 
-function verifySession(session,token,callback){
-    document._verifySession_callback=callback
+function verifySession(session, token, callback) {
+    document._verifySession_callback = callback
     // [DEV] [TODO]
     document._verifySession_callback(true)
 }
 
-function getSession(userid,token,callback){
-    session="sessionid"
-    document._getSession_callback=callback
+function getSession(userid, token, callback) {
+    session = "sessionid"
+    document._getSession_callback = callback
     // [DEV] [TODO]
     document._getSession_callback(session)
 }

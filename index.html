@@ -18,26 +18,33 @@
                 style="margin-left: 10px;">list</button>
             <div class="title mdc-button" style="margin-right: 10px;" onclick="showSlideBar()">dashboard</div>
         </div>
-        <div id="search">
+        <div id="search-wrapper" class="search-style">
+            <div id="searchResultDisplay" style="display: none;z-index: 9999">
+                <ul class="mdc-list" style="padding: 0;">
+                    <!-- <div style="height: 5px;"></div> -->
+                    <insertPoint what="searchResult"></insertPoint>
+                </ul>
+            </div>
             <div class="mdc-text-field mdc-text-field--no-label mdc-text-field--with-trailing-icon title-inline"
                 id="search">
                 <form id="searchBar" class="search-style"
                     onsubmit="try{search(searchBar.searchInput.value);}catch(err){}finally{return false}">
                     <i class="material-icons mdc-text-field__icon" tabindex="0" role="button"
                         onclick="search(searchBar.searchInput.value)">search</i>
-                    <input type="text" placeholder="Search a group..." class="mdc-text-field__input"
-                        style="border: none;" onkeyup="presearch(searchBar.searchInput.value)" name="searchInput">
+                    <input id="searchInputTextBox" type="text" placeholder="Search a group..."
+                        class="mdc-text-field__input" style="border: none;"
+                        onkeyup="presearch(searchBar.searchInput.value)" name="searchInput" autocomplete="off">
                     <div class="mdc-line-ripple"></div>
                 </form>
             </div>
         </div>
         <div id="userinfo" class="flex" onclick="top.location='login.html'">
             <div id="loginbutton" class="title mdc-button"
-                style="margin-left: 10px;margin-right: 10px;font-size: 20px;">Sign In</div>
-            <div style="display: none">
+                style="margin-left: 10px;margin-right: 10px;font-size: 20px;">My Profile</div>
+            <!-- <div style="display: none">
                 <div id="userimg"></div>
                 <div id="nickname" class="subtitle">Sign in to your account</div>
-            </div>
+            </div> -->
         </div>
     </div>
     <div id="slideBar">
