@@ -117,16 +117,18 @@ function initInsertPoints() {
 function showSlideBar() {
     if (!document.slideBar) {
         $("#slideBar").animate({left: 0 })
+        $("#cover").fadeIn()
         document.slideBar=true
     } else {
         $("#slideBar").animate({ left: -$("#slideBar").width()})
         document.slideBar=false
+        $("#cover").fadeOut()
     }
 }
 
 
 $("#slideBar").css("left",-$("#left-container").width())
-const drawer = mdc.drawer.MDCDrawer.attachTo(document.querySelector('.mdc-drawer'));
+// const drawer = mdc.drawer.MDCDrawer.attachTo(document.querySelector('.mdc-drawer'));
 
 document.slideBar = false
 document.loggedIn = false
