@@ -8,4 +8,16 @@ function insertCategory(title, subtitle, description, bottomline, imgurl, redire
     } catch (e) { console.log(e); return false }
 }
 
+___DEV=()=>{
+    insertCategory("Category A","English, Maths and Science","Join a competition!","1 Group Available","https://yyjlincoln.github.io/istweb/Media/learn.jpg","https://yyjlincoln.github.io/istweb/Media/learn.jpg")
+    insertCategory("Category B","Geobraphy, History and Chemistry","Win a special price by joining!","3 Groups Available","https://yyjlincoln.github.io/istweb/Media/disable.jpg","https://yyjlincoln.github.io/istweb/Media/disable.jpg")
+    insertCategory("Random Stuff","English, Maths and Science","Join a competition!","1 Group Available","https://yyjlincoln.github.io/istweb/Media/learn.jpg","https://yyjlincoln.github.io/istweb/Media/learn.jpg")
+    insertCategory("Too tired","English, Maths and Science","Join a competition!","1 Group Available","https://yyjlincoln.github.io/istweb/Media/learn.jpg","https://yyjlincoln.github.io/istweb/Media/learn.jpg")
+    insertCategory("I hate testing","English, Maths and Science","Join a competition!","1 Group Available","https://yyjlincoln.github.io/istweb/Media/learn.jpg","https://yyjlincoln.github.io/istweb/Media/learn.jpg")
+    insertCategory("Okay demo ends here","English, Maths and Science","Join a competition!","1 Group Available","https://yyjlincoln.github.io/istweb/Media/learn.jpg","https://yyjlincoln.github.io/istweb/Media/learn.jpg")
+    insertCategory("Debug is below","English, Maths and Science","Join a competition!","1 Group Available","https://yyjlincoln.github.io/istweb/Media/learn.jpg","https://yyjlincoln.github.io/istweb/Media/learn.jpg")
+}
+
+_DEV()
+___DEV()
 // $.get("testload.html", (text) => { insertToInsertPoint("exploreInCards", text) })

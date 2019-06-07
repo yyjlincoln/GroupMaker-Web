@@ -145,7 +145,7 @@ function presearch(searchValue) {
 
 function insertChats(title, subtitle, redirect = "#") {
     try {
-        var rawhtml = "<li class=\"mdc-list-item fadeIn\" onclick=\"top.location=\'#redirect\'\"><span class=\"mdc-list-item__text\"><span class=\"mdc-list-item__primary-text\"><insert CHATS-TITLE></insert></span><span class=\"mdc-list-item__secondary-text\"><insert CHATS-SUBTITLE></insert></span></span></li>"
+        var rawhtml = "<li class=\"mdc-list-item\" onclick=\"top.location=\'#redirect\'\"><span class=\"mdc-list-item__text\"><span class=\"mdc-list-item__primary-text\"><insert CHATS-TITLE></insert></span><span class=\"mdc-list-item__secondary-text\"><insert CHATS-SUBTITLE></insert></span></span></li>"
         document.insertPoints.Chats.html(document.insertPoints.Chats.html().replace("fadeIn", "") + rawhtml.replace("#redirect", redirect).replace("<insert CHATS-TITLE></insert>", title).replace("<insert CHATS-SUBTITLE></insert>", subtitle).replace("<script>", ""))
         flushMaterial()
     } catch (e) { console.log(e); return false }
@@ -169,7 +169,7 @@ function updateSearchResult(title, redirect = "#", clear = false) {
 
 function insertGroups(title, subtitle, redirect = "#") {
     try {
-        var rawhtml = "<li class=\"mdc-list-item fadeIn\" onclick=\"top.location=\'#redirect\'\"><span class=\"mdc-list-item__text\"><span class=\"mdc-list-item__primary-text\"><insert CHATS-TITLE></insert></span><span class=\"mdc-list-item__secondary-text\"><insert CHATS-SUBTITLE></insert></span></span></li>"
+        var rawhtml = "<li class=\"mdc-list-item\" onclick=\"top.location=\'#redirect\'\"><span class=\"mdc-list-item__text\"><span class=\"mdc-list-item__primary-text\"><insert CHATS-TITLE></insert></span><span class=\"mdc-list-item__secondary-text\"><insert CHATS-SUBTITLE></insert></span></span></li>"
         document.insertPoints.Groups.html(document.insertPoints.Groups.html().replace("fadeIn", "") + rawhtml.replace("#redirect", redirect).replace("<insert CHATS-TITLE></insert>", title).replace("<insert CHATS-SUBTITLE></insert>", subtitle).replace("<script>", ""))
         flushMaterial()
     } catch (e) { console.log(e); return false }
@@ -256,8 +256,8 @@ if (document.userid != "" && document.token != "") {
 }
 
 // Init rightPage
-$.get("explore-in.html",(text)=>{
-    if(insertToInsertPoint("rightPage",text)==false){
+$.get("explore-in.html", (text) => {
+    if (insertToInsertPoint("rightPage", text) == false) {
         alert("Error occured when trying to insert page")
     }
 })
@@ -274,13 +274,13 @@ function loggedin(sessionid) {
     $("userid").text(document.userid)
     $("token").text(document.token)
     $("sessionid").text(document.sessionid)
-    getImgURL('infobackground',(url)=>{
-        $(".userInfoBackground").css("background-image","url("+url+")")
-        $("userInfoBackground").css("background-image","url("+url+")")
+    getImgURL('infobackground', (url) => {
+        $(".userInfoBackground").css("background-image", "url(" + url + ")")
+        $("userInfoBackground").css("background-image", "url(" + url + ")")
     })
-    getImgURL('usericon',(url)=>{
-        $(".userIcon").css("background-image","url("+url+")")
-        $("userIcon").css("background-image","url("+url+")")
+    getImgURL('usericon', (url) => {
+        $(".userIcon").css("background-image", "url(" + url + ")")
+        $("userIcon").css("background-image", "url(" + url + ")")
     })
 
 
@@ -304,9 +304,18 @@ function showUserSlideBar() {
 
 // Dev Start
 _DEV = () => {
-    // $("#inner-right-container").html("<p>Cookie Info</p><p>Userid:" + getCookie("userid") + "</p><p>Nickname:" + getCookie("nickname") + "</p><p>Token:" + getCookie("token") + "</p><p>Left:" + getCookie("left") + "</p>" + "</p><p>Sessionid:" + getCookie("sessionid") + "</p>")
-    console.log("DEV was called due to event.")
+    $("#debug").html("<p>Cookie Info</p><p>Userid:" + getCookie("userid") + "</p><p>Nickname:" + getCookie("nickname") + "</p><p>Token:" + getCookie("token") + "</p><p>Left:" + getCookie("left") + "</p>" + "</p><p>Sessionid:" + getCookie("sessionid") + "</p>")
+    // console.log("DEV was called due to event.")
 }
 // Dev End
 
+__DEV = () => {
+    insertGroups("Blah Blah Blah Competition","Categorized in \"Studies\"","#")
+    insertGroups("Another Competition","Categorized in \"Studies\"","#")
+    insertGroups("Debug Mode On","Warning","#")
+    insertChats("John Lee","1 shared group")
+    insertChats("Dan Tong","3 shared group")
+    insertChats("Debug Mode On","Warning","#")
+}
 _DEV()
+__DEV()
