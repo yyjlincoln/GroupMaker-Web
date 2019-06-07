@@ -175,9 +175,18 @@ function insertGroups(title, subtitle, redirect = "#") {
     } catch (e) { console.log(e); return false }
 }
 
-function insertToInsertPoint(point, html) {
+function appendToInsertPoint(point, html) {
     try {
         document.insertPoints[point].append(html)
+    } catch (error) {
+        return false
+    }
+    return true
+}
+
+function insertToInsertPoint(point, html) {
+    try {
+        document.insertPoints[point].html(html)
     } catch (error) {
         return false
     }
@@ -273,6 +282,13 @@ if (document.userid != "" && document.token != "") {
     loggedout()
 }
 
+// Init rightPage
+$.get("explore-in.html",(text)=>{
+    if(insertToInsertPoint("rightPage",text)==false){
+        alert("Error occured when trying to insert page")
+    }
+})
+
 function loggedin(sessionid) {
     console.log('Logged in')
     document.loggedIn = true
@@ -315,7 +331,8 @@ function showUserSlideBar() {
 
 // Dev Start
 _DEV = () => {
-    $("#inner-right-container").html("<p>Cookie Info</p><p>Userid:" + getCookie("userid") + "</p><p>Nickname:" + getCookie("nickname") + "</p><p>Token:" + getCookie("token") + "</p><p>Left:" + getCookie("left") + "</p>" + "</p><p>Sessionid:" + getCookie("sessionid") + "</p>")
+    // $("#inner-right-container").html("<p>Cookie Info</p><p>Userid:" + getCookie("userid") + "</p><p>Nickname:" + getCookie("nickname") + "</p><p>Token:" + getCookie("token") + "</p><p>Left:" + getCookie("left") + "</p>" + "</p><p>Sessionid:" + getCookie("sessionid") + "</p>")
+    console.log("DEV was called due to event.")
 }
 // Dev End
 
