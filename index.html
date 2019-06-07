@@ -67,7 +67,8 @@
 
         <titlex>
             <div class="userInfoBackground">
-                <div id="userInfoCard" class="inner-left-container" style="padding-top: 20px; background-color: rgba(255,255, 255, 0.3)">
+                <div id="userInfoCard" class="inner-left-container"
+                    style="padding-top: 20px; background-color: rgba(255,255, 255, 0.3)">
                     Logged in as: <nickname></nickname>
                 </div>
             </div>
@@ -75,15 +76,17 @@
         <ul class="mdc-list mdc-list--two-line">
             <insertPoint what="userSlideBar"></insertPoint>
             <li class="mdc-list-item" onclick="logout(true)">
-                    <span class="mdc-list-item__text">
-                        <span class="mdc-list-item__primary-text">Switch account</span>
-                        <span class="mdc-list-item__secondary-text">Log out and log back in</span>
-                    </span>
-                </li>
+                <span class="mdc-list-item__text">
+                    <span class="mdc-list-item__primary-text">Switch account</span>
+                    <span class="mdc-list-item__secondary-text">Log out and log back in</span>
+                </span>
+            </li>
             <li class="mdc-list-item" onclick="logout()">
                 <span class="mdc-list-item__text">
                     <span class="mdc-list-item__primary-text">Log out</span>
-                    <span class="mdc-list-item__secondary-text"><nickname></nickname> (<userid></userid>)</span>
+                    <span class="mdc-list-item__secondary-text">
+                        <nickname></nickname> (<userid></userid>)
+                    </span>
                 </span>
             </li>
         </ul>
@@ -152,6 +155,7 @@
             </div>
         </div>
         <div id="right-container">
+
             <!-- <div id="placeholder" style="height: 70px"></div> -->
             <insertPoint what="rightPage"></insertPoint>
             <!-- <div id="inner-right-container">

@@ -40,9 +40,20 @@ function flushMaterial() {
             mdc.ripple.MDCRipple.attachTo(x[n])
         }
 
+        // x = $('.mdc-icon-button')
+        // for (var n = 0; n < x.length; n++) {
+        //     mdc.ripple.MDCRipple.attachTo(x[n])
+        // }
 
-        const iconButton = new mdc.ripple.MDCRipple($('.mdc-icon-button')[0])
-        iconButton.unbounded = true;
+        var icon_buttons=[].map.call(document.querySelectorAll(".mdc-icon-button"), function(el) {
+            x=new mdc.ripple.MDCRipple(el)
+            x.unbounded=true
+            return x;
+          });
+
+
+        // const iconButton = new mdc.ripple.MDCRipple($('.mdc-icon-button')[0])
+        // iconButton.unbounded = true;
         for (var n = 0; n < x.length; n++) {
             mdc.ripple.MDCRipple.attachTo(x[n])
         }
@@ -59,6 +70,12 @@ function flushMaterial() {
             mdc.ripple.MDCRipple.attachTo(x[n])
         }
     } catch (e) { console.log(e) }
+
+    // .mdc-card__primary-action
+    x = $('.mdc-card__primary-action')
+        for (var n = 0; n < x.length; n++) {
+            mdc.ripple.MDCRipple.attachTo(x[n])
+        }
 }
 
 function sendlogin(user, pass, callback) {
@@ -92,6 +109,33 @@ function getSession(userid, token, callback) {
     document._getSession_callback = callback
     // [DEV] [TODO]
     document._getSession_callback(session)
+}
+function appendToInsertPoint(point, html) {
+    try {
+        document.insertPoints[point].append(html)
+    } catch (error) {
+        return false
+    }
+    return true
+}
+
+function insertToInsertPoint(point, html) {
+    try {
+        document.insertPoints[point].html(html)
+    } catch (error) {
+        return false
+    }
+    return true
+}
+
+function initInsertPoints() {
+    var insertPoints = {}
+    var x = $("insertPoint")
+    for (var n = 0; n < x.length; n++) {
+        d = String($(x[n]).attr("what"))
+        insertPoints[d] = $(x[n])
+    }
+    return insertPoints
 }
 
 function logout(switchAccount = false) {

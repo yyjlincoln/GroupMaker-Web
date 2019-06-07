@@ -175,33 +175,6 @@ function insertGroups(title, subtitle, redirect = "#") {
     } catch (e) { console.log(e); return false }
 }
 
-function appendToInsertPoint(point, html) {
-    try {
-        document.insertPoints[point].append(html)
-    } catch (error) {
-        return false
-    }
-    return true
-}
-
-function insertToInsertPoint(point, html) {
-    try {
-        document.insertPoints[point].html(html)
-    } catch (error) {
-        return false
-    }
-    return true
-}
-
-function initInsertPoints() {
-    var insertPoints = {}
-    var x = $("insertPoint")
-    for (var n = 0; n < x.length; n++) {
-        d = String($(x[n]).attr("what"))
-        insertPoints[d] = $(x[n])
-    }
-    return insertPoints
-}
 
 function showSlideBar() {
     if (!document.slideBar) {
