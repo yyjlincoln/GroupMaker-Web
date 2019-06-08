@@ -39,7 +39,8 @@
             </div>
         </div>
         <div id="userinfo" class="flex" onclick="top.location='login.html'">
-            <div class="userIcon" style="width: 50px;height:50px;margin-left: 20px;margin-right: 20px;"></div>
+            <div class="userIcon" style="width: 50px;height:50px;margin-left: 20px;margin-right: 20px;"
+                id="right-top-icon"></div>
             <div id="loginbutton" class="title mdc-button"
                 style="margin-left: 10px;margin-right: 10px;font-size: 20px;">Login</div>
             <!-- <div style="display: none">
@@ -55,9 +56,24 @@
             <li class="mdc-list-item" onclick="top.location='index.html'">
                 <span class="mdc-list-item__text">
                     <span class="mdc-list-item__primary-text">Dashboard</span>
-                    <span class="mdc-list-item__secondary-text">Go to dashboard</span>
+                    <span class="mdc-list-item__secondary-text">Go to Dashboard</span>
                 </span>
             </li>
+
+            <li class="mdc-list-item" onclick="top.location='plaza.html'">
+                <span class="mdc-list-item__text">
+                    <span class="mdc-list-item__primary-text">Groups Plaza</span>
+                    <span class="mdc-list-item__secondary-text">Find Groups here</span>
+                </span>
+            </li>
+
+            <li class="mdc-list-item" onclick="top.location='plaza.html'">
+                <span class="mdc-list-item__text">
+                    <span class="mdc-list-item__primary-text">Chats Centre</span>
+                    <span class="mdc-list-item__secondary-text">Find Chats here</span>
+                </span>
+            </li>
+
         </ul>
 
     </div>
@@ -84,11 +100,17 @@
             <li class="mdc-list-item" onclick="logout()">
                 <span class="mdc-list-item__text">
                     <span class="mdc-list-item__primary-text">Log out</span>
-                    <span class="mdc-list-item__secondary-text">
-                        <nickname></nickname> (<userid></userid>)
+                    <span class="mdc-list-item__secondary-text"><nickname></nickname> (<userid></userid>)
                     </span>
                 </span>
             </li>
+
+            <li class="mdc-list-item" onclick="InitDivPosition(!document.rightContainerFullScreen);showUserSlideBar()">
+                    <span class="mdc-list-item__text">
+                        <span class="mdc-list-item__primary-text">Enable / Disable Quick Launch</span>
+                        <span class="mdc-list-item__secondary-text">Quick Launch helps.</span>
+                    </span>
+                </li>
         </ul>
 
     </div>
@@ -101,7 +123,7 @@
                 <!-- Groups -->
                 <div class="inner-left-container">
                     <div id="placeholder"></div>
-                    <titlex id="left-top-banner" style="padding-top: 20px;">G'day, mate!</titlex>
+                    <titlex id="left-top-banner" style="padding-top: 20px;">G'day, <nickname></nickname>!</titlex>
                     <titlex style="padding-top: 10px;">Collaborate on...</titlex>
                 </div>
                 <ul class="mdc-list mdc-list--two-line">

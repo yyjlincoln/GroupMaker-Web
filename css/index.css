@@ -150,7 +150,7 @@ titlex{
 #slideBar,#userSlideBar{
     position: fixed;
     z-index: 9999;
-    background-color: #f3f5f9;
+    background-color: rgba(249, 247, 243, 1);
     height: 100%;
     left: -100%;
     overflow-y: auto;
@@ -191,4 +191,8 @@ titlex{
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
+}
+
+#right-top-icon{
+    display: none;
 }

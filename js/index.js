@@ -7,6 +7,7 @@ $(document).ready(() => {
     // document.write("<p>Token="+getCookie("token")+"</p>")
     // document.close()
 
+    InitDivPosition()
     document.searchDisplay = false
     $("#left-container").resizable({
         // ghost: true,
@@ -56,7 +57,9 @@ $(document).ready(() => {
         $("#right-container").css("left", $("#left-container").width())
         $("#wrapper").width($("#left-container").width() - 4)
 
-        $("#slideBar").width($("#left-container").width())
+        if ($("#left-container").width() != 0) {
+            $("#slideBar").width($("#left-container").width())
+        }
         $("#slideBar").css("left", -$("#slideBar").width())
         $("#userSlideBar").css("left", $(window).width() + $("#userSlideBar").width())
 
@@ -67,9 +70,11 @@ $(document).ready(() => {
     $(window).on('resize', () => {
         $("#right-container").width($(window).width() - $("#left-container").width())
         $("#right-container").css("left", $("#left-container").width())
+        // console.log("1",rightContainerFullScreen)
         $("#wrapper").width($("#left-container").width() - 8)
-
-        $("#slideBar").width($("#left-container").width())
+        if ($("#left-container").width() != 0) {
+            $("#slideBar").width($("#left-container").width())
+        }
         $("#slideBar").css("left", -$("#slideBar").width())
         $("#userSlideBar").css("left", $(window).width() + $("#userSlideBar").width())
 
@@ -77,26 +82,6 @@ $(document).ready(() => {
         $("#searchResultDisplay").css("left", $("#searchBar").offset().left)
         _DEV()
     })
-    var x = getCookie("left")
-    try {
-        if (x != "" && Number(x) <= 800 && Number(x) >= 200) {
-            $("#left-container").css("width", x + "px")
-            $("#right-container").width($(window).width() - $("#left-container").width())
-            $("#right-container").css("left", $("#left-container").width())
-            $("#wrapper").width($("#left-container").width() - 4)
-        }
-    } catch (error) {
-
-    }
-
-    // Init Left and Right container & SlideBar + SearchDisplay
-    $("#right-container").width($(window).width() - $("#left-container").width())
-    $("#right-container").css("left", $("#left-container").width())
-    $("#slideBar").width($("#left-container").width())
-    $("#slideBar").css("left", -$("#slideBar").width())
-    $("#searchResultDisplay").width($("#searchBar").width())
-    $("#searchResultDisplay").css("left", $("#searchBar").offset().left)
-    $("#userSlideBar").css("left", $(window).width() + $("#userSlideBar").width())
 
     // This is a bad way
     $($(".ui-resizable-handle")[0]).on("dblclick", () => {
@@ -119,6 +104,45 @@ $(document).ready(() => {
         _DEV()
     })
 })
+
+function InitDivPosition(rightContainerFullScreen = false) {
+    document.rightContainerFullScreen = rightContainerFullScreen
+    if (rightContainerFullScreen == false) {
+        var x = getCookie("left")
+        try {
+            if (x != "" && Number(x) <= 800 && Number(x) >= 200) {
+                $("#left-container").css("width", x + "px")
+            }else {
+                $("#left-container").width(320)
+            }
+            $("#right-container").width($(window).width() - $("#left-container").width())
+            $("#right-container").css("left", $("#left-container").width())
+            $("#wrapper").width($("#left-container").width() - 4)
+            $("#left-container").fadeIn()
+        } catch (error) {
+
+        }
+    } else {
+        $("#left-container").fadeOut()
+
+        $("#right-container").animate({
+            width: $(window).width(),
+            left: 0
+        }, 800)
+        $("#left-container").animate({
+            width: 0,
+        }, 800)
+    }
+
+    // Init Left and Right container & SlideBar + SearchDisplay
+    $("#right-container").width($(window).width() - $("#left-container").width())
+    $("#right-container").css("left", $("#left-container").width())
+    $("#slideBar").width($("#left-container").width())
+    $("#slideBar").css("left", -$("#slideBar").width())
+    $("#searchResultDisplay").width($("#searchBar").width())
+    $("#searchResultDisplay").css("left", $("#searchBar").offset().left)
+    $("#userSlideBar").css("left", $(window).width() + $("#userSlideBar").width())
+}
 
 function search(searchValue, callback = null) {
     if (callback == null) {
@@ -255,12 +279,6 @@ if (document.userid != "" && document.token != "") {
     loggedout()
 }
 
-// Init rightPage
-$.get("explore-in.html", (text) => {
-    if (insertToInsertPoint("rightPage", text) == false) {
-        alert("Error occured when trying to insert page")
-    }
-})
 
 function loggedin(sessionid) {
     console.log('Logged in')
@@ -268,12 +286,17 @@ function loggedin(sessionid) {
     document.sessionid = sessionid
     // $("#loginbutton").text("My Profile")
     $("#loginbutton").hide()
-    $("#userIcon").show()
+    $("#right-top-icon").show()
     $("#userinfo").attr("onclick", "showUserSlideBar()")
     $("nickname").text(document.nickname)
     $("userid").text(document.userid)
     $("token").text(document.token)
     $("sessionid").text(document.sessionid)
+    $.get("explore-in.html", (text) => {
+        if (insertToInsertPoint("rightPage", text) == false) {
+            alert("Error occured when trying to insert page")
+        }
+    })
     getImgURL('infobackground', (url) => {
         $(".userInfoBackground").css("background-image", "url(" + url + ")")
         $("userInfoBackground").css("background-image", "url(" + url + ")")
@@ -288,6 +311,12 @@ function loggedin(sessionid) {
 
 function loggedout() {
     $("#left-top-banner").text("Please log in to continue.")
+    // Init rightPage
+    $.get("introduction-in.html", (text) => {
+        if (insertToInsertPoint("rightPage", text) == false) {
+            alert("Error occured when trying to insert page")
+        }
+    })
 }
 
 function showUserSlideBar() {
@@ -310,12 +339,12 @@ _DEV = () => {
 // Dev End
 
 __DEV = () => {
-    insertGroups("Blah Blah Blah Competition","Categorized in \"Studies\"","#")
-    insertGroups("Another Competition","Categorized in \"Studies\"","#")
-    insertGroups("Debug Mode On","Warning","#")
-    insertChats("John Lee","1 shared group")
-    insertChats("Dan Tong","3 shared group")
-    insertChats("Debug Mode On","Warning","#")
+    insertGroups("Blah Blah Blah Competition", "Categorized in \"Studies\"", "#")
+    insertGroups("Another Competition", "Categorized in \"Studies\"", "#")
+    insertGroups("Debug Mode On", "Warning", "#")
+    insertChats("John Lee", "1 shared group")
+    insertChats("Dan Tong", "3 shared group")
+    insertChats("Debug Mode On", "Warning", "#")
 }
 _DEV()
 __DEV()

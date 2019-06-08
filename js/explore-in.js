@@ -1,4 +1,5 @@
 document.insertPoints = initInsertPoints()
+InitDivPosition(false)
 
 function insertCategory(title, subtitle, description, bottomline, imgurl, redirect="#") {
     try {
@@ -7,6 +8,7 @@ function insertCategory(title, subtitle, description, bottomline, imgurl, redire
         flushMaterial()
     } catch (e) { console.log(e); return false }
 }
+
 
 ___DEV=()=>{
     insertCategory("Category A","English, Maths and Science","Join a competition!","1 Group Available","https://yyjlincoln.github.io/istweb/Media/learn.jpg","https://yyjlincoln.github.io/istweb/Media/learn.jpg")
