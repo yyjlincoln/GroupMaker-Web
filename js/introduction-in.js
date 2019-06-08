@@ -1,1 +1,2 @@
 InitDivPosition(true)
+flushMaterial()
