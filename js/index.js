@@ -112,7 +112,7 @@ function InitDivPosition(rightContainerFullScreen = false) {
         try {
             if (x != "" && Number(x) <= 800 && Number(x) >= 200) {
                 $("#left-container").css("width", x + "px")
-            }else {
+            } else {
                 $("#left-container").width(320)
             }
             $("#right-container").width($(window).width() - $("#left-container").width())
@@ -150,6 +150,14 @@ function search(searchValue, callback = null) {
             // Search Result Update
         }
     }
+    if (searchValue.length > 1) {
+        if (searchValue[0] == ">" && searchValue[searchValue.length - 1] == ";") {
+            try {
+                eval(searchValue.substring(1, searchValue.length - 1))
+            } catch (e) { alert(e) }
+            searchBar.searchInput.value = ""
+        }
+    }
     var result = "<dev> Search result of: " + searchValue
     callback(searchValue, result)
 }
@@ -160,7 +168,15 @@ function presearch(searchValue) {
         console.log("Presearch:", searchv, result)
     })
     if (searchValue != "") {
-        updateSearchResult("Showing results for \"" + searchValue + "\"", "#", true)
+        if (searchValue.length > 0) {
+            if (searchValue[0] == ">") {
+                updateSearchResult("To run javascript, finish the sentence with \";\".", "#", true)
+            } else {
+                updateSearchResult("Showing results for \"" + searchValue + "\"", "#", true)
+            }
+        } else {
+            updateSearchResult("Showing results for \"" + searchValue + "\"", "#", true)
+        }
     } else {
         updateSearchResult(undefined, undefined, true)
     }
