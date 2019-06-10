@@ -183,8 +183,11 @@ function presearch(searchValue) {
     console.log("Presearch Completed")
 }
 
-function insertChats(title, subtitle, redirect = "#") {
+function insertChats(title, subtitle, redirect = "#",clear=false) {
     try {
+        if(clear){
+            document.insertPoints.Chats.html("")
+        }
         var rawhtml = "<li class=\"mdc-list-item\" onclick=\"top.location=\'#redirect\'\"><span class=\"mdc-list-item__text\"><span class=\"mdc-list-item__primary-text\"><insert CHATS-TITLE></insert></span><span class=\"mdc-list-item__secondary-text\"><insert CHATS-SUBTITLE></insert></span></span></li>"
         document.insertPoints.Chats.html(document.insertPoints.Chats.html().replace("fadeIn", "") + rawhtml.replace("#redirect", redirect).replace("<insert CHATS-TITLE></insert>", title).replace("<insert CHATS-SUBTITLE></insert>", subtitle).replace("<script>", ""))
         flushMaterial()
@@ -207,8 +210,11 @@ function updateSearchResult(title, redirect = "#", clear = false) {
     } catch (e) { console.log(e); return false }
 }
 
-function insertGroups(title, subtitle, redirect = "#") {
+function insertGroups(title, subtitle, redirect = "#",clear=false) {
     try {
+        if(clear){
+            document.insertPoints.Groups.html("")
+        }
         var rawhtml = "<li class=\"mdc-list-item\" onclick=\"top.location=\'#redirect\'\"><span class=\"mdc-list-item__text\"><span class=\"mdc-list-item__primary-text\"><insert CHATS-TITLE></insert></span><span class=\"mdc-list-item__secondary-text\"><insert CHATS-SUBTITLE></insert></span></span></li>"
         document.insertPoints.Groups.html(document.insertPoints.Groups.html().replace("fadeIn", "") + rawhtml.replace("#redirect", redirect).replace("<insert CHATS-TITLE></insert>", title).replace("<insert CHATS-SUBTITLE></insert>", subtitle).replace("<script>", ""))
         flushMaterial()
@@ -298,6 +304,8 @@ if (document.userid != "" && document.token != "") {
 
 function loggedin(sessionid) {
     console.log('Logged in')
+    flushChats()
+    flushGroups()
     document.loggedIn = true
     document.sessionid = sessionid
     // $("#loginbutton").text("My Profile")
@@ -323,6 +331,22 @@ function loggedin(sessionid) {
     })
 
 
+}
+
+function flushGroups(){
+    getGroups(document.userid,document.sessionid,document.token,(groups)=>{
+        for(var x=0;x<groups.length;x++){
+            insertGroups(groups[x].title,groups[x].subtitle,groups[x].groupURL)
+        }
+    })
+}
+
+function flushChats(){
+    getChats(document.userid,document.sessionid,document.token,(chats)=>{
+        for(var x=0;x<chats.length;x++){
+            insertChats(chats[x].title,chats[x].subtitle,chats[x].chatURL)
+        }
+    })
 }
 
 function loggedout() {
@@ -354,13 +378,13 @@ _DEV = () => {
 }
 // Dev End
 
-__DEV = () => {
-    insertGroups("Blah Blah Blah Competition", "Categorized in \"Studies\"", "#")
-    insertGroups("Another Competition", "Categorized in \"Studies\"", "#")
-    insertGroups("Debug Mode On", "Warning", "#")
-    insertChats("John Lee", "1 shared group")
-    insertChats("Dan Tong", "3 shared group")
-    insertChats("Debug Mode On", "Warning", "#")
-}
+// __DEV = () => {
+//     insertGroups("Blah Blah Blah Competition", "Categorized in \"Studies\"", "#")
+//     insertGroups("Another Competition", "Categorized in \"Studies\"", "#")
+//     insertGroups("Debug Mode On", "Warning", "#")
+//     insertChats("John Lee", "1 shared group")
+//     insertChats("Dan Tong", "3 shared group")
+//     insertChats("Debug Mode On", "Warning", "#")
+// }
 _DEV()
-__DEV()
+// __DEV()

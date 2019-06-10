@@ -19,20 +19,24 @@ function login(user, pass) {
                 Success("Welcome back, " + String(nickname))
                 loginSuccess(token, userid, nickname)
                 break
-            case -1:
+            case -103:
                 Err("Failed to log in. Please check your username and password.")
                 break
-            case -2:
-                Err("Failed to login. Can not connect to the internet.")
+            case -100:
+                Err("Failed to login. Invalid User ID.")
                 break
-            case -99:
-                Err("There is a problem on our side causing compatibility issues. Please try again later.")
+            case -9:
+                Err("Internal server error. Please try again later.")
                 break
-            case -404:
+                // 4 digits for Internet related
+            case -1404:
                 Err("Failed to login. Server responded with error code 404 (Not Found)")
                 break
-            case -500:
+            case -1500:
                 Err("Internal server error. Please try again later.")
+                break
+            case -9999:
+                Err("Internet connection error. Please check your internet connection and try again.")
                 break
             default:
                 Err("Unspecific error. Please <a href='login.html'>Refresh</a> and try again. [Code:" + String(stat) + "]")

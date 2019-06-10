@@ -1,3 +1,5 @@
+servaddr = "http://localhost/api"
+
 function setCookie(cname, cvalue, exdays) {
     var d = new Date()
     d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000))
@@ -45,11 +47,11 @@ function flushMaterial() {
         //     mdc.ripple.MDCRipple.attachTo(x[n])
         // }
 
-        var icon_buttons=[].map.call(document.querySelectorAll(".mdc-icon-button"), function(el) {
-            x=new mdc.ripple.MDCRipple(el)
-            x.unbounded=true
+        var icon_buttons = [].map.call(document.querySelectorAll(".mdc-icon-button"), function (el) {
+            x = new mdc.ripple.MDCRipple(el)
+            x.unbounded = true
             return x;
-          });
+        });
 
 
         // const iconButton = new mdc.ripple.MDCRipple($('.mdc-icon-button')[0])
@@ -73,24 +75,43 @@ function flushMaterial() {
 
     // .mdc-card__primary-action
     x = $('.mdc-card__primary-action')
-        for (var n = 0; n < x.length; n++) {
-            mdc.ripple.MDCRipple.attachTo(x[n])
-        }
+    for (var n = 0; n < x.length; n++) {
+        mdc.ripple.MDCRipple.attachTo(x[n])
+    }
 }
 
 function sendlogin(user, pass, callback) {
     console.log("Login", user, pass)
-    encrypted = encryptLogin(user, pass)
+    // encrypted = encryptLogin(user, pass)
     // [TODO] Send encrypted login
+    // [TODO] Encryption. Encryption has been cancelled, and login will be sent on HTTPS.
 
-
-    // [DEV] Environment START
-    var stat = 0
-    var token = "123123123"
-    var nickname = "Dev Test Nickname"
-    document._callback = callback
-    document._callback(stat, token, nickname)
-    // [DEV] Environment END
+    $.post(servaddr, {
+        action: "getToken",
+        userid: user,
+        pwd: pass
+    }, (data) => {
+        try {
+            // djson = JSON.parse(data)
+            if (data.code == 0) {
+                document._getTokenCallback(0, data.token, data.nickname)
+            } else {
+                document._getTokenCallback(data.code)
+            }
+        } catch (e) {
+            console.log("Error while parsing data from the server.")
+            document._getTokenCallback("Script Error on Client Side")
+        }
+    }).fail((failed) => {
+        switch (failed.status) {
+            case 0:
+                document._getTokenCallback(-9999)
+                break
+            default:
+                document._getTokenCallback(-failed.status - 1000)
+        }
+    })
+    document._getTokenCallback = callback
 }
 
 function encryptLogin(user, pass) {
@@ -99,17 +120,131 @@ function encryptLogin(user, pass) {
 }
 
 function verifySession(session, token, callback) {
-    document._verifySession_callback = callback
+    document._verifySessionCallback = callback
+    $.post(servaddr, {
+        action: "verifySession",
+        sessionid: session,
+        token: token
+    }, (data) => {
+        try {
+            // djson = JSON.parse(data)
+            if (data.code == 0 && data.status == true) {
+                document._verifySessionCallback(true)
+            } else {
+                document._verifySessionCallback(false)
+            }
+        } catch (e) {
+            console.log("Error while parsing data from the server.", e)
+            document._verifySessionCallback(false)
+        }
+    }).fail((failed) => {
+        document._verifySessionCallback(false)
+    })
     // [DEV] [TODO]
-    document._verifySession_callback(true)
+    // document._verifySession_callback(true)
 }
 
 function getSession(userid, token, callback) {
-    session = "sessionid"
-    document._getSession_callback = callback
+    // session = "sessionid"
+    document._getSessionCallback = callback
+
+    $.post(servaddr, {
+        action: "getSession",
+        userid: userid,
+        token: token
+    }, (data) => {
+        try {
+            // djson = JSON.parse(data)
+            if (data.code == 0) {
+                document._getSessionCallback(data.sessionid)
+            } else {
+                document._getSessionCallback(false)
+            }
+        } catch (e) {
+            console.log("Error while parsing data from the server.", e)
+            document._getSessionCallback(false)
+        }
+    }).fail((failed) => {
+        document._getSessionCallback(false)
+    })
+
     // [DEV] [TODO]
-    document._getSession_callback(session)
+    // document._getSession_callback(session)
 }
+
+function getGroups(userid, sessionid, token, callback) {
+    document._getGroupsCallback = callback
+    $.post(servaddr, {
+        action: "getGroups",
+        userid: userid,
+        token: token,
+        sessionid: sessionid
+    }, (data) => {
+        try {
+            // djson = JSON.parse(data)
+            if (data.code == 0) {
+                document._getGroupsCallback(data.groups)
+            } else {
+                document._getGroupsCallback(false)
+            }
+        } catch (e) {
+            console.log("Error while parsing data from the server.", e)
+            document._getGroupsCallback(false)
+        }
+    }).fail((failed) => {
+        document._getGroupsCallback(false)
+    })
+}
+
+function getChats(userid, sessionid, token, callback) {
+    document._getChatsCallback = callback
+    $.post(servaddr, {
+        action: "getChats",
+        userid: userid,
+        token: token,
+        sessionid: sessionid
+    }, (data) => {
+        try {
+            // djson = JSON.parse(data)
+            if (data.code == 0) {
+                document._getChatsCallback(data.chats)
+            } else {
+                document._getChatsCallback(false)
+            }
+        } catch (e) {
+            console.log("Error while parsing data from the server.", e)
+            document._getChatsCallback(false)
+        }
+    }).fail((failed) => {
+        document._getChatsCallback(false)
+    })
+}
+
+function getRecommendations(userid, sessionid, token, callback) {
+    // [TODO] Bug Fix Recv is not def
+    document._getRecommendationsCallback = callback
+    $.post(servaddr, {
+        action: "getRecommendations",
+        userid: userid,
+        token: token,
+        sessionid: sessionid
+    }, (data) => {
+        try {
+            // djson = JSON.parse(data)
+            if (data.code == 0) {
+                document._getRecommendationsCallback(data.recommendations)
+            } else {
+                document._getRecommendationsCallback(false)
+            }
+        } catch (e) {
+            console.log("Error while parsing data from the server.", e)
+            document._getRecommendationsCallback(false)
+        }
+    }).fail((failed) => {
+        document._getRecommendationsCallback(false)
+    })
+}
+
 function appendToInsertPoint(point, html) {
     try {
         document.insertPoints[point].append(html)
