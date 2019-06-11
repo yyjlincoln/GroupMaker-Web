@@ -1,0 +1,1 @@
+$("#test").html(document.rightPageResources)

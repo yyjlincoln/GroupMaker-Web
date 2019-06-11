@@ -83,6 +83,9 @@ $(document).ready(() => {
         _DEV()
     })
 
+    $(window).on("hashchange", onHashChange)
+    onHashChange(top.location.href, true)
+
     // This is a bad way
     $($(".ui-resizable-handle")[0]).on("dblclick", () => {
         $("#left-container").width(320)
@@ -103,6 +106,7 @@ $(document).ready(() => {
         $("#wrapper").width($("#left-container").width() - 4)
         _DEV()
     })
+
 })
 
 function InitDivPosition(rightContainerFullScreen = false) {
@@ -183,9 +187,9 @@ function presearch(searchValue) {
     console.log("Presearch Completed")
 }
 
-function insertChats(title, subtitle, redirect = "#",clear=false) {
+function insertChats(title, subtitle, redirect = "#", clear = false) {
     try {
-        if(clear){
+        if (clear) {
             document.insertPoints.Chats.html("")
         }
         var rawhtml = "<li class=\"mdc-list-item\" onclick=\"top.location=\'#redirect\'\"><span class=\"mdc-list-item__text\"><span class=\"mdc-list-item__primary-text\"><insert CHATS-TITLE></insert></span><span class=\"mdc-list-item__secondary-text\"><insert CHATS-SUBTITLE></insert></span></span></li>"
@@ -210,9 +214,9 @@ function updateSearchResult(title, redirect = "#", clear = false) {
     } catch (e) { console.log(e); return false }
 }
 
-function insertGroups(title, subtitle, redirect = "#",clear=false) {
+function insertGroups(title, subtitle, redirect = "#", clear = false) {
     try {
-        if(clear){
+        if (clear) {
             document.insertPoints.Groups.html("")
         }
         var rawhtml = "<li class=\"mdc-list-item\" onclick=\"top.location=\'#redirect\'\"><span class=\"mdc-list-item__text\"><span class=\"mdc-list-item__primary-text\"><insert CHATS-TITLE></insert></span><span class=\"mdc-list-item__secondary-text\"><insert CHATS-SUBTITLE></insert></span></span></li>"
@@ -333,18 +337,18 @@ function loggedin(sessionid) {
 
 }
 
-function flushGroups(){
-    getGroups(document.userid,document.sessionid,document.token,(groups)=>{
-        for(var x=0;x<groups.length;x++){
-            insertGroups(groups[x].title,groups[x].subtitle,groups[x].groupURL)
+function flushGroups() {
+    getGroups(document.userid, document.sessionid, document.token, (groups) => {
+        for (var x = 0; x < groups.length; x++) {
+            insertGroups(groups[x].title, groups[x].subtitle, groups[x].groupURL)
         }
     })
 }
 
-function flushChats(){
-    getChats(document.userid,document.sessionid,document.token,(chats)=>{
-        for(var x=0;x<chats.length;x++){
-            insertChats(chats[x].title,chats[x].subtitle,chats[x].chatURL)
+function flushChats() {
+    getChats(document.userid, document.sessionid, document.token, (chats) => {
+        for (var x = 0; x < chats.length; x++) {
+            insertChats(chats[x].title, chats[x].subtitle, chats[x].chatURL)
         }
     })
 }
@@ -368,6 +372,54 @@ function showUserSlideBar() {
         $("#userSlideBar").animate({ left: $(window).width() }, 200)
         document.userSlideBar = false
         $("#cover").fadeOut(200)
+    }
+}
+
+function onHashChange(ev, directURLMode = false) {
+    // console.log(ev, ev.originalEvent.oldURL, ev.originalEvent.newURL)
+    if (!directURLMode) {
+        url = ev.originalEvent.newURL.split("#")
+    } else {
+        url = ev.split("#")
+    }
+    hash = url[url.length - 1].split("@")
+    document.rightPageResources = hash
+    switch (hash[0]) {
+        case "Group":
+            $.get("group-in.html", (text) => {
+                if (insertToInsertPoint("rightPage", text) == false) {
+                    alert("Error occured when trying to insert page")
+                }
+            })
+            break
+        case "Chat":
+            $.get("group-in.html", (text) => {
+                if (insertToInsertPoint("rightPage", text) == false) {
+                    alert("Error occured when trying to insert page")
+                }
+            })
+            break
+        case "Story":
+            $.get("group-in.html", (text) => {
+                if (insertToInsertPoint("rightPage", text) == false) {
+                    alert("Error occured when trying to insert page")
+                }
+            })
+            break
+        case "allGroups":
+            $.get("allGroups-in.html", (text) => {
+                if (insertToInsertPoint("rightPage", text) == false) {
+                    alert("Error occured when trying to insert page")
+                }
+            })
+            break
+        case "allChats":
+            $.get("allChats-in.html", (text) => {
+                if (insertToInsertPoint("rightPage", text) == false) {
+                    alert("Error occured when trying to insert page")
+                }
+            })
+            break
     }
 }
 

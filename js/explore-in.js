@@ -1,5 +1,6 @@
 document.insertPoints = initInsertPoints()
 InitDivPosition(false)
+flushRecommendation()
 
 function insertRecommendation(title, subtitle, description, bottomline, imgurl, redirect = "#") {
     try {
@@ -13,9 +14,9 @@ function flushRecommendation() {
     getRecommendations(document.userid, document.sessionid, document.token, (recs) => {
         console.log(recs)
         for (var x = 0; x < recs.length; x++) {
-            obj = recv[x]
+            obj = recs[x]
             // [TODO]
-            switch (obj[x].type) {
+            switch (obj.type) {
                 case "Groups":
                     insertRecommendation(obj.title, obj.subtitle, obj.description, obj.bottomline, obj.imgURL, obj.groupURL)
                     break
