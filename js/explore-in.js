@@ -1,6 +1,6 @@
 loginStatusCheck(()=>{},()=>{flushRightPage("introduction-in.html")})
 document.insertPoints = initInsertPoints()
-InitDivPosition(false)
+// InitDivPosition()
 flushRecommendation()
 
 function insertRecommendation(title, subtitle, description, bottomline, imgurl, redirect = "#") {

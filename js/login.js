@@ -53,6 +53,9 @@ function loginSuccess(token, userid, nickname) {
     setCookie("token", token, 3)
     setCookie("userid", userid, 3)
     setCookie("nickname", nickname, 3)
+    if(getCookie("fullscreen")==""){
+        setCookie("fullscreen","false")
+    }
     $("#loginbtn").text("Redirecting...")
     $("#loginbtn").attr("disabled", true)
     setTimeout(() => {

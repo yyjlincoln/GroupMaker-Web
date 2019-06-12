@@ -1,3 +1,4 @@
+InitDivPosition()
 $(document).ready(() => {
 
     // Auto size
@@ -6,8 +7,6 @@ $(document).ready(() => {
     // document.write("<p>ID="+getCookie("userid")+"</p>")
     // document.write("<p>Token="+getCookie("token")+"</p>")
     // document.close()
-
-    InitDivPosition()
     document.searchDisplay = false
     $("#left-container").resizable({
         // ghost: true,
@@ -57,10 +56,6 @@ $(document).ready(() => {
         $("#right-container").css("left", $("#left-container").width())
         $("#wrapper").width($("#left-container").width() - 4)
 
-        if ($("#left-container").width() != 0) {
-            $("#slideBar").width($("#left-container").width())
-        }
-        $("#slideBar").css("left", -$("#slideBar").width())
         $("#userSlideBar").css("left", $(window).width() + $("#userSlideBar").width())
 
         $("#searchResultDisplay").width($("#searchBar").width())
@@ -93,8 +88,6 @@ $(document).ready(() => {
         $("#right-container").css("left", $("#left-container").width())
         $("#wrapper").width($("#left-container").width() - 4)
 
-        $("#slideBar").width($("#left-container").width())
-        $("#slideBar").css("left", -$("#slideBar").width())
         _DEV()
     })
     $($(".ui-resizable-handle")[1]).on("dblclick", () => {
@@ -108,7 +101,18 @@ $(document).ready(() => {
 
 })
 
-function InitDivPosition(rightContainerFullScreen = false) {
+function InitDivPosition(rightContainerFullScreen = undefined) {
+    allowCookieChange = true
+    if (rightContainerFullScreen == false) {
+        // Manual Adjustment
+    }
+    if (rightContainerFullScreen == undefined) {
+        rightContainerFullScreen = true
+        allowCookieChange = false
+    }
+    if (allowCookieChange == true) {
+        setCookie("fullscreen", String(rightContainerFullScreen), 365)
+    }
     document.rightContainerFullScreen = rightContainerFullScreen
     if (rightContainerFullScreen == false) {
         var x = getCookie("left")
@@ -127,24 +131,23 @@ function InitDivPosition(rightContainerFullScreen = false) {
         }
     } else {
 
-        $("#right-container").animate({
-            width: $(window).width(),
-            left: 0
-        }, 30)
-        // $("#right-container").width($(window).width())
-        // $("#right-container").css("left",0)
-        $("#left-container").animate({
-            width: 0,
-        }, 30)
+        // $("#right-container").animate({
+        //     width: $(window).width(),
+        //     left: 0
+        // }, 30)
+        $("#right-container").width($(window).width())
+        $("#right-container").css("left", 0)
+        // $("#left-container").animate({
+        //     width: 0,
+        // }, 30)
 
-        // $("#left-container").css("width",0)
+        $("#left-container").width(0)
         // $("#left-container").fadeOut()
     }
 
     // Init Left and Right container & SlideBar + SearchDisplay
     $("#right-container").width($(window).width() - $("#left-container").width())
     $("#right-container").css("left", $("#left-container").width())
-    $("#slideBar").width($("#left-container").width())
     $("#slideBar").css("left", -$("#slideBar").width())
     $("#searchResultDisplay").width($("#searchBar").width())
     $("#searchResultDisplay").css("left", $("#searchBar").offset().left)
@@ -242,7 +245,7 @@ function showSlideBar() {
 }
 
 
-$("#slideBar").css("left", -$("#left-container").width())
+$("#slideBar").css("left", -$("#slideBar").width())
 // const drawer = mdc.drawer.MDCDrawer.attachTo(document.querySelector('.mdc-drawer'));
 
 document.slideBar = false
@@ -339,7 +342,10 @@ function loggedin(sessionid) {
         $("userIcon").css("background-image", "url(" + url + ")")
     })
 
-
+    x = getCookie("fullscreen")
+    if (x == "false") {
+        InitDivPosition(false)
+    }
 }
 
 function flushGroups() {
@@ -412,7 +418,7 @@ function onHashChange(ev, directURLMode = false) {
 }
 
 function flushRightPage(requestedURL) {
-    if (requestedURL != "explore-in.html" && requestedURL != "#" && requestedURL != "index.html" && requestedURL != "") {
+    if (requestedURL != "explore-in.html" && requestedURL != "#" && requestedURL != "introduction-in.html" && requestedURL != "") {
         if (history.length > 2) {
             $("#listicon").text("navigate_before")
             $("#listicon").attr("onclick", "history.back()")
