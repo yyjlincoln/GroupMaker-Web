@@ -17,13 +17,13 @@ function flushRecommendation() {
             obj = recs[x]
             // [TODO]
             switch (obj.type) {
-                case "Groups":
+                case "Group":
                     insertRecommendation(obj.title, obj.subtitle, obj.description, obj.bottomline, obj.imgURL, obj.groupURL)
                     break
-                case "Chats":
+                case "Chat":
                     insertRecommendation(obj.title, obj.subtitle, obj.description, obj.bottomline, obj.imgURL, obj.chatURL)
                     break
-                case "Stories":
+                case "Story":
                     insertRecommendation(obj.title, obj.subtitle, obj.description, obj.bottomline, obj.imgURL, obj.storyURL)
                     break
                 default:
