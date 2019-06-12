@@ -419,7 +419,7 @@ function flushRightPage(requestedURL) {
         }
     } else {
         // alert('list')
-        $("#listicon").text("list")
+        $("#listicon").text("menu")
         $("#listicon").attr("onclick", "showSlideBar()")
     }
     $.get(requestedURL, (text) => {
