@@ -84,7 +84,6 @@ $(document).ready(() => {
     })
 
     $(window).on("hashchange", onHashChange)
-    onHashChange(top.location.href, true)
 
     // This is a bad way
     $($(".ui-resizable-handle")[0]).on("dblclick", () => {
@@ -127,15 +126,19 @@ function InitDivPosition(rightContainerFullScreen = false) {
 
         }
     } else {
-        $("#left-container").fadeOut()
 
         $("#right-container").animate({
             width: $(window).width(),
             left: 0
-        }, 800)
+        }, 30)
+        // $("#right-container").width($(window).width())
+        // $("#right-container").css("left",0)
         $("#left-container").animate({
             width: 0,
-        }, 800)
+        }, 30)
+
+        // $("#left-container").css("width",0)
+        // $("#left-container").fadeOut()
     }
 
     // Init Left and Right container & SlideBar + SearchDisplay
@@ -246,65 +249,70 @@ document.slideBar = false
 document.userSlideBar = false
 document.loggedIn = false
 document.insertPoints = initInsertPoints()
-document.token = getCookie("token")
-document.nickname = getCookie("nickname")
-document.userid = getCookie("userid")
 
-session_trial = getCookie("sessionid")
+function loginStatusCheck(loggedin, loggedout) {
+    document.token = getCookie("token")
+    document.nickname = getCookie("nickname")
+    document.userid = getCookie("userid")
 
-// 1) Get session from cookie
-// 2) If Yes verify()
-// 3)     Verify Yes, OK
-// 4)     Verify No, getSession()
-// 5)         GetSession Yes, OK
-// 6)         GetSession No, <Token Expired, Login Expired>
-// 7) If No getSession()
-// 8)     No Token:
-// 9)         <Not logged in>
-// 10)    Have Token getSession():
-// 11)        GetSession Yes, OK
-// 12)        GetSession No, <Token Expired>
+    session_trial = getCookie("sessionid")
 
-if (document.userid != "" && document.token != "") {
-    if (session_trial != "") {
-        verifySession(session_trial, document.token, (stat) => {
-            if (stat == true) {
-                document.loggedIn = true // valid token, valid sessionid
-                document.sessionid = session_trial
-                loggedin(session_trial)
-            } else {
-                // invalid sessionid, unknown token
-                getSession(document.userid, document.token, (sessionid) => {
-                    if (sessionid != false) {
-                        // valid token, valid session id
-                        document.sessionid = sessionid
-                        setCookie("sessionid", sessionid)
-                        document.sessionid = sessionid
-                        loggedin(sessionid)
-                    } else {
-                        // Invalid token, invalid session id
-                        loggedout()
-                    }
-                })
-            }
-        })
+    // 1) Get session from cookie
+    // 2) If Yes verify()
+    // 3)     Verify Yes, OK
+    // 4)     Verify No, getSession()
+    // 5)         GetSession Yes, OK
+    // 6)         GetSession No, <Token Expired, Login Expired>
+    // 7) If No getSession()
+    // 8)     No Token:
+    // 9)         <Not logged in>
+    // 10)    Have Token getSession():
+    // 11)        GetSession Yes, OK
+    // 12)        GetSession No, <Token Expired>
+
+
+    if (document.userid != "" && document.token != "") {
+        if (session_trial != "") {
+            verifySession(session_trial, document.token, (stat) => {
+                if (stat == true) {
+                    document.loggedIn = true // valid token, valid sessionid
+                    document.sessionid = session_trial
+                    loggedin(session_trial)
+                } else {
+                    // invalid sessionid, unknown token
+                    getSession(document.userid, document.token, (sessionid) => {
+                        if (sessionid != false) {
+                            // valid token, valid session id
+                            document.sessionid = sessionid
+                            setCookie("sessionid", sessionid)
+                            document.sessionid = sessionid
+                            loggedin(sessionid)
+                        } else {
+                            // Invalid token, invalid session id
+                            loggedout()
+                        }
+                    })
+                }
+            })
+        } else {
+            getSession(document.userid, document.token, (sessionid) => {
+                if (sessionid != false) {
+                    // valid token, valid session id
+                    document.sessionid = sessionid
+                    setCookie("sessionid", sessionid)
+                    loggedin(sessionid)
+                } else {
+                    // Invalid token, invalid session id
+                    loggedout()
+                }
+            })
+        }
     } else {
-        getSession(document.userid, document.token, (sessionid) => {
-            if (sessionid != false) {
-                // valid token, valid session id
-                document.sessionid = sessionid
-                setCookie("sessionid", sessionid)
-                loggedin(sessionid)
-            } else {
-                // Invalid token, invalid session id
-                loggedout()
-            }
-        })
+        loggedout()
     }
-} else {
-    loggedout()
 }
 
+loginStatusCheck(loggedin, loggedout)
 
 function loggedin(sessionid) {
     console.log('Logged in')
@@ -320,11 +328,8 @@ function loggedin(sessionid) {
     $("userid").text(document.userid)
     $("token").text(document.token)
     $("sessionid").text(document.sessionid)
-    $.get("explore-in.html", (text) => {
-        if (insertToInsertPoint("rightPage", text) == false) {
-            alert("Error occured when trying to insert page")
-        }
-    })
+    // flushRightPage("explore-in.html")
+    onHashChange(top.location.href, true)
     getImgURL('infobackground', (url) => {
         $(".userInfoBackground").css("background-image", "url(" + url + ")")
         $("userInfoBackground").css("background-image", "url(" + url + ")")
@@ -356,11 +361,7 @@ function flushChats() {
 function loggedout() {
     $("#left-top-banner").text("Please log in to continue.")
     // Init rightPage
-    $.get("introduction-in.html", (text) => {
-        if (insertToInsertPoint("rightPage", text) == false) {
-            alert("Error occured when trying to insert page")
-        }
-    })
+    flushRightPage("introduction-in.html")
 }
 
 function showUserSlideBar() {
@@ -382,47 +383,53 @@ function onHashChange(ev, directURLMode = false) {
     } else {
         url = ev.split("#")
     }
-    hash = url[url.length - 1].split("@")
-    document.rightPageResources = hash
-    switch (hash[0]) {
-        case "Group":
-            $.get("group-in.html", (text) => {
-                if (insertToInsertPoint("rightPage", text) == false) {
-                    alert("Error occured when trying to insert page")
-                }
-            })
-            break
-        case "Chat":
-            $.get("group-in.html", (text) => {
-                if (insertToInsertPoint("rightPage", text) == false) {
-                    alert("Error occured when trying to insert page")
-                }
-            })
-            break
-        case "Story":
-            $.get("group-in.html", (text) => {
-                if (insertToInsertPoint("rightPage", text) == false) {
-                    alert("Error occured when trying to insert page")
-                }
-            })
-            break
-        case "allGroups":
-            $.get("allGroups-in.html", (text) => {
-                if (insertToInsertPoint("rightPage", text) == false) {
-                    alert("Error occured when trying to insert page")
-                }
-            })
-            break
-        case "allChats":
-            $.get("allChats-in.html", (text) => {
-                if (insertToInsertPoint("rightPage", text) == false) {
-                    alert("Error occured when trying to insert page")
-                }
-            })
-            break
+    if (url.length != 1 && document.loggedIn == true) {
+        hash = url[url.length - 1].split("@")
+        document.rightPageResources = hash
+        switch (hash[0]) {
+            case "Group":
+                flushRightPage("group-in.html")
+                break
+            case "Chat":
+                flushRightPage("chat-in.html")
+                break
+            case "Story":
+                flushRightPage("story-in.html")
+                break
+            case "allGroups":
+                flushRightPage("allGroups-in.html")
+                break
+            case "allChats":
+                flushRightPage("allChats-in.html")
+                break
+            case "":
+                flushRightPage("explore-in.html")
+                break
+        }
+    } else {
+        flushRightPage("explore-in.html")
     }
 }
 
+function flushRightPage(requestedURL) {
+    if (requestedURL != "explore-in.html" && requestedURL != "#" && requestedURL != "index.html" && requestedURL != "") {
+        if (history.length > 2) {
+            $("#listicon").text("navigate_before")
+            $("#listicon").attr("onclick", "history.back()")
+        }
+    } else {
+        // alert('list')
+        $("#listicon").text("list")
+        $("#listicon").attr("onclick", "showSlideBar()")
+    }
+    $.get(requestedURL, (text) => {
+        if (insertToInsertPoint("rightPage", text) == false) {
+            alert("Error occured when trying to insert page")
+        }
+    }).fail(() => {
+        console.log("Failed to insert right page: " + requestedURL)
+    })
+}
 // Dev Start
 _DEV = () => {
     $("#debug").html("<p>Cookie Info</p><p>Userid:" + getCookie("userid") + "</p><p>Nickname:" + getCookie("nickname") + "</p><p>Token:" + getCookie("token") + "</p><p>Left:" + getCookie("left") + "</p>" + "</p><p>Sessionid:" + getCookie("sessionid") + "</p>")

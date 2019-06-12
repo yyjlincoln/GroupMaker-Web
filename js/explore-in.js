@@ -1,3 +1,4 @@
+loginStatusCheck(()=>{},()=>{flushRightPage("introduction-in.html")})
 document.insertPoints = initInsertPoints()
 InitDivPosition(false)
 flushRecommendation()
@@ -35,16 +36,16 @@ function flushRecommendation() {
 }
 
 
-___DEV = () => {
-    insertRecommendation("Recommendation A", "English, Maths and Science", "Join a competition!", "1 Group Available", "https://yyjlincoln.github.io/istweb/Media/learn.jpg", "https://yyjlincoln.github.io/istweb/Media/learn.jpg")
-    insertRecommendation("Recommendation B", "Geobraphy, History and Chemistry", "Win a special price by joining!", "3 Groups Available", "https://yyjlincoln.github.io/istweb/Media/disable.jpg", "https://yyjlincoln.github.io/istweb/Media/disable.jpg")
-    insertRecommendation("Random Stuff", "English, Maths and Science", "Join a competition!", "1 Group Available", "https://yyjlincoln.github.io/istweb/Media/learn.jpg", "https://yyjlincoln.github.io/istweb/Media/learn.jpg")
-    insertRecommendation("Too tired", "English, Maths and Science", "Join a competition!", "1 Group Available", "https://yyjlincoln.github.io/istweb/Media/learn.jpg", "https://yyjlincoln.github.io/istweb/Media/learn.jpg")
-    insertRecommendation("I hate testing", "English, Maths and Science", "Join a competition!", "1 Group Available", "https://yyjlincoln.github.io/istweb/Media/learn.jpg", "https://yyjlincoln.github.io/istweb/Media/learn.jpg")
-    insertRecommendation("Okay demo ends here", "English, Maths and Science", "Join a competition!", "1 Group Available", "https://yyjlincoln.github.io/istweb/Media/learn.jpg", "https://yyjlincoln.github.io/istweb/Media/learn.jpg")
-    insertRecommendation("Debug is below", "English, Maths and Science", "Join a competition!", "1 Group Available", "https://yyjlincoln.github.io/istweb/Media/learn.jpg", "https://yyjlincoln.github.io/istweb/Media/learn.jpg")
-}
+// ___DEV = () => {
+//     insertRecommendation("Recommendation A", "English, Maths and Science", "Join a competition!", "1 Group Available", "https://yyjlincoln.github.io/istweb/Media/learn.jpg", "https://yyjlincoln.github.io/istweb/Media/learn.jpg")
+//     insertRecommendation("Recommendation B", "Geobraphy, History and Chemistry", "Win a special price by joining!", "3 Groups Available", "https://yyjlincoln.github.io/istweb/Media/disable.jpg", "https://yyjlincoln.github.io/istweb/Media/disable.jpg")
+//     insertRecommendation("Random Stuff", "English, Maths and Science", "Join a competition!", "1 Group Available", "https://yyjlincoln.github.io/istweb/Media/learn.jpg", "https://yyjlincoln.github.io/istweb/Media/learn.jpg")
+//     insertRecommendation("Too tired", "English, Maths and Science", "Join a competition!", "1 Group Available", "https://yyjlincoln.github.io/istweb/Media/learn.jpg", "https://yyjlincoln.github.io/istweb/Media/learn.jpg")
+//     insertRecommendation("I hate testing", "English, Maths and Science", "Join a competition!", "1 Group Available", "https://yyjlincoln.github.io/istweb/Media/learn.jpg", "https://yyjlincoln.github.io/istweb/Media/learn.jpg")
+//     insertRecommendation("Okay demo ends here", "English, Maths and Science", "Join a competition!", "1 Group Available", "https://yyjlincoln.github.io/istweb/Media/learn.jpg", "https://yyjlincoln.github.io/istweb/Media/learn.jpg")
+//     insertRecommendation("Debug is below", "English, Maths and Science", "Join a competition!", "1 Group Available", "https://yyjlincoln.github.io/istweb/Media/learn.jpg", "https://yyjlincoln.github.io/istweb/Media/learn.jpg")
+// }
 
 _DEV()
-___DEV()
+// ___DEV()
 // $.get("testload.html", (text) => { insertToInsertPoint("exploreInCards", text) })
