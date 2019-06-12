@@ -1,4 +1,4 @@
-servaddr = "https://pm.yyjlincoln.xyz/api"
+servaddr = "https://pm.yyjlincoln.xyz:4430/api"
 
 function setCookie(cname, cvalue, exdays) {
     var d = new Date()
