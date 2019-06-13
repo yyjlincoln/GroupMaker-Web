@@ -1,0 +1,14 @@
+#searchResultCards{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.cards{
+    margin-left: 30px; 
+    /* margin-right: 30px;  */
+    height: fit-content;
+    width: 350px;
+    margin-top: 30px;
+}

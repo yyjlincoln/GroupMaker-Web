@@ -1,4 +1,9 @@
-servaddr = "https://pm.yyjlincoln.xyz:4430/api"
+_DEV_ = true
+if (_DEV_ == true) {
+    servaddr = "http://localhost/api"
+} else {
+    servaddr = "https://pm.yyjlincoln.xyz:4430/api"
+}
 
 function setCookie(cname, cvalue, exdays) {
     var d = new Date()
@@ -221,7 +226,6 @@ function getChats(userid, sessionid, token, callback) {
 }
 
 function getRecommendations(userid, sessionid, token, callback) {
-    // [TODO] Bug Fix Recv is not def
     document._getRecommendationsCallback = callback
     $.post(servaddr, {
         action: "getRecommendations",
@@ -243,6 +247,33 @@ function getRecommendations(userid, sessionid, token, callback) {
     }).fail((failed) => {
         document._getRecommendationsCallback(false)
     })
+}
+
+function getPublicGroups(search, cat, start, number, timeStart, timeEnd, callback, done) {
+    document._getPublicGroupsCallback = callback
+    $.post(servaddr, {
+        action: "getPublicGroups",
+        search: search,
+        category: cat,
+        start: start,
+        number: number,
+        timeStart: timeStart,
+        timeEnd: timeEnd
+    }, (data) => {
+        try {
+            // djson = JSON.parse(data)
+            if (data.code == 0) {
+                document._getPublicGroupsCallback(data.groups)
+            } else {
+                document._getPublicGroupsCallback(false)
+            }
+        } catch (e) {
+            console.log("Error while parsing data from the server.", e)
+            document._getPublicGroupsCallback(false)
+        }
+    }).fail((failed) => {
+        document._getPublicGroupsCallback(false)
+    }).done(done)
 }
 
 function appendToInsertPoint(point, html) {

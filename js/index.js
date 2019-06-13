@@ -18,6 +18,8 @@ $(document).ready(() => {
     document.preventSlideUp = false
     document.mouseOnSearch = false
 
+    document.showingSearchResult = false
+    document.searchLock = false
     $("#searchInputTextBox").on("focus", () => {
         document.searchFocused = true
         $("#searchResultDisplay").slideDown(200)
@@ -155,9 +157,21 @@ function InitDivPosition(rightContainerFullScreen = undefined) {
 }
 
 function search(searchValue, callback = null) {
+    if (searchValue == "" && document.showingSearchResult == true) {
+        document.showingSearchResult = false
+        top.location="#"
+        return false
+    }
+    if (searchValue == "" || searchValue == undefined) {
+        return false
+    }
     if (callback == null) {
-        callback = (searchValue, result) => {
+        callback = (result) => {
             // Search Result Update
+            document.searchLock = false
+            document.showingSearchResult = true
+            top.location = "#!"
+            top.location = "#searchResult"
         }
     }
     if (searchValue.length > 1) {
@@ -166,33 +180,49 @@ function search(searchValue, callback = null) {
                 eval(searchValue.substring(1, searchValue.length - 1))
             } catch (e) { alert(e) }
             searchBar.searchInput.value = ""
+            return
         }
     }
-    var result = "<dev> Search result of: " + searchValue
-    callback(searchValue, result)
+    if (document.searchLock == false || searchValue != document.searchValue) {
+        document.searchValue = searchValue
+        document.searchLock = true
+        getPublicGroups(searchValue, undefined, undefined, undefined, undefined, undefined, callback, () => {
+            document.searchLock = false
+        })
+    } else {
+        return false
+    }
+    // var result = "<dev> Search result of: " + searchValue
+    // callback(result)
 }
 
 function presearch(searchValue) {
+    updateSearchResult(undefined, undefined, true)
     console.log("Presearch Started")
-    search(searchValue, (searchv, result) => {
-        console.log("Presearch:", searchv, result)
+    updateSearchResult(undefined, undefined, true)
+    search(searchValue, (result) => {
+        document.searchLock = false
+        // console.log("Presearch:", document.searchValue, result)
+        updateSearchResult(undefined, undefined, true)
+        for (var x = 0; x < result.length; x++) {
+            updateSearchResult(result[x].title, result[x].groupURL)
+        }
+        updateSearchResult("Showing results for \"" + searchValue + "\", press enter for more results.", "#", false)
     })
+
     if (searchValue != "") {
         if (searchValue.length > 0) {
-            if (searchValue[0] == ">") {
+            if (document.searchValue[0] == ">") {
                 updateSearchResult("To run javascript, finish the sentence with \";\".", "#", true)
             } else {
-                updateSearchResult("Showing results for \"" + searchValue + "\"", "#", true)
+                updateSearchResult("Searching \"" + searchValue + "\"...", "#", true)
             }
         } else {
-            updateSearchResult("Showing results for \"" + searchValue + "\"", "#", true)
-        }
-    } else {
-        updateSearchResult(undefined, undefined, true)
-    }
-    console.log("Presearch Completed")
-}
 
+        }
+        console.log("Presearch Completed")
+    }
+}
 function insertChats(title, subtitle, redirect = "#", clear = false) {
     try {
         if (clear) {
@@ -345,6 +375,8 @@ function loggedin(sessionid) {
     x = getCookie("fullscreen")
     if (x == "false") {
         InitDivPosition(false)
+    } else {
+        InitDivPosition()
     }
 }
 
@@ -387,7 +419,7 @@ function onHashChange(ev, directURLMode = false) {
     if (!directURLMode) {
         url = ev.originalEvent.newURL.split("#")
     } else {
-        url = ev.split("#")
+        url = ev.split("#", 1)
     }
     if (url.length != 1 && document.loggedIn == true) {
         hash = url[url.length - 1].split("@")
@@ -407,6 +439,11 @@ function onHashChange(ev, directURLMode = false) {
                 break
             case "allChats":
                 flushRightPage("allChats-in.html")
+                break
+            case "searchResult":
+                flushRightPage("searchResult-in.html")
+                break
+            case "!":
                 break
             case "":
                 flushRightPage("explore-in.html")
