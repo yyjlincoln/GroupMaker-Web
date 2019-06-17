@@ -1,4 +1,4 @@
-_DEV_ = false
+_DEV_ = true
 if (_DEV_ == true) {
     servaddr = "http://localhost/api"
 } else {
@@ -80,6 +80,11 @@ function flushMaterial() {
 
     // .mdc-card__primary-action
     x = $('.mdc-card__primary-action')
+    for (var n = 0; n < x.length; n++) {
+        mdc.ripple.MDCRipple.attachTo(x[n])
+    }
+    
+    x = $('.ripple')
     for (var n = 0; n < x.length; n++) {
         mdc.ripple.MDCRipple.attachTo(x[n])
     }

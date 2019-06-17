@@ -1,17 +1,18 @@
-.cards{
-    margin-left: 30px; 
+.cards {
+    margin-left: 30px;
     /* margin-right: 30px;  */
     height: fit-content;
     width: 350px;
     margin-top: 30px;
 }
 
-.info-card__primary, .info-card__secondary{
+.info-card__primary,
+.info-card__secondary {
     padding-left: 15px;
     padding-right: 15px;
 }
 
-#exploreInCards{
+#exploreInCards {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;

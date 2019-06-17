@@ -13,7 +13,8 @@ function insertRecommendation(title, subtitle, description, bottomline, imgurl, 
 
 function flushRecommendation() {
     getRecommendations(document.userid, document.sessionid, document.token, (recs) => {
-        console.log(recs)
+        // console.log(recs)
+        document.insertPoints.exploreInCards.html("")
         for (var x = 0; x < recs.length; x++) {
             obj = recs[x]
             // [TODO]

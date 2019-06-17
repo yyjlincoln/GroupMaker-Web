@@ -4,6 +4,7 @@ document.showingSearchResult=true
 $("#SRTitle").text("Search Result for \"" + document.searchValue + "\"")
 search(document.searchValue, (result) => {
     document.searchLock=false
+    document.insertPoints.searchResultCards.html("")
     for (var x = 0; x < result.length; x++) {
         insertResult(result[x].title, result[x].subtitle, result[x].description, result[x].bottomline, result[x].imgURL, result[x].groupURL)
         console.log(result[x])
