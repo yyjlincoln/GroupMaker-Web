@@ -1,4 +1,4 @@
-_DEV_ = true
+_DEV_ = false
 if (_DEV_ == true) {
     servaddr = "http://localhost/api"
 } else {
