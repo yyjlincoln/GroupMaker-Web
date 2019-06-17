@@ -1,7 +1,8 @@
-loginStatusCheck(()=>{},()=>{flushRightPage("introduction-in.html")})
+loginStatusCheck(() => { }, () => { flushRightPage("introduction-in.html") })
 document.insertPoints = initInsertPoints()
 // InitDivPosition()
 flushRecommendation()
+flushActivities()
 
 function insertRecommendation(title, subtitle, description, bottomline, imgurl, redirect = "#") {
     try {
@@ -36,6 +37,22 @@ function flushRecommendation() {
     })
 }
 
+function insertActivities(title,subtitle,description){
+    rawhtml="<div class=\"act-container\"><section class=\"card\"><div class=\"card-detail\"><h3 class=\"card-title\">$title$</h3><h4 class=\"card-subtitle\">$subtitle$</h4><p class=\"card-description\">$dec$</p></div></section></div>"
+    document.insertPoints.activities.html(document.insertPoints.activities.html()+rawhtml.replace("$title$",title).replace("$subtitle$",subtitle).replace("$dec$",description).replace("<script>","").replace("</script>",""))
+}
+
+function flushActivities(){
+    getActivities(document.userid,document.sessionid,document.token,(d)=>{
+        document.insertPoints.activities.html("")
+        for(var x=0;x<d.length;x++){
+            insertActivities(d[x].title,d[x].subtitle,d[x].description)
+        }
+        if(d.length==0){
+            insertActivities("Everything is clear","","No activity was found.")
+        }
+    })
+}
 
 // ___DEV = () => {
 //     insertRecommendation("Recommendation A", "English, Maths and Science", "Join a competition!", "1 Group Available", "https://yyjlincoln.github.io/istweb/Media/learn.jpg", "https://yyjlincoln.github.io/istweb/Media/learn.jpg")

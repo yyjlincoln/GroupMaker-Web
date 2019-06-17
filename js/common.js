@@ -1,4 +1,4 @@
-_DEV_ = false
+_DEV_ = true
 if (_DEV_ == true) {
     servaddr = "http://localhost/api"
 } else {
@@ -254,6 +254,8 @@ function getRecommendations(userid, sessionid, token, callback) {
     })
 }
 
+
+
 function getPublicGroups(search, cat, start, number, timeStart, timeEnd, callback, done) {
     document._getPublicGroupsCallback = callback
     $.post(servaddr, {
@@ -279,6 +281,31 @@ function getPublicGroups(search, cat, start, number, timeStart, timeEnd, callbac
     }).fail((failed) => {
         document._getPublicGroupsCallback(false)
     }).done(done)
+}
+
+
+function getActivities(userid, sessionid, token, callback) {
+    document._getActCallback = callback
+    $.post(servaddr, {
+        action: "getActivities",
+        userid: userid,
+        token: token,
+        sessionid: sessionid
+    }, (data) => {
+        try {
+            // djson = JSON.parse(data)
+            if (data.code == 0) {
+                document._getActCallback(data.activities)
+            } else {
+                document._getActCallback(false)
+            }
+        } catch (e) {
+            console.log("Error while parsing data from the server.", e)
+            document._getActCallback(false)
+        }
+    }).fail((failed) => {
+        document._getActCallback(false)
+    })
 }
 
 function appendToInsertPoint(point, html) {

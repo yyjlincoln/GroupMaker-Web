@@ -16,5 +16,13 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-evenly;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: space-around;
+    max-width: 1300;
+}
+
+#topstory{
+    background-color: #edf2fa;
+    max-height: 500px;
 }
