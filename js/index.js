@@ -72,9 +72,14 @@ $(document).ready(() => {
         if ($("#left-container").width() != 0) {
             $("#slideBar").width($("#left-container").width())
         }
-        $("#slideBar").css("left", -$("#slideBar").width())
-        $("#userSlideBar").css("left", $(window).width() + $("#userSlideBar").width())
-
+        if (document.slideBar != true) {
+            $("#slideBar").css("left", -$("#slideBar").width())
+        }
+        if (document.userSlideBar != true) {
+            $("#userSlideBar").css("left", $(window).width() + $("#userSlideBar").width())
+        } else {
+            $("#userSlideBar").css("left", $(window).width() - $("#userSlideBar").width())
+        }
         $("#searchResultDisplay").width($("#searchBar").width())
         $("#searchResultDisplay").css("left", $("#searchBar").offset().left)
         _DEV()
@@ -150,16 +155,22 @@ function InitDivPosition(rightContainerFullScreen = undefined) {
     // Init Left and Right container & SlideBar + SearchDisplay
     $("#right-container").width($(window).width() - $("#left-container").width())
     $("#right-container").css("left", $("#left-container").width())
-    $("#slideBar").css("left", -$("#slideBar").width())
+    if (document.slideBar != true) {
+        $("#slideBar").css("left", -$("#slideBar").width())
+    }
     $("#searchResultDisplay").width($("#searchBar").width())
     $("#searchResultDisplay").css("left", $("#searchBar").offset().left)
-    $("#userSlideBar").css("left", $(window).width() + $("#userSlideBar").width())
+    if (document.userSlideBar != true) {
+        $("#userSlideBar").css("left", $(window).width() + $("#userSlideBar").width())
+    } else {
+        $("#userSlideBar").css("left", $(window).width() - $("#userSlideBar").width())
+    }
 }
 
 function search(searchValue, callback = null) {
     if (searchValue == "" && document.showingSearchResult == true) {
         document.showingSearchResult = false
-        top.location="#"
+        top.location = "#"
         return false
     }
     if (searchValue == "" || searchValue == undefined) {
@@ -270,7 +281,9 @@ function showSlideBar() {
     } else {
         $("#slideBar").animate({ left: -$("#slideBar").width() }, 200)
         document.slideBar = false
-        $("#cover").fadeOut(200)
+        if (document.userSlideBar != true) {
+            $("#cover").fadeOut(200)
+        }
     }
 }
 
@@ -410,7 +423,9 @@ function showUserSlideBar() {
     } else {
         $("#userSlideBar").animate({ left: $(window).width() }, 200)
         document.userSlideBar = false
-        $("#cover").fadeOut(200)
+        if (document.slideBar != true) {
+            $("#cover").fadeOut(200)
+        }
     }
 }
 
