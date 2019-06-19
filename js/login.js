@@ -59,7 +59,7 @@ function loginSuccess(token, userid, nickname) {
     $("#loginbtn").text("Redirecting...")
     $("#loginbtn").attr("disabled", true)
     setTimeout(() => {
-        top.location = "index.html"
+        top.location = "./"
     }, 1000);
 }
 
