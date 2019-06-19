@@ -199,3 +199,11 @@ titlex{
 #right-top-icon{
     display: none;
 }
+
+#loadingEffect{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+}

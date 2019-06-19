@@ -16,7 +16,8 @@
         <div class="flex">
             <button class="mdc-icon-button material-icons" id="listicon" onclick="showSlideBar()"
                 style="margin-left: 10px;">menu</button>
-            <div class="title mdc-button" style="margin-right: 10px;" onclick="showSlideBar()">dashboard</div>
+            <div id="pageSwitch" class="title mdc-button" style="margin-right: 10px;" onclick="showSlideBar()">dashboard
+            </div>
         </div>
         <div id="search-wrapper" class="search-style">
             <div id="searchResultDisplay" style="display: none;z-index: 9999">
@@ -53,21 +54,21 @@
         <div id="placeholder"></div>
 
         <ul class="mdc-list mdc-list--two-line">
-            <li class="mdc-list-item" onclick="top.location='index.html'">
+            <li class="mdc-list-item" onclick="top.location='#';showSlideBar()">
                 <span class="mdc-list-item__text">
                     <span class="mdc-list-item__primary-text">Dashboard</span>
                     <span class="mdc-list-item__secondary-text">Go to Dashboard</span>
                 </span>
             </li>
 
-            <li class="mdc-list-item" onclick="top.location='plaza.html'">
+            <li class="mdc-list-item" onclick="top.location='#plaza';showSlideBar()">
                 <span class="mdc-list-item__text">
                     <span class="mdc-list-item__primary-text">Groups Plaza</span>
                     <span class="mdc-list-item__secondary-text">Find Groups here</span>
                 </span>
             </li>
 
-            <li class="mdc-list-item" onclick="top.location='plaza.html'">
+            <li class="mdc-list-item" onclick="top.location='#chats';showSlideBar()">
                 <span class="mdc-list-item__text">
                     <span class="mdc-list-item__primary-text">Chats Centre</span>
                     <span class="mdc-list-item__secondary-text">Find Chats here</span>
@@ -100,8 +101,7 @@
             <li class="mdc-list-item" onclick="logout()">
                 <span class="mdc-list-item__text">
                     <span class="mdc-list-item__primary-text">Log out</span>
-                    <span class="mdc-list-item__secondary-text"><nickname></nickname> (<userid></userid>)
-                    </span>
+                    <span class="mdc-list-item__secondary-text"><nickname></nickname> (<userid></userid>)</span>
                 </span>
             </li>
 
@@ -180,8 +180,97 @@
 
             <!-- <div id="placeholder" style="height: 70px"></div> -->
             <insertPoint what="rightPage">
-                <div style="width:100%;text-align: center;padding-top: 80px;">Loading... Check your internet if this
-                    takes more than 10 seconds.</div>
+                <!-- <div style="width:100%;text-align: center;padding-top: 80px;">Loading... Check your internet if this
+                    takes more than 10 seconds.</div> -->
+                <div id="loadingEffect"><svg class="spinner" style="margin-left: auto;margin-right:auto;" width="65px"
+                        height="65px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+                        <circle class="circle" fill="none" stroke-width="6" stroke="#673ab7" stroke-linecap="round"
+                            cx="33" cy="33" r="30"></circle>
+                    </svg></div>
+                <style>
+                    .material_block {
+                        width: 580px;
+                        padding: 20px;
+                        background-color: #fff;
+                        box-shadow: 0 2px 5px rgba(0, 0, 0, .4);
+                        margin: auto;
+                    }
+
+                    .spinner {
+                        -webkit-animation: rotation 1.35s linear infinite;
+                        animation: rotation 1.35s linear infinite;
+                    }
+
+                    @-webkit-keyframes rotation {
+                        0% {
+                            -webkit-transform: rotate(0deg);
+                            transform: rotate(0deg);
+                        }
+
+                        100% {
+                            -webkit-transform: rotate(270deg);
+                            transform: rotate(270deg);
+                        }
+                    }
+
+                    @keyframes rotation {
+                        0% {
+                            -webkit-transform: rotate(0deg);
+                            transform: rotate(0deg);
+                        }
+
+                        100% {
+                            -webkit-transform: rotate(270deg);
+                            transform: rotate(270deg);
+                        }
+                    }
+
+                    .circle {
+                        stroke-dasharray: 180;
+                        stroke-dashoffset: 0;
+                        -webkit-transform-origin: center;
+                        -ms-transform-origin: center;
+                        transform-origin: center;
+                        -webkit-animation: turn 1.35s ease-in-out infinite;
+                        animation: turn 1.35s ease-in-out infinite;
+                    }
+
+                    @-webkit-keyframes turn {
+                        0% {
+                            stroke-dashoffset: 180;
+                        }
+
+                        50% {
+                            stroke-dashoffset: 45;
+                            -webkit-transform: rotate(135deg);
+                            transform: rotate(135deg);
+                        }
+
+                        100% {
+                            stroke-dashoffset: 180;
+                            -webkit-transform: rotate(450deg);
+                            transform: rotate(450deg);
+                        }
+                    }
+
+                    @keyframes turn {
+                        0% {
+                            stroke-dashoffset: 180;
+                        }
+
+                        50% {
+                            stroke-dashoffset: 45;
+                            -webkit-transform: rotate(135deg);
+                            transform: rotate(135deg);
+                        }
+
+                        100% {
+                            stroke-dashoffset: 180;
+                            -webkit-transform: rotate(450deg);
+                            transform: rotate(450deg);
+                        }
+                    }
+                </style>
             </insertPoint>
             <!-- <div id="inner-right-container">
                 Under Construction

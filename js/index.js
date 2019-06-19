@@ -458,6 +458,12 @@ function onHashChange(ev, directURLMode = false) {
             case "searchResult":
                 flushRightPage("searchResult-in.html")
                 break
+            case "plaza":
+                flushRightPage("plaza-in.html")
+                break
+            case "chats":
+                flushRightPage("chats-in.html")
+                break
             case "!":
                 break
             case "":
@@ -470,22 +476,36 @@ function onHashChange(ev, directURLMode = false) {
 }
 
 function flushRightPage(requestedURL) {
-    if (requestedURL != "explore-in.html" && requestedURL != "#" && requestedURL != "introduction-in.html" && requestedURL != "") {
+    preventDefalut = false
+    if (requestedURL == "plaza-in.html") {
+        $("#pageSwitch").text("Groups Plaza")
+        preventDefalut = true
+    } else if (requestedURL == "chats-in.html") {
+        $("#pageSwitch").text("Chats Centre")
+        preventDefalut = true
+    } else {
+        $("#pageSwitch").text("Dashboard")
+    }
+    if (preventDefalut == false && requestedURL != "explore-in.html" && requestedURL != "#" && requestedURL != "introduction-in.html" && requestedURL != "") {
         if (history.length > 2) {
             $("#listicon").text("navigate_before")
             $("#listicon").attr("onclick", "history.back()")
         }
+    } else if (preventDefalut == true) {
+
     } else {
         // alert('list')
         $("#listicon").text("menu")
         $("#listicon").attr("onclick", "showSlideBar()")
     }
+    insertToInsertPoint("rightPage", "<div id=\"loadingEffect\"><svg class=\"spinner\" style=\"margin-left: auto;margin-right:auto;\" width=\"65px\" height=\"65px\" viewBox=\"0 0 66 66\" xmlns=\"http://www.w3.org/2000/svg\"><circle class=\"circle\" fill=\"none\" stroke-width=\"6\" stroke=\"#673ab7\" stroke-linecap=\"round\" cx=\"33\" cy=\"33\" r=\"30\"></circle></svg></div><style>.material_block{  width: 580px;  padding: 20px;  background-color: #fff;  box-shadow: 0 2px 5px rgba(0,0,0,.4);  margin: auto;}.spinner{  -webkit-animation: rotation 1.35s linear infinite;  animation: rotation 1.35s linear infinite;}@-webkit-keyframes rotation{  0% {    -webkit-transform: rotate(0deg);    transform: rotate(0deg);  }  100% {    -webkit-transform: rotate(270deg);    transform: rotate(270deg);  }}@keyframes rotation{  0% {    -webkit-transform: rotate(0deg);    transform: rotate(0deg);  }  100% {    -webkit-transform: rotate(270deg);    transform: rotate(270deg);  }}.circle{  stroke-dasharray: 180;  stroke-dashoffset: 0;  -webkit-transform-origin: center;  -ms-transform-origin: center;  transform-origin: center;  -webkit-animation: turn 1.35s ease-in-out infinite;  animation: turn 1.35s ease-in-out infinite;}@-webkit-keyframes turn{  0% {    stroke-dashoffset: 180;  }  50% {    stroke-dashoffset: 45;    -webkit-transform: rotate(135deg);    transform: rotate(135deg);  }  100% {    stroke-dashoffset: 180;    -webkit-transform: rotate(450deg);    transform: rotate(450deg);  }}@keyframes turn{  0% {    stroke-dashoffset: 180;  }  50% {    stroke-dashoffset: 45;    -webkit-transform: rotate(135deg);    transform: rotate(135deg);  }  100% {stroke-dashoffset: 180;    -webkit-transform: rotate(450deg);    transform: rotate(450deg);}}</style>")
     $.get(requestedURL, (text) => {
         if (insertToInsertPoint("rightPage", text) == false) {
             alert("Error occured when trying to insert page")
         }
     }).fail(() => {
         console.log("Failed to insert right page: " + requestedURL)
+        insertToInsertPoint("rightPage","<div id=\"errhtml\" class=\"ihtml\">    <div id=\"err\">        Oops, Page load error.    </div></div><style>    #errhtml{        display: flex;        flex-direction: column;        justify-content: center;    }    #err{     text-align: center;       }</style>")
     })
 }
 // Dev Start
