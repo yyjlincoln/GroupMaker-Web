@@ -430,12 +430,14 @@ function showUserSlideBar() {
 }
 
 function onHashChange(ev, directURLMode = false) {
-    // console.log(ev, ev.originalEvent.oldURL, ev.originalEvent.newURL)
+    // console.log(ev, ev.originalEvent.newURL)
+    // console.log('HashChange')
     if (!directURLMode) {
         url = ev.originalEvent.newURL.split("#")
     } else {
-        url = ev.split("#", 1)
+        url = ev.split("#")
     }
+    // console.log(url)
     if (url.length != 1 && document.loggedIn == true) {
         hash = url[url.length - 1].split("@")
         document.rightPageResources = hash
