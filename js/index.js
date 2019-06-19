@@ -1,4 +1,4 @@
-InitDivPosition()
+
 $(document).ready(() => {
 
     // Auto size
@@ -109,13 +109,12 @@ $(document).ready(() => {
 })
 
 function InitDivPosition(rightContainerFullScreen = undefined) {
-    allowCookieChange = true
-    if (rightContainerFullScreen == false) {
-        // Manual Adjustment
-    }
+    // allowCookieChange = true
     if (rightContainerFullScreen == undefined) {
-        rightContainerFullScreen = true
+        rightContainerFullScreen = false
         allowCookieChange = false
+    } else {
+        allowCookieChange = true
     }
     if (allowCookieChange == true) {
         setCookie("fullscreen", String(rightContainerFullScreen), 365)
@@ -386,10 +385,10 @@ function loggedin(sessionid) {
     })
 
     x = getCookie("fullscreen")
-    if (x == "false") {
+    if (x == "") {
         InitDivPosition(false)
     } else {
-        InitDivPosition()
+        InitDivPosition((x)==="true")
     }
 }
 
@@ -507,7 +506,7 @@ function flushRightPage(requestedURL) {
         }
     }).fail(() => {
         console.log("Failed to insert right page: " + requestedURL)
-        insertToInsertPoint("rightPage","<div id=\"errhtml\" class=\"ihtml\">    <div id=\"err\">        Oops, Page load error.    </div></div><style>    #errhtml{        display: flex;        flex-direction: column;        justify-content: center;    }    #err{     text-align: center;       }</style>")
+        insertToInsertPoint("rightPage", "<div id=\"errhtml\" class=\"ihtml\">    <div id=\"err\">        Oops, Page load error.    </div></div><style>    #errhtml{        display: flex;        flex-direction: column;        justify-content: center;    }    #err{     text-align: center;       }</style>")
     })
 }
 // Dev Start
