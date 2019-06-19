@@ -16,7 +16,8 @@
         <!-- <p class="title">The ultimate team-up solution</p> -->
         <p class="t2">Pace Maker</p>
         <div id="container">
-            <form id="loginform" onsubmit="try {login(loginform.username.value,loginform.password.value)} catch (e) {} finally {return false}">
+            <form id="loginform"
+                onsubmit="try {login(loginform.username.value,loginform.password.value)} catch (e) {} finally {return false}">
                 <div id="notification-no-material-banner">Notification</div>
                 <div class="mdc-text-field pd">
                     <input type="text" id="username-text-field" class="mdc-text-field__input" name="username">
@@ -29,8 +30,27 @@
                     <label class="mdc-floating-label" for="password-text-field">Password</label>
                     <div class="mdc-line-ripple"></div>
                 </div>
+                <div id="registerField" style="display: none;position: relative;width: 100%;">
+                    <div class="mdc-text-field pd" style="width: 100%;">
+                        <input type="text" id="email-text-field" class="mdc-text-field__input" name="email">
+                        <label class="mdc-floating-label" for="email-text-field">Email</label>
+                        <div class="mdc-line-ripple"></div>
+                    </div>
+                    <div class="mdc-text-field pd" style="width: 100%;">
+                        <input type="text" id="nickname-text-field" class="mdc-text-field__input" name="nickname">
+                        <label class="mdc-floating-label" for="email-text-field">Nick Name</label>
+                        <div class="mdc-line-ripple"></div>
+                    </div>
+                </div>
 
-                <button class="mdc-button mdc-button--outlined" id="loginbtn" type="submit">Login</button>
+                <button class="mdc-button mdc-button--outlined" id="loginbtn" type="submit"
+                    style="margin-bottom: 20px;">Login</button>
+
+                <div id="signupText" class="mdc-typography--body1 pd" style="text-align: center">Don't have an account?
+                    <a id="signupLink"
+                        style="cursor: pointer;text-decoration: none;font-style: italic;font-weight: bold;"
+                        onclick="switchToRegister();">Sign Up.</a>
+                </div>
             </form>
         </div>
     </div>

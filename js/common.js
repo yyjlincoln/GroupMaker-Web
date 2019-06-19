@@ -83,7 +83,7 @@ function flushMaterial() {
     for (var n = 0; n < x.length; n++) {
         mdc.ripple.MDCRipple.attachTo(x[n])
     }
-    
+
     x = $('.ripple')
     for (var n = 0; n < x.length; n++) {
         mdc.ripple.MDCRipple.attachTo(x[n])
@@ -98,6 +98,42 @@ function sendlogin(user, pass, callback) {
 
     $.post(servaddr, {
         action: "getToken",
+        userid: user,
+        pwd: pass
+    }, (data) => {
+        try {
+            // djson = JSON.parse(data)
+            if (data.code == 0) {
+                document._getTokenCallback(0, data.token, data.nickname)
+            } else {
+                document._getTokenCallback(data.code)
+            }
+        } catch (e) {
+            console.log("Error while parsing data from the server.")
+            document._getTokenCallback("Script Error on Client Side")
+        }
+    }).fail((failed) => {
+        switch (failed.status) {
+            case 0:
+                document._getTokenCallback(-9999)
+                break
+            default:
+                document._getTokenCallback(-failed.status - 1000)
+        }
+    })
+    document._getTokenCallback = callback
+}
+
+function sendRegister(email, nickname, user, pass, callback) {
+    console.log("Register", email, user, pass)
+    // encrypted = encryptLogin(user, pass)
+    // [TODO] Send encrypted login
+    // [TODO] Encryption. Encryption has been cancelled, and login will be sent on HTTPS.
+
+    $.post(servaddr, {
+        action: "register",
+        nickname: nickname,
+        email: email,
         userid: user,
         pwd: pass
     }, (data) => {

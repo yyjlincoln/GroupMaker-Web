@@ -28,7 +28,7 @@ function login(user, pass) {
             case -9:
                 Err("Internal server error. Please try again later.")
                 break
-                // 4 digits for Internet related
+            // 4 digits for Internet related
             case -1404:
                 Err("Failed to login. Server responded with error code 404 (Not Found)")
                 break
@@ -53,8 +53,8 @@ function loginSuccess(token, userid, nickname) {
     setCookie("token", token, 3)
     setCookie("userid", userid, 3)
     setCookie("nickname", nickname, 3)
-    if(getCookie("fullscreen")==""){
-        setCookie("fullscreen","false",3)
+    if (getCookie("fullscreen") == "") {
+        setCookie("fullscreen", "false", 3)
     }
     $("#loginbtn").text("Redirecting...")
     $("#loginbtn").attr("disabled", true)
@@ -84,3 +84,55 @@ function Err(errmsg) {
     }, 1000)
 }
 
+function switchToRegister() {
+    $("#registerField").slideDown()
+    $("#loginform").attr("onsubmit", "try{register(loginform.email.value,loginform.nickname.value,loginform.username.value,loginform.password.value)}catch(e){console.log(e)}finally{return false}")
+    $("#loginbtn").text("Sign Up")
+    $("#signupText").html("Already have an account? <a id=\"signupLink\" style=\"cursor: pointer;text-decoration: none;font-style: italic;font-weight: bold;\" onclick=\"switchToLogin();\">Sign In.</a>")
+}
+
+function switchToLogin() {
+    $("#registerField").slideUp()
+    $("#loginform").attr("onsubmit", "try{login(loginform.username.value,loginform.password.value)}catch(e){console.log(e)}finally{return false}")
+    $("#loginbtn").text("Login")
+    $("#signupText").html("Don't have an account? <a id=\"signupLink\" style=\"cursor: pointer;text-decoration: none;font-style: italic;font-weight: bold;\" onclick=\"switchToRegister();\">Sign Up.</a>")
+}
+
+function register(email, nickname,user, pass) {
+    sendRegister(email, nickname, user, pass, (stat, token, nickname, userid = user) => {
+        switch (stat) {
+            case 0:
+                Success("Welcome to PaceMaker, " + String(nickname))
+                loginSuccess(token, userid, nickname)
+                break
+            case -103:
+                Err("Failed to register. Please check your username and password.")
+                break
+            case -100:
+                Err("Failed to register. Username already taken.")
+                break
+            case -9:
+                Err("Internal server error. Please try again later.")
+                break
+            // 4 digits for Internet related
+            case -1404:
+                Err("Failed to login. Server responded with error code 404 (Not Found)")
+                break
+            case -1500:
+                Err("Internal server error. Please try again later.")
+                break
+            case -9999:
+                Err("Internet connection error. Please check your internet connection and try again.")
+                break
+            default:
+                Err("Unspecific error. Please <a href='login.html#reg'>Refresh</a> and try again. [Code:" + String(stat) + "]")
+                break
+        }
+        $("#loginbtn").text("Sign Up")
+        $("#loginbtn").attr("disabled", false)
+    })
+}
+
+if(top.location.hash=="#reg"){
+    switchToRegister()
+}
