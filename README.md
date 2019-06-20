@@ -1,5 +1,5 @@
 # PaceMaker Web Page
-https://pacemaker.yyjlincoln.xyz:4430/ (May be blocked in Mainland China)
+https://pm.yyjlincoln.xyz:4430/ (May be blocked in Mainland China)
 
 Alternatively, you can access it via Github Pages:
 
