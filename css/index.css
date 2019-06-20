@@ -76,6 +76,11 @@
     max-width: 800px;
     display: flex;
 }
+
+#search-wrapper{
+    display: flex;
+}
+
 #placeholder{
     height: 75px;
     width: 0px;
@@ -207,3 +212,19 @@ titlex{
     justify-content: center;
     
 }
+
+#innernav{
+    /* display: flex; */
+    flex-basis: auto;
+    flex-direction: row;
+    justify-content: space-evenly;
+    /* flex-grow: 1;  */
+    /* Get spare from #navbar (deducts menu and userinfo) */
+    text-align: center;
+}
+
+#innernavbtn{
+    
+}
+
+/* Change #search-wrapper to display: flex */

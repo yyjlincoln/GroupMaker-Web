@@ -16,27 +16,35 @@
         <div class="flex">
             <button class="mdc-icon-button material-icons" id="listicon" onclick="showSlideBar()"
                 style="margin-left: 10px;">menu</button>
-            <div id="pageSwitch" class="title mdc-button" style="margin-right: 10px;min-width: 225px;" onclick="showSlideBar()">dashboard
+            <div id="pageSwitch" class="title mdc-button" style="margin-right: 10px;min-width: 225px;"
+                onclick="showSlideBar()">dashboard
             </div>
         </div>
-        <div id="search-wrapper" class="search-style">
-            <div id="searchResultDisplay" style="display: none;z-index: 9999">
-                <ul class="mdc-list" style="padding: 0;">
-                    <!-- <div style="height: 5px;"></div> -->
-                    <insertPoint what="searchResult"></insertPoint>
-                </ul>
+        <div id="search-mega-wrapper" class="search-style">
+            <div id="innernav">
+                <!-- <div class="title mdc-button" style="margin-right: 10px;min-width: 225px;"
+                    onclick="top.location='#plaza'">Groups Plaza
+                </div> -->
             </div>
-            <div class="mdc-text-field mdc-text-field--no-label mdc-text-field--with-trailing-icon title-inline"
-                id="search">
-                <form id="searchBar" class="search-style"
-                    onsubmit="try{search(searchBar.searchInput.value);}catch(err){}finally{return false}">
-                    <i class="material-icons mdc-text-field__icon" tabindex="0" role="button"
-                        onclick="search(searchBar.searchInput.value)">search</i>
-                    <input id="searchInputTextBox" type="text" placeholder="Search a group..."
-                        class="mdc-text-field__input" style="border: none;"
-                        oninput="presearch(searchBar.searchInput.value)" name="searchInput" autocomplete="off">
-                    <div class="mdc-line-ripple"></div>
-                </form>
+            <div id="search-wrapper" class="search-style">
+                <div id="searchResultDisplay" style="display: none;z-index: 9999">
+                    <ul class="mdc-list" style="padding: 0;">
+                        <!-- <div style="height: 5px;"></div> -->
+                        <insertPoint what="searchResult"></insertPoint>
+                    </ul>
+                </div>
+                <div class="mdc-text-field mdc-text-field--no-label mdc-text-field--with-trailing-icon title-inline"
+                    id="search">
+                    <form id="searchBar" class="search-style"
+                        onsubmit="try{search(searchBar.searchInput.value);}catch(err){}finally{return false}">
+                        <i class="material-icons mdc-text-field__icon" tabindex="0" role="button"
+                            onclick="search(searchBar.searchInput.value)">search</i>
+                        <input id="searchInputTextBox" type="text" placeholder="Search a group..."
+                            class="mdc-text-field__input" style="border: none;"
+                            oninput="presearch(searchBar.searchInput.value)" name="searchInput" autocomplete="off">
+                        <div class="mdc-line-ripple"></div>
+                    </form>
+                </div>
             </div>
         </div>
         <div id="userinfo" class="flex" onclick="top.location='login.html'">
@@ -101,7 +109,9 @@
             <li class="mdc-list-item" onclick="logout()">
                 <span class="mdc-list-item__text">
                     <span class="mdc-list-item__primary-text">Log out</span>
-                    <span class="mdc-list-item__secondary-text"><nickname></nickname> (<userid></userid>)</span>
+                    <span class="mdc-list-item__secondary-text">
+                        <nickname></nickname> (<userid></userid>)
+                    </span>
                 </span>
             </li>
 
@@ -179,7 +189,7 @@
         <div id="right-container">
 
             <!-- <div id="placeholder" style="height: 70px"></div> -->
-            <insertPoint what="rightPage">
+            <insertPoint what="rightPage" id="rightPage">
                 <!-- <div style="width:100%;text-align: center;padding-top: 80px;">Loading... Check your internet if this
                     takes more than 10 seconds.</div> -->
                 <div id="loadingEffect"><svg class="spinner" style="margin-left: auto;margin-right:auto;" width="65px"

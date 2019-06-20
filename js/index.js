@@ -87,6 +87,18 @@ $(document).ready(() => {
 
     $(window).on("hashchange", onHashChange)
 
+    $("#right-container").scroll(() => {
+        if ($("#right-container").scrollTop() <= 20) {
+            // showSearchBar(false)
+            // showSearchBar(false) 
+        } else { 
+            // showSearchBar() 
+        }
+    })
+
+    // DEV
+    // showSearchBar(false)
+
     // This is a bad way
     $($(".ui-resizable-handle")[0]).on("dblclick", () => {
         $("#left-container").width(320)
@@ -388,7 +400,7 @@ function loggedin(sessionid) {
     if (x == "") {
         InitDivPosition(false)
     } else {
-        InitDivPosition((x)==="true")
+        InitDivPosition((x) === "true")
     }
 }
 
@@ -513,6 +525,17 @@ function flushRightPage(requestedURL) {
 _DEV = () => {
     $("#debug").html("<p>Cookie Info</p><p>Userid:" + getCookie("userid") + "</p><p>Nickname:" + getCookie("nickname") + "</p><p>Token:" + getCookie("token") + "</p><p>Left:" + getCookie("left") + "</p>" + "</p><p>Sessionid:" + getCookie("sessionid") + "</p>")
     // console.log("DEV was called due to event.")
+}
+
+function showSearchBar(showOrHide = true) {
+    if (showOrHide == false) {
+        $("#search-wrapper").hide()
+        $("#innernav").fadeIn()
+    } else {
+        $("#innernav").hide()
+        $("#search-wrapper").fadeIn()
+        $("#search-wrapper").css("display", "flex")
+    }
 }
 // Dev End
 
