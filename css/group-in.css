@@ -1,0 +1,12 @@
+#load{
+    height: 100%;
+    width: 100%;
+    position: relative;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+}
+
+#loadtext{
+    text-align: center;
+}

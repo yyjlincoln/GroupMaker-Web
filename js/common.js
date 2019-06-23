@@ -398,4 +398,47 @@ function getImgURL(type, callback) {
     }
 }
 
+function commonRequests(action, requestArgs, callback, auth = true) {
+    requestArgs.action = action
+    document._CRCallback = callback
+    if (auth == true) {
+        requestArgs.userid = document.userid
+        requestArgs.token = document.token
+        requestArgs.sessionid = document.sessionid
+    }
+    $.post(servaddr, requestArgs, (data) => {
+        try {
+            if (data.code == 0) {
+                document._CRCallback(data)
+            } else {
+                document._CRCallback(false)
+            }
+        } catch (e) {
+            document._CRCallback(false)
+        }
+
+    }).fail(() => { document._CRCallback(false) })
+}
+
+function getGroupDetail(groupid, callback) {
+    requestArgs = {}
+    requestArgs.action = "getGroupDetail"
+    document._getGroupDetailCallback = callback
+    requestArgs.userid = document.userid
+    requestArgs.token = document.token
+    requestArgs.sessionid = document.sessionid
+    $.post(servaddr, requestArgs, (data) => {
+        try {
+            if (data.code == 0) {
+                document._getGroupDetailCallback(data)
+            } else {
+                document._getGroupDetailCallback(false)
+            }
+        } catch (e) {
+            document._getGroupDetailCallback(false)
+        }
+
+    }).fail(() => { document._getGroupDetailCallback(false) })
+}
+
 flushMaterial()
