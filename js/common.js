@@ -35,23 +35,16 @@ function deleteAllCookies() {
 }
 
 function flushMaterial() {
-    // Apply style for .mdc-text-field
     try {
         x = $('.mdc-text-field')
         for (var n = 0; n < x.length; n++) {
             mdc.textField.MDCTextField.attachTo(x[n]);
         }
 
-        // Apply style for .mdc-button
         x = $('.mdc-button')
         for (var n = 0; n < x.length; n++) {
             mdc.ripple.MDCRipple.attachTo(x[n])
         }
-
-        // x = $('.mdc-icon-button')
-        // for (var n = 0; n < x.length; n++) {
-        //     mdc.ripple.MDCRipple.attachTo(x[n])
-        // }
 
         var icon_buttons = [].map.call(document.querySelectorAll(".mdc-icon-button"), function (el) {
             x = new mdc.ripple.MDCRipple(el)
@@ -59,19 +52,9 @@ function flushMaterial() {
             return x;
         });
 
-
-        // const iconButton = new mdc.ripple.MDCRipple($('.mdc-icon-button')[0])
-        // iconButton.unbounded = true;
         for (var n = 0; n < x.length; n++) {
             mdc.ripple.MDCRipple.attachTo(x[n])
         }
-
-        // Apply style for .mdc-list
-
-        // x = $(".mdc-list")
-        // for (var n = 0; n < x.length; n++) {
-        //     mdc.list.MDCList.attachTo(x[n])
-        // }
 
         x = $(".mdc-list-item")
         for (var n = 0; n < x.length; n++) {
@@ -79,7 +62,6 @@ function flushMaterial() {
         }
     } catch (e) { console.log(e) }
 
-    // .mdc-card__primary-action
     x = $('.mdc-card__primary-action')
     for (var n = 0; n < x.length; n++) {
         mdc.ripple.MDCRipple.attachTo(x[n])
@@ -97,68 +79,75 @@ function sendlogin(user, pass, callback) {
     // [TODO] Send encrypted login
     // [TODO] Encryption. Encryption has been cancelled, and login will be sent on HTTPS.
 
+    c = (callback) => {
+        return (data) => {
+            try {
+                // djson = JSON.parse(data)
+                if (data.code == 0) {
+                    callback(0, data.token, data.nickname)
+                } else {
+                    callback(data.code)
+                }
+            } catch (e) {
+                console.log("Error while parsing data from the server.")
+                callback("Script Error on Client Side")
+            }
+        }
+    }
+    d = (callback) => {
+        return (failed) => {
+            switch (failed.status) {
+                case 0:
+                    callback(-9999)
+                    break
+                default:
+                    callback(-failed.status - 1000)
+            }
+        }
+    }
     $.post(servaddr, {
         action: "getToken",
         userid: user,
         pwd: pass
-    }, (data) => {
-        try {
-            // djson = JSON.parse(data)
-            if (data.code == 0) {
-                document._getTokenCallback(0, data.token, data.nickname)
-            } else {
-                document._getTokenCallback(data.code)
-            }
-        } catch (e) {
-            console.log("Error while parsing data from the server.")
-            document._getTokenCallback("Script Error on Client Side")
-        }
-    }).fail((failed) => {
-        switch (failed.status) {
-            case 0:
-                document._getTokenCallback(-9999)
-                break
-            default:
-                document._getTokenCallback(-failed.status - 1000)
-        }
-    })
-    document._getTokenCallback = callback
+    }, c(callback)).fail(d(callback))
 }
 
 function sendRegister(email, nickname, user, pass, callback) {
-    console.log("Register", email, user, pass)
-    // encrypted = encryptLogin(user, pass)
-    // [TODO] Send encrypted login
-    // [TODO] Encryption. Encryption has been cancelled, and login will be sent on HTTPS.
 
+    c = (callback) => {
+        return (data) => {
+            try {
+                // djson = JSON.parse(data)
+                if (data.code == 0) {
+                    callback(0, data.token, data.nickname)
+                } else {
+                    callback(data.code)
+                }
+            } catch (e) {
+                console.log("Error while parsing data from the server.")
+                callback("Script Error on Client Side")
+            }
+        }
+    }
+    d = (callback) => {
+        return (failed) => {
+            switch (failed.status) {
+                case 0:
+                    callback(-9999)
+                    break
+                default:
+                    callback(-failed.status - 1000)
+            }
+        }
+    }
     $.post(servaddr, {
         action: "register",
         nickname: nickname,
         email: email,
         userid: user,
         pwd: pass
-    }, (data) => {
-        try {
-            // djson = JSON.parse(data)
-            if (data.code == 0) {
-                document._getTokenCallback(0, data.token, data.nickname)
-            } else {
-                document._getTokenCallback(data.code)
-            }
-        } catch (e) {
-            console.log("Error while parsing data from the server.")
-            document._getTokenCallback("Script Error on Client Side")
-        }
-    }).fail((failed) => {
-        switch (failed.status) {
-            case 0:
-                document._getTokenCallback(-9999)
-                break
-            default:
-                document._getTokenCallback(-failed.status - 1000)
-        }
-    })
-    document._getTokenCallback = callback
+    }, c(callback)).fail(d(callback))
+
 }
 
 function encryptLogin(user, pass) {
@@ -167,134 +156,180 @@ function encryptLogin(user, pass) {
 }
 
 function verifySession(session, token, callback) {
-    document._verifySessionCallback = callback
+
+    c = (callback) => {
+        return (data) => {
+            try {
+                // djson = JSON.parse(data)
+                if (data.code == 0 && data.status == true) {
+                    callback(true)
+                } else {
+                    callback(false)
+                }
+            } catch (e) {
+                console.log("Error while parsing data from the server.", e)
+                callback(false)
+            }
+        }
+    }
+    d = (callback) => {
+        return (failed) => {
+            callback(false)
+        }
+    }
     $.post(servaddr, {
         action: "verifySession",
         sessionid: session,
         token: token
-    }, (data) => {
-        try {
-            // djson = JSON.parse(data)
-            if (data.code == 0 && data.status == true) {
-                document._verifySessionCallback(true)
-            } else {
-                document._verifySessionCallback(false)
-            }
-        } catch (e) {
-            console.log("Error while parsing data from the server.", e)
-            document._verifySessionCallback(false)
-        }
-    }).fail((failed) => {
-        document._verifySessionCallback(false)
-    })
+    }, c(callback)).fail(d(callback))
     // [DEV] [TODO]
     // document._verifySession_callback(true)
 }
 
 function getSession(userid, token, callback) {
-    // session = "sessionid"
-    document._getSessionCallback = callback
 
+    c = (callback) => {
+        return (data) => {
+            try {
+                // djson = JSON.parse(data)
+                if (data.code == 0) {
+                    callback(data.sessionid)
+                } else {
+                    callback(false)
+                }
+            } catch (e) {
+                console.log("Error while parsing data from the server.", e)
+                callback(false)
+            }
+        }
+    }
+    d = (callback) => {
+        return (failed) => {
+            callback(false)
+        }
+    }
     $.post(servaddr, {
         action: "getSession",
         userid: userid,
         token: token
-    }, (data) => {
-        try {
-            // djson = JSON.parse(data)
-            if (data.code == 0) {
-                document._getSessionCallback(data.sessionid)
-            } else {
-                document._getSessionCallback(false)
-            }
-        } catch (e) {
-            console.log("Error while parsing data from the server.", e)
-            document._getSessionCallback(false)
-        }
-    }).fail((failed) => {
-        document._getSessionCallback(false)
-    })
+    }, c(callback)).fail(d(callback))
 
     // [DEV] [TODO]
     // document._getSession_callback(session)
 }
 
 function getGroups(userid, sessionid, token, callback) {
-    document._getGroupsCallback = callback
+    c = (callback) => {
+        return (data) => {
+            try {
+                // djson = JSON.parse(data)
+                if (data.code == 0) {
+                    callback(data.groups)
+                } else {
+                    callback(false)
+                }
+            } catch (e) {
+                console.log("Error while parsing data from the server.", e)
+                callback(false)
+            }
+        }
+    }
+    d = (callback) => {
+        return (failed) => {
+            callback(false)
+        }
+    }
+
     $.post(servaddr, {
         action: "getGroups",
         userid: userid,
         token: token,
         sessionid: sessionid
-    }, (data) => {
-        try {
-            // djson = JSON.parse(data)
-            if (data.code == 0) {
-                document._getGroupsCallback(data.groups)
-            } else {
-                document._getGroupsCallback(false)
-            }
-        } catch (e) {
-            console.log("Error while parsing data from the server.", e)
-            document._getGroupsCallback(false)
-        }
-    }).fail((failed) => {
-        document._getGroupsCallback(false)
-    })
+    }, c(callback)).fail(d(callback))
 }
 
 function getChats(userid, sessionid, token, callback) {
-    document._getChatsCallback = callback
+    c = (callback) => {
+        return (data) => {
+            try {
+                // djson = JSON.parse(data)
+                if (data.code == 0) {
+                    callback(data.chats)
+                } else {
+                    callback(false)
+                }
+            } catch (e) {
+                console.log("Error while parsing data from the server.", e)
+                callback(false)
+            }
+        }
+    }
+    d = (callback) => {
+        return (failed) => {
+            callback(false)
+        }
+    }
+
     $.post(servaddr, {
         action: "getChats",
         userid: userid,
         token: token,
         sessionid: sessionid
-    }, (data) => {
-        try {
-            // djson = JSON.parse(data)
-            if (data.code == 0) {
-                document._getChatsCallback(data.chats)
-            } else {
-                document._getChatsCallback(false)
-            }
-        } catch (e) {
-            console.log("Error while parsing data from the server.", e)
-            document._getChatsCallback(false)
-        }
-    }).fail((failed) => {
-        document._getChatsCallback(false)
-    })
+    }, c(callback)).fail(d(callback))
 }
 
 function getRecommendations(userid, sessionid, token, callback) {
-    document._getRecommendationsCallback = callback
+    c = (callback) => {
+        return (data) => {
+            try {
+                // djson = JSON.parse(data)
+                if (data.code == 0) {
+                    callback(data.recommendations)
+                } else {
+                    callback(false)
+                }
+            } catch (e) {
+                console.log("Error while parsing data from the server.", e)
+                callback(false)
+            }
+        }
+    }
+    d = (callback) => {
+        return (failed) => {
+            callback(false)
+        }
+    }
     $.post(servaddr, {
         action: "getRecommendations",
         userid: userid,
         token: token,
         sessionid: sessionid
-    }, (data) => {
-        try {
-            // djson = JSON.parse(data)
-            if (data.code == 0) {
-                document._getRecommendationsCallback(data.recommendations)
-            } else {
-                document._getRecommendationsCallback(false)
-            }
-        } catch (e) {
-            console.log("Error while parsing data from the server.", e)
-            document._getRecommendationsCallback(false)
-        }
-    }).fail((failed) => {
-        document._getRecommendationsCallback(false)
-    })
+    }, c(callback)).fail(d(callback))
 }
 
 
 
 function getPublicGroups(search, cat, start, number, timeStart, timeEnd, callback, done) {
-    document._getPublicGroupsCallback = callback
+    c = (callback) => {
+        return (data) => {
+            try {
+                // djson = JSON.parse(data)
+                if (data.code == 0) {
+                    callback(data.groups)
+                } else {
+                    callback(false)
+                }
+            } catch (e) {
+                console.log("Error while parsing data from the server.", e)
+                callback(false)
+            }
+        }
+    }
+    d = (callback) => {
+        return (failed) => {
+            callback(false)
+        }
+    }
     $.post(servaddr, {
         action: "getPublicGroups",
         search: search,
@@ -303,46 +338,37 @@ function getPublicGroups(search, cat, start, number, timeStart, timeEnd, callbac
         number: number,
         timeStart: timeStart,
         timeEnd: timeEnd
-    }, (data) => {
-        try {
-            // djson = JSON.parse(data)
-            if (data.code == 0) {
-                document._getPublicGroupsCallback(data.groups)
-            } else {
-                document._getPublicGroupsCallback(false)
-            }
-        } catch (e) {
-            console.log("Error while parsing data from the server.", e)
-            document._getPublicGroupsCallback(false)
-        }
-    }).fail((failed) => {
-        document._getPublicGroupsCallback(false)
-    }).done(done)
+    }, c(callback)).fail(d(callback)).done(done)
 }
 
 
 function getActivities(userid, sessionid, token, callback) {
-    document._getActCallback = callback
+    c = (callback) => {
+        return (data) => {
+            try {
+                // djson = JSON.parse(data)
+                if (data.code == 0) {
+                    callback(data.activities)
+                } else {
+                    callback(false)
+                }
+            } catch (e) {
+                console.log("Error while parsing data from the server.", e)
+                callback(false)
+            }
+        }
+    }
+    d = (callback) => {
+        return (failed) => {
+            callback(false)
+        }
+    }
     $.post(servaddr, {
         action: "getActivities",
         userid: userid,
         token: token,
         sessionid: sessionid
-    }, (data) => {
-        try {
-            // djson = JSON.parse(data)
-            if (data.code == 0) {
-                document._getActCallback(data.activities)
-            } else {
-                document._getActCallback(false)
-            }
-        } catch (e) {
-            console.log("Error while parsing data from the server.", e)
-            document._getActCallback(false)
-        }
-    }).fail((failed) => {
-        document._getActCallback(false)
-    })
+    }, c(callback)).fail(d(callback))
 }
 
 function appendToInsertPoint(point, html) {
@@ -398,47 +424,66 @@ function getImgURL(type, callback) {
     }
 }
 
-function commonRequests(action, requestArgs, callback, auth = true) {
+function commonRequests(action, requestArgs, callback, returns, auth = true) {
     requestArgs.action = action
-    document._CRCallback = callback
+    c = (callback) => {
+        return (data) => {
+            try {
+                if (data.code == 0) {
+                    if(returns==undefined){
+                        callback(data)
+                    } else {
+                        try{
+                            callback(data[returns])
+                        } catch(e){
+                            console.log("Depreciation: commonRequests failed to return: ",e)
+                            callback(data)
+                        }
+                    }
+                } else {
+                    callback(false)
+                }
+            } catch (e) {
+                console.log("Failed: commonRequests failed to execute: ",e)
+                callback(false)
+            }
+        }
+    }
+    d = (callback) => {
+        return (failed) => {
+            callback(false)
+        }
+    }
+
     if (auth == true) {
         requestArgs.userid = document.userid
         requestArgs.token = document.token
         requestArgs.sessionid = document.sessionid
     }
-    $.post(servaddr, requestArgs, (data) => {
-        try {
-            if (data.code == 0) {
-                document._CRCallback(data)
-            } else {
-                document._CRCallback(false)
-            }
-        } catch (e) {
-            document._CRCallback(false)
-        }
-
-    }).fail(() => { document._CRCallback(false) })
+    $.post(servaddr, requestArgs, c(callback)).fail(d(callback))
 }
 
 function getGroupDetail(groupid, callback) {
     requestArgs = {}
     requestArgs.action = "getGroupDetail"
-    document._getGroupDetailCallback = callback
+    // document._getGroupDetailCallback = callback
     requestArgs.userid = document.userid
     requestArgs.token = document.token
     requestArgs.sessionid = document.sessionid
-    $.post(servaddr, requestArgs, (data) => {
-        try {
-            if (data.code == 0) {
-                document._getGroupDetailCallback(data)
-            } else {
-                document._getGroupDetailCallback(false)
+    c = (callback) => {
+        return () => {
+            try {
+                if (data.code == 0) {
+                    callback(data)
+                } else {
+                    callback(false)
+                }
+            } catch (e) {
+                callback(false)
             }
-        } catch (e) {
-            document._getGroupDetailCallback(false)
         }
-
-    }).fail(() => { document._getGroupDetailCallback(false) })
+    }
+    $.post(servaddr, requestArgs, c(callback)).fail(() => { document._getGroupDetailCallback(false) })
 }
 
 flushMaterial()
