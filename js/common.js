@@ -1,4 +1,4 @@
-_DEV_ = false
+_DEV_ = true
 
 if (_DEV_ == true) {
     servaddr = "http://localhost/api"
@@ -74,80 +74,34 @@ function flushMaterial() {
 }
 
 function sendlogin(user, pass, callback) {
-    console.log("Login", user, pass)
-    // encrypted = encryptLogin(user, pass)
-    // [TODO] Send encrypted login
-    // [TODO] Encryption. Encryption has been cancelled, and login will be sent on HTTPS.
-
-    c = (callback) => {
-        return (data) => {
-            try {
-                // djson = JSON.parse(data)
-                if (data.code == 0) {
-                    callback(0, data.token, data.nickname)
-                } else {
-                    callback(data.code)
-                }
-            } catch (e) {
-                console.log("Error while parsing data from the server.")
-                callback("Script Error on Client Side")
+    wrapped = (callback) => {
+        return (data, errcode) => {
+            if (data === false) {
+                callback(errcode)
+            } else {
+                callback(data.code, data.token, data.nickname)
             }
         }
     }
-    d = (callback) => {
-        return (failed) => {
-            switch (failed.status) {
-                case 0:
-                    callback(-9999)
-                    break
-                default:
-                    callback(-failed.status - 1000)
-            }
-        }
-    }
-    $.post(servaddr, {
-        action: "getToken",
-        userid: user,
-        pwd: pass
-    }, c(callback)).fail(d(callback))
+    commonRequests("getToken", { userid: user, pwd: pass }, wrapped(callback), undefined, false)
 }
 
 function sendRegister(email, nickname, user, pass, callback) {
-
-    c = (callback) => {
-        return (data) => {
-            try {
-                // djson = JSON.parse(data)
-                if (data.code == 0) {
-                    callback(0, data.token, data.nickname)
-                } else {
-                    callback(data.code)
-                }
-            } catch (e) {
-                console.log("Error while parsing data from the server.")
-                callback("Script Error on Client Side")
+    wrapped = (callback) => {
+        return (data, errcode) => {
+            if (data === false) {
+                callback(errcode)
+            } else {
+                callback(data.code, data.token, data.nickname)
             }
         }
     }
-    d = (callback) => {
-        return (failed) => {
-            switch (failed.status) {
-                case 0:
-                    callback(-9999)
-                    break
-                default:
-                    callback(-failed.status - 1000)
-            }
-        }
-    }
-    $.post(servaddr, {
-        action: "register",
+    commonRequests("register", {
         nickname: nickname,
         email: email,
         userid: user,
         pwd: pass
-    }, c(callback)).fail(d(callback))
-
+    }, wrapped(callback), undefined, false)
 }
 
 function encryptLogin(user, pass) {
@@ -315,7 +269,7 @@ function commonRequests(action, requestArgs, callback, returns, auth = true) {
                         }
                     }
                 } else {
-                    callback(false)
+                    callback(false, data.code)
                 }
             } catch (e) {
                 console.log("Failed: commonRequests failed to execute: ", e)
@@ -325,7 +279,14 @@ function commonRequests(action, requestArgs, callback, returns, auth = true) {
     }
     d = (callback) => {
         return (failed) => {
-            callback(false)
+            switch (failed.status) {
+                case 0:
+                    console.log("Internet disconnected.")
+                    callback(false, -9999)
+                    break
+                default:
+                    callback(false, -failed.status - 1000)
+            }
         }
     }
 
@@ -338,12 +299,16 @@ function commonRequests(action, requestArgs, callback, returns, auth = true) {
 }
 
 function getGroupDetail(groupid, callback) {
-    commonRequests("getGroupDetail", { groupid: groupid }, callback)
+    commonRequests("getGroupDetail", { groupid: groupid }, callback, "detail")
+}
+
+function getChatDetail(chatid, callback) {
+    commonRequests("getChatDetail", { chatid: chatid }, callback, "detail")
 }
 
 
-function loadingEffect(l){
-    rawhtml="<div id=\"loadingEffect\"><svg class=\"spinner\" style=\"margin-left: auto;margin-right:auto;\" width=\"65px\"height=\"65px\" viewBox=\"0 0 66 66\" xmlns=\"http://www.w3.org/2000/svg\"><circle class=\"circle\" fill=\"none\" stroke-width=\"6\" stroke=\"#673ab7\" stroke-linecap=\"round\"cx=\"33\" cy=\"33\" r=\"30\"></circle></svg></div><style>.material_block {width: 580px;padding: 20px;background-color: #fff;box-shadow: 0 2px 5px rgba(0, 0, 0, .4);margin: auto;}.spinner {-webkit-animation: rotation 1.35s linear infinite;animation: rotation 1.35s linear infinite;}@-webkit-keyframes rotation {0% {-webkit-transform: rotate(0deg);transform: rotate(0deg);}100% {-webkit-transform: rotate(270deg);transform: rotate(270deg);}}@keyframes rotation {0% {-webkit-transform: rotate(0deg);transform: rotate(0deg);}100% {-webkit-transform: rotate(270deg);transform: rotate(270deg);}}.circle {stroke-dasharray: 180;stroke-dashoffset: 0;-webkit-transform-origin: center;-ms-transform-origin: center;transform-origin: center;-webkit-animation: turn 1.35s ease-in-out infinite;animation: turn 1.35s ease-in-out infinite;}@-webkit-keyframes turn {0% {stroke-dashoffset: 180;}50% {stroke-dashoffset: 45;-webkit-transform: rotate(135deg);transform: rotate(135deg);}100% {stroke-dashoffset: 180;-webkit-transform: rotate(450deg);transform: rotate(450deg);}}@keyframes turn {0% {stroke-dashoffset: 180;}50% {stroke-dashoffset: 45;-webkit-transform: rotate(135deg);transform: rotate(135deg);}100% {stroke-dashoffset: 180;-webkit-transform: rotate(450deg);transform: rotate(450deg);}}</style>"
+function loadingEffect(l) {
+    rawhtml = "<div id=\"loadingEffect\"><svg class=\"spinner\" style=\"margin-left: auto;margin-right:auto;\" width=\"65px\"height=\"65px\" viewBox=\"0 0 66 66\" xmlns=\"http://www.w3.org/2000/svg\"><circle class=\"circle\" fill=\"none\" stroke-width=\"6\" stroke=\"#673ab7\" stroke-linecap=\"round\"cx=\"33\" cy=\"33\" r=\"30\"></circle></svg></div><style>.material_block {width: 580px;padding: 20px;background-color: #fff;box-shadow: 0 2px 5px rgba(0, 0, 0, .4);margin: auto;}.spinner {-webkit-animation: rotation 1.35s linear infinite;animation: rotation 1.35s linear infinite;}@-webkit-keyframes rotation {0% {-webkit-transform: rotate(0deg);transform: rotate(0deg);}100% {-webkit-transform: rotate(270deg);transform: rotate(270deg);}}@keyframes rotation {0% {-webkit-transform: rotate(0deg);transform: rotate(0deg);}100% {-webkit-transform: rotate(270deg);transform: rotate(270deg);}}.circle {stroke-dasharray: 180;stroke-dashoffset: 0;-webkit-transform-origin: center;-ms-transform-origin: center;transform-origin: center;-webkit-animation: turn 1.35s ease-in-out infinite;animation: turn 1.35s ease-in-out infinite;}@-webkit-keyframes turn {0% {stroke-dashoffset: 180;}50% {stroke-dashoffset: 45;-webkit-transform: rotate(135deg);transform: rotate(135deg);}100% {stroke-dashoffset: 180;-webkit-transform: rotate(450deg);transform: rotate(450deg);}}@keyframes turn {0% {stroke-dashoffset: 180;}50% {stroke-dashoffset: 45;-webkit-transform: rotate(135deg);transform: rotate(135deg);}100% {stroke-dashoffset: 180;-webkit-transform: rotate(450deg);transform: rotate(450deg);}}</style>"
     $(l).html(rawhtml)
 }
 flushMaterial()
