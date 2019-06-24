@@ -1,6 +1,7 @@
 d=document.rightPageResources
 document.insertPoints=initInsertPoints()
 
+loadingEffect("#loadtext")
 if(d.length<=1){
     $("#load").css("display","flex")
     $("#loadtext").text("Group name is not defined. Please check the URL.")

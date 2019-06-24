@@ -219,156 +219,30 @@ function getSession(userid, token, callback) {
 }
 
 function getGroups(userid, sessionid, token, callback) {
-    c = (callback) => {
-        return (data) => {
-            try {
-                // djson = JSON.parse(data)
-                if (data.code == 0) {
-                    callback(data.groups)
-                } else {
-                    callback(false)
-                }
-            } catch (e) {
-                console.log("Error while parsing data from the server.", e)
-                callback(false)
-            }
-        }
-    }
-    d = (callback) => {
-        return (failed) => {
-            callback(false)
-        }
-    }
-
-    $.post(servaddr, {
-        action: "getGroups",
-        userid: userid,
-        token: token,
-        sessionid: sessionid
-    }, c(callback)).fail(d(callback))
+    commonRequests("getGroups", {}, callback, "groups")
 }
 
 function getChats(userid, sessionid, token, callback) {
-    c = (callback) => {
-        return (data) => {
-            try {
-                // djson = JSON.parse(data)
-                if (data.code == 0) {
-                    callback(data.chats)
-                } else {
-                    callback(false)
-                }
-            } catch (e) {
-                console.log("Error while parsing data from the server.", e)
-                callback(false)
-            }
-        }
-    }
-    d = (callback) => {
-        return (failed) => {
-            callback(false)
-        }
-    }
-
-    $.post(servaddr, {
-        action: "getChats",
-        userid: userid,
-        token: token,
-        sessionid: sessionid
-    }, c(callback)).fail(d(callback))
+    commonRequests("getChats", {}, callback, "chats")
 }
 
 function getRecommendations(userid, sessionid, token, callback) {
-    c = (callback) => {
-        return (data) => {
-            try {
-                // djson = JSON.parse(data)
-                if (data.code == 0) {
-                    callback(data.recommendations)
-                } else {
-                    callback(false)
-                }
-            } catch (e) {
-                console.log("Error while parsing data from the server.", e)
-                callback(false)
-            }
-        }
-    }
-    d = (callback) => {
-        return (failed) => {
-            callback(false)
-        }
-    }
-    $.post(servaddr, {
-        action: "getRecommendations",
-        userid: userid,
-        token: token,
-        sessionid: sessionid
-    }, c(callback)).fail(d(callback))
+    commonRequests("getRecommendations", {}, callback, "recommendations")
 }
 
-
-
 function getPublicGroups(search, cat, start, number, timeStart, timeEnd, callback, done) {
-    c = (callback) => {
-        return (data) => {
-            try {
-                // djson = JSON.parse(data)
-                if (data.code == 0) {
-                    callback(data.groups)
-                } else {
-                    callback(false)
-                }
-            } catch (e) {
-                console.log("Error while parsing data from the server.", e)
-                callback(false)
-            }
-        }
-    }
-    d = (callback) => {
-        return (failed) => {
-            callback(false)
-        }
-    }
-    $.post(servaddr, {
-        action: "getPublicGroups",
+    commonRequests("getPublicGroups", {
         search: search,
         category: cat,
         start: start,
         number: number,
         timeStart: timeStart,
         timeEnd: timeEnd
-    }, c(callback)).fail(d(callback)).done(done)
+    }, callback, "groups")
 }
 
-
 function getActivities(userid, sessionid, token, callback) {
-    c = (callback) => {
-        return (data) => {
-            try {
-                // djson = JSON.parse(data)
-                if (data.code == 0) {
-                    callback(data.activities)
-                } else {
-                    callback(false)
-                }
-            } catch (e) {
-                console.log("Error while parsing data from the server.", e)
-                callback(false)
-            }
-        }
-    }
-    d = (callback) => {
-        return (failed) => {
-            callback(false)
-        }
-    }
-    $.post(servaddr, {
-        action: "getActivities",
-        userid: userid,
-        token: token,
-        sessionid: sessionid
-    }, c(callback)).fail(d(callback))
+    commonRequests("getActivities", {}, callback, "activities")
 }
 
 function appendToInsertPoint(point, html) {
@@ -430,13 +304,13 @@ function commonRequests(action, requestArgs, callback, returns, auth = true) {
         return (data) => {
             try {
                 if (data.code == 0) {
-                    if(returns==undefined){
+                    if (returns == undefined) {
                         callback(data)
                     } else {
-                        try{
+                        try {
                             callback(data[returns])
-                        } catch(e){
-                            console.log("Depreciation: commonRequests failed to return: ",e)
+                        } catch (e) {
+                            console.log("Depreciation: commonRequests failed to return: ", e)
                             callback(data)
                         }
                     }
@@ -444,7 +318,7 @@ function commonRequests(action, requestArgs, callback, returns, auth = true) {
                     callback(false)
                 }
             } catch (e) {
-                console.log("Failed: commonRequests failed to execute: ",e)
+                console.log("Failed: commonRequests failed to execute: ", e)
                 callback(false)
             }
         }
@@ -464,26 +338,12 @@ function commonRequests(action, requestArgs, callback, returns, auth = true) {
 }
 
 function getGroupDetail(groupid, callback) {
-    requestArgs = {}
-    requestArgs.action = "getGroupDetail"
-    // document._getGroupDetailCallback = callback
-    requestArgs.userid = document.userid
-    requestArgs.token = document.token
-    requestArgs.sessionid = document.sessionid
-    c = (callback) => {
-        return () => {
-            try {
-                if (data.code == 0) {
-                    callback(data)
-                } else {
-                    callback(false)
-                }
-            } catch (e) {
-                callback(false)
-            }
-        }
-    }
-    $.post(servaddr, requestArgs, c(callback)).fail(() => { document._getGroupDetailCallback(false) })
+    commonRequests("getGroupDetail", { groupid: groupid }, callback)
 }
 
+
+function loadingEffect(l){
+    rawhtml="<div id=\"loadingEffect\"><svg class=\"spinner\" style=\"margin-left: auto;margin-right:auto;\" width=\"65px\"height=\"65px\" viewBox=\"0 0 66 66\" xmlns=\"http://www.w3.org/2000/svg\"><circle class=\"circle\" fill=\"none\" stroke-width=\"6\" stroke=\"#673ab7\" stroke-linecap=\"round\"cx=\"33\" cy=\"33\" r=\"30\"></circle></svg></div><style>.material_block {width: 580px;padding: 20px;background-color: #fff;box-shadow: 0 2px 5px rgba(0, 0, 0, .4);margin: auto;}.spinner {-webkit-animation: rotation 1.35s linear infinite;animation: rotation 1.35s linear infinite;}@-webkit-keyframes rotation {0% {-webkit-transform: rotate(0deg);transform: rotate(0deg);}100% {-webkit-transform: rotate(270deg);transform: rotate(270deg);}}@keyframes rotation {0% {-webkit-transform: rotate(0deg);transform: rotate(0deg);}100% {-webkit-transform: rotate(270deg);transform: rotate(270deg);}}.circle {stroke-dasharray: 180;stroke-dashoffset: 0;-webkit-transform-origin: center;-ms-transform-origin: center;transform-origin: center;-webkit-animation: turn 1.35s ease-in-out infinite;animation: turn 1.35s ease-in-out infinite;}@-webkit-keyframes turn {0% {stroke-dashoffset: 180;}50% {stroke-dashoffset: 45;-webkit-transform: rotate(135deg);transform: rotate(135deg);}100% {stroke-dashoffset: 180;-webkit-transform: rotate(450deg);transform: rotate(450deg);}}@keyframes turn {0% {stroke-dashoffset: 180;}50% {stroke-dashoffset: 45;-webkit-transform: rotate(135deg);transform: rotate(135deg);}100% {stroke-dashoffset: 180;-webkit-transform: rotate(450deg);transform: rotate(450deg);}}</style>"
+    $(l).html(rawhtml)
+}
 flushMaterial()
