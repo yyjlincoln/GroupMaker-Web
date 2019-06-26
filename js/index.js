@@ -89,12 +89,14 @@ $(document).ready(() => {
 
     $("#right-container").scroll(() => {
         if ($("#right-container").scrollTop() <= 20) {
-            // showSearchBar(false)
-            // showSearchBar(false) 
-        } else { 
-            // showSearchBar() 
+            // $("#navbarBackground").css("height","80px")
+            // $("#navbarBackground").css("opacity","1")
+        } else {
+            // $("#navbarBackground").css("height","50px")
+            // $("#navbarBackground").css("opacity","0.7")
         }
     })
+
 
     // DEV
     // showSearchBar(false)
@@ -119,6 +121,18 @@ $(document).ready(() => {
     })
 
 })
+
+function showNavBackground(tof,clearPic=true,height=70) {
+    if (tof == false) {
+        $("#navbarBackground").css("height", "0px")
+    } else {
+        $("#navbarBackground").css("height",height)
+    }
+    if(clearPic==true){
+        $("#navBackground").css("background-image","")
+        $("#navBackground").css("opacity","0.7")
+    }
+}
 
 function InitDivPosition(rightContainerFullScreen = undefined) {
     // allowCookieChange = true
@@ -489,6 +503,7 @@ function onHashChange(ev, directURLMode = false) {
 }
 
 function flushRightPage(requestedURL) {
+    showNavBackground(true)
     preventDefalut = false
     if (requestedURL == "plaza-in.html") {
         $("#pageSwitch").text("Groups Plaza")

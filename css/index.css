@@ -38,16 +38,46 @@
 #navbar{
     position: fixed;
     z-index: 10001;
-    background: white;
+    background: transparent;
     /* color: #6002ee; */
     /* font-weight: 800; */
+    padding-top: 10px;
+    padding-bottom: 10px;
+    /* pointer-events: visibleFill; */
+}
+
+#uppernav{
+    height: 30px;
+}
+
+#mainnav{
+    position: fixed;
     display: flex;
     justify-content: space-between;
     width: 100%;
+    /* pointer-events: visible; */
     height: 50px;
+}
+
+#navbarBackground{
+    position: fixed;
     filter: drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.5));
-    padding-top: 10px;
-    padding-bottom: 10px;
+    /* overflow: hidden; */
+    height: 70px;
+    width: 100%;
+    /* padding-top: 10px;
+    padding-bottom: 10px; */
+    background-color: white;
+    opacity: 0.7;
+    z-index: 10000;
+    transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 1s;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    /* -webkit-filter: blur(60/@rem);
+    -moz-filter: blur(60/@rem);
+    -o-filter: blur(60/@rem);
+    -ms-filter: blur(60/@rem); */
 }
 
 .title{
@@ -179,6 +209,7 @@ titlex{
 
 #searchResultDisplay{
     position: fixed;
+    filter: drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.5));
     transition: all 0.3s ease;
     background-color: rgba(255,255,255,1);
     left: 0;
@@ -199,6 +230,7 @@ titlex{
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
+    pointer-events: visible;
 }
 
 #right-top-icon{

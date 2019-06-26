@@ -264,7 +264,7 @@ function commonRequests(action, requestArgs, callback, returns, auth = true) {
                         try {
                             callback(data[returns])
                         } catch (e) {
-                            console.log("Depreciation: commonRequests failed to return: ", e)
+                            console.warn("Depreciation: commonRequests failed to return: ", e)
                             callback(data)
                         }
                     }
@@ -272,8 +272,13 @@ function commonRequests(action, requestArgs, callback, returns, auth = true) {
                     callback(false, data.code)
                 }
             } catch (e) {
-                console.log("Failed: commonRequests failed to execute: ", e)
-                callback(false)
+                console.error("Failed: commonRequests failed to execute: ", e)
+                try{
+                    callback(false)
+                } catch(e){
+                    console.error("Failed: commonRequests failed to call callback function: ",e)
+                }
+
             }
         }
     }

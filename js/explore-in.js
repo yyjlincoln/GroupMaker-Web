@@ -3,6 +3,7 @@ document.insertPoints = initInsertPoints()
 // InitDivPosition()
 flushRecommendation()
 flushActivities()
+showNavBackground(true)
 
 function insertRecommendation(title, subtitle, description, bottomline, imgurl, redirect = "#") {
     try {

@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <title>Dashboard - PaceMaker</title>
+    <title>PaceMaker Webapp</title>
     <!-- Link JS & CSS -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet">
@@ -13,51 +13,55 @@
 
 <body>
     <div id="navbar">
-        <div class="flex">
-            <button class="mdc-icon-button material-icons" id="listicon" onclick="showSlideBar()"
-                style="margin-left: 10px;">menu</button>
-            <div id="pageSwitch" class="title mdc-button" style="margin-right: 10px;min-width: 225px;"
-                onclick="showSlideBar()">dashboard
+        <!-- <div id="uppernav">test</div> -->
+        <div id="mainnav">
+            <div class="flex">
+                <button class="mdc-icon-button material-icons" id="listicon" onclick="showSlideBar()"
+                    style="margin-left: 10px;">menu</button>
+                <div id="pageSwitch" class="title mdc-button" style="margin-right: 10px;min-width: 225px;"
+                    onclick="showSlideBar()">Pacemaker
+                </div>
             </div>
-        </div>
-        <div id="search-mega-wrapper" class="search-style">
-            <div id="innernav">
-                <!-- <div class="title mdc-button" style="margin-right: 10px;min-width: 225px;"
+            <div id="search-mega-wrapper" class="search-style">
+                <div id="innernav">
+                    <!-- <div class="title mdc-button" style="margin-right: 10px;min-width: 225px;"
                     onclick="top.location='#plaza'">Groups Plaza
                 </div> -->
-            </div>
-            <div id="search-wrapper" class="search-style">
-                <div id="searchResultDisplay" style="display: none;z-index: 9999">
-                    <ul class="mdc-list" style="padding: 0;">
-                        <!-- <div style="height: 5px;"></div> -->
-                        <insertPoint what="searchResult"></insertPoint>
-                    </ul>
                 </div>
-                <div class="mdc-text-field mdc-text-field--no-label mdc-text-field--with-trailing-icon title-inline"
-                    id="search">
-                    <form id="searchBar" class="search-style"
-                        onsubmit="try{search(searchBar.searchInput.value);}catch(err){}finally{return false}">
-                        <i class="material-icons mdc-text-field__icon" tabindex="0" role="button"
-                            onclick="search(searchBar.searchInput.value)">search</i>
-                        <input id="searchInputTextBox" type="text" placeholder="Search a group..."
-                            class="mdc-text-field__input" style="border: none;"
-                            oninput="presearch(searchBar.searchInput.value)" name="searchInput" autocomplete="off">
-                        <div class="mdc-line-ripple"></div>
-                    </form>
+                <div id="search-wrapper" class="search-style">
+                    <div id="searchResultDisplay" style="display: none;z-index: 9999">
+                        <ul class="mdc-list" style="padding: 0;">
+                            <!-- <div style="height: 5px;"></div> -->
+                            <insertPoint what="searchResult"></insertPoint>
+                        </ul>
+                    </div>
+                    <div class="mdc-text-field mdc-text-field--no-label mdc-text-field--with-trailing-icon title-inline"
+                        id="search">
+                        <form id="searchBar" class="search-style"
+                            onsubmit="try{search(searchBar.searchInput.value);}catch(err){}finally{return false}">
+                            <i class="material-icons mdc-text-field__icon" tabindex="0" role="button"
+                                onclick="search(searchBar.searchInput.value)">search</i>
+                            <input id="searchInputTextBox" type="text" placeholder="Search a group..."
+                                class="mdc-text-field__input" style="border: none;"
+                                oninput="presearch(searchBar.searchInput.value)" name="searchInput" autocomplete="off">
+                            <div class="mdc-line-ripple"></div>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div id="userinfo" class="flex" onclick="top.location='login.html'">
-            <div class="userIcon" style="width: 50px;height:50px;margin-left: 20px;margin-right: 20px;"
-                id="right-top-icon"></div>
-            <div id="loginbutton" class="title mdc-button"
-                style="margin-left: 10px;margin-right: 10px;font-size: 20px;">Login</div>
-            <!-- <div style="display: none">
+            <div id="userinfo" class="flex" onclick="top.location='login.html'">
+                <div class="userIcon" style="width: 50px;height:50px;margin-left: 20px;margin-right: 20px;"
+                    id="right-top-icon"></div>
+                <div id="loginbutton" class="title mdc-button"
+                    style="margin-left: 10px;margin-right: 10px;font-size: 20px;">Login</div>
+                <!-- <div style="display: none">
                 <div id="userimg"></div>
                 <div id="nickname" class="subtitle">Sign in to your account</div>
             </div> -->
+            </div>
         </div>
     </div>
+    <div id="navbarBackground"></div>
     <div id="slideBar">
         <div id="placeholder"></div>
 
@@ -89,7 +93,6 @@
 
     <div id="userSlideBar">
         <div id="placeholder" style="height: 70px"></div>
-
         <titlex>
             <div class="userInfoBackground">
                 <div id="userInfoCard" class="inner-left-container"
@@ -109,7 +112,8 @@
             <li class="mdc-list-item" onclick="logout()">
                 <span class="mdc-list-item__text">
                     <span class="mdc-list-item__primary-text">Log out</span>
-                    <span class="mdc-list-item__secondary-text"><nickname></nickname> (<userid></userid>)
+                    <span class="mdc-list-item__secondary-text">
+                        <nickname></nickname> (<userid></userid>)
                     </span>
                 </span>
             </li>
@@ -191,7 +195,7 @@
             <insertPoint what="rightPage" id="rightPage">
                 <!-- <div style="width:100%;text-align: center;padding-top: 80px;">Loading... Check your internet if this
                     takes more than 10 seconds.</div> -->
-                    <div id="loadingEffect"><svg class="spinner" style="margin-left: auto;margin-right:auto;" width="65px"
+                <div id="loadingEffect"><svg class="spinner" style="margin-left: auto;margin-right:auto;" width="65px"
                         height="65px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
                         <circle class="circle" fill="none" stroke-width="6" stroke="#673ab7" stroke-linecap="round"
                             cx="33" cy="33" r="30"></circle>
