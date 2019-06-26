@@ -10,3 +10,12 @@
 #loadtext{
     text-align: center;
 }
+
+#bkg{
+    transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 1.5s;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: fit-content;
+}
+    

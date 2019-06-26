@@ -1,5 +1,6 @@
 d=document.rightPageResources
 document.insertPoints=initInsertPoints()
+showNavBackground(false,false)
 
 loadingEffect("#loadtext")
 if(document.rightPageResources.length<=1){
@@ -12,7 +13,12 @@ if(document.rightPageResources.length<=1){
             $("#loadtext").text("Unable to load group detail. [Group ID = "+document.rightPageResources[document.rightPageResources.length-1]+"]")
         } else {
             // [TODO]
-            $("#loadtext").text("Group Info "+d.groupid+" "+d.title+" "+d.subtitle)
+            console.log(1)
+            $("#load").hide()
+            $("#title").text(d.title)
+            $("#subtitle").text(d.subtitle)
+            $("#bkg").css("background-image","url(\""+d.img+"\")")
+            // $("#loadtext").text("Group Info "+d.groupid+" "+d.title+" "+d.subtitle)
         }
     })
 }
