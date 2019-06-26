@@ -111,6 +111,14 @@
     display: flex;
 }
 
+#search-mega-wrapper, #pageSwitchWrapper, #userinfo{
+    pointer-events: auto;
+}
+
+#mainnav{
+    pointer-events: none;
+}
+
 #placeholder{
     height: 75px;
     width: 0px;

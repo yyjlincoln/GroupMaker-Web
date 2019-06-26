@@ -1,4 +1,4 @@
-showNavBackground(false)
+showNavBackground(false,false)
 commonRequests("dailyPictureAddr", {}, (addr) => {
     if (addr != false) {
         $("#bkg").css("background-image", "url(\""+addr+"\"")

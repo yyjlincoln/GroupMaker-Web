@@ -122,11 +122,18 @@ $(document).ready(() => {
 
 })
 
-function showNavBackground(tof,clearPic=true,height=70) {
+function showNavBackground(tof,searchbar=true,clearPic=true,height=70) {
     if (tof == false) {
         $("#navbarBackground").css("height", "0px")
     } else {
         $("#navbarBackground").css("height",height)
+    }
+    if(searchbar==true){
+        showSearchBar(true)
+        $("#search-mega-wrapper").show()
+    } else {
+        showSearchBar(false)
+        $("#search-mega-wrapper").hide()
     }
     if(clearPic==true){
         $("#navBackground").css("background-image","")
@@ -546,9 +553,9 @@ _DEV = () => {
 function showSearchBar(showOrHide = true) {
     if (showOrHide == false) {
         $("#search-wrapper").hide()
-        $("#innernav").fadeIn()
+        // $("#innernav").fadeIn()
     } else {
-        $("#innernav").hide()
+        // $("#innernav").hide()
         $("#search-wrapper").fadeIn()
         $("#search-wrapper").css("display", "flex")
     }
