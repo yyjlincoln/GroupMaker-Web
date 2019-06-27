@@ -122,26 +122,26 @@ $(document).ready(() => {
 
 })
 
-function showNavBackground(tof,searchbar=true,clearPic=true,height=70) {
+function showNavBackground(tof, searchbar = true, clearPic = true, height = 70) {
     if (tof == false) {
         $("#navbarBackground").css("height", "0px")
     } else {
-        $("#navbarBackground").css("height",height)
+        $("#navbarBackground").css("height", height)
     }
-    if(searchbar==true){
+    if (searchbar == true) {
         showSearchBar(true)
         $("#search-mega-wrapper").show()
     } else {
         showSearchBar(false)
         $("#search-mega-wrapper").hide()
     }
-    if(clearPic==true){
-        $("#navBackground").css("background-image","")
-        $("#navBackground").css("opacity","0.7")
+    if (clearPic == true) {
+        $("#navBackground").css("background-image", "")
+        $("#navBackground").css("opacity", "0.7")
     }
 }
 
-function InitDivPosition(rightContainerFullScreen = undefined) {
+function InitDivPosition(rightContainerFullScreen = undefined, manCookieChange = undefined) {
     // allowCookieChange = true
     if (rightContainerFullScreen == undefined) {
         rightContainerFullScreen = false
@@ -150,7 +150,9 @@ function InitDivPosition(rightContainerFullScreen = undefined) {
         allowCookieChange = true
     }
     if (allowCookieChange == true) {
-        setCookie("fullscreen", String(rightContainerFullScreen), 365)
+        if (manCookieChange != false) {
+            setCookie("fullscreen", String(rightContainerFullScreen), 365)
+        }
     }
     document.rightContainerFullScreen = rightContainerFullScreen
     if (rightContainerFullScreen == false) {
@@ -504,6 +506,8 @@ function onHashChange(ev, directURLMode = false) {
                 flushRightPage("explore-in.html")
                 break
         }
+        $("#searchResultDisplay").width($("#searchBar").width())
+        $("#searchResultDisplay").css("left", $("#searchBar").offset().left)
     } else {
         flushRightPage("explore-in.html")
     }
