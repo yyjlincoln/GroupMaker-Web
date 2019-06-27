@@ -1,3 +1,3 @@
-InitDivPosition(true)
+InitDivPosition()
 showNavBackground(false,false)
 flushMaterial()

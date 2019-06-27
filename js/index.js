@@ -504,6 +504,8 @@ function onHashChange(ev, directURLMode = false) {
                 flushRightPage("explore-in.html")
                 break
         }
+        $("#searchResultDisplay").width($("#searchBar").width())
+        $("#searchResultDisplay").css("left", $("#searchBar").offset().left)
     } else {
         flushRightPage("explore-in.html")
     }
