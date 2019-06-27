@@ -213,7 +213,7 @@ function search(searchValue, callback = null) {
             // Search Result Update
             document.searchLock = false
             document.showingSearchResult = true
-            top.location = "#!"
+            top.location = "#searchResultExpired"
             top.location = "#searchResult"
         }
     }

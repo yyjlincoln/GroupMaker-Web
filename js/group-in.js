@@ -13,12 +13,17 @@ if(document.rightPageResources.length<=1){
             $("#loadtext").text("Unable to load group detail. [Group ID = "+document.rightPageResources[document.rightPageResources.length-1]+"]")
         } else {
             // [TODO]
-            console.log(1)
+            console.log(d)
             $("#load").hide()
             $("#title").text(d.title)
             $("#subtitle").text(d.subtitle)
             $("#bkg").css("background-image","url(\""+d.img+"\")")
+            loadGroupMembers(d.participants)
             // $("#loadtext").text("Group Info "+d.groupid+" "+d.title+" "+d.subtitle)
         }
     })
+}
+
+function loadGroupMembers(members){
+    console.log(members)
 }

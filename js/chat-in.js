@@ -12,7 +12,7 @@ if(document.rightPageResources.length<=1){
             $("#loadtext").text("Unable to load chat detail. [Chat ID = "+document.rightPageResources[document.rightPageResources.length-1]+"]")
         } else {
             // [TODO]
-            $("#loadtext").text("Chat Info "+d.chatid+" "+d.title+" "+d.subtitle)
+            $("#loadtext").text("Chat Info "+d.chatID+" "+d.title+" "+d.subtitle)
         }
     })
 }
