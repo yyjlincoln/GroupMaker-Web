@@ -173,19 +173,19 @@ function getSession(userid, token, callback) {
 }
 
 function getGroups(userid, sessionid, token, callback) {
-    commonRequests("getGroups", {}, callback, "groups")
+    commonRequestsCached("getGroups", {}, callback, "groups")
 }
 
 function getChats(userid, sessionid, token, callback) {
-    commonRequests("getChats", {}, callback, "chats")
+    commonRequestsCached("getChats", {}, callback, "chats")
 }
 
 function getRecommendations(userid, sessionid, token, callback) {
-    commonRequests("getRecommendations", {}, callback, "recommendations")
+    commonRequestsCached("getRecommendations", {}, callback, "recommendations")
 }
 
 function getPublicGroups(search, cat, start, number, timeStart, timeEnd, callback, done) {
-    commonRequests("getPublicGroups", {
+    commonRequestsCached("getPublicGroups", {
         search: search,
         category: cat,
         start: start,
@@ -196,7 +196,7 @@ function getPublicGroups(search, cat, start, number, timeStart, timeEnd, callbac
 }
 
 function getActivities(userid, sessionid, token, callback) {
-    commonRequests("getActivities", {}, callback, "activities")
+    commonRequestsCached("getActivities", {}, callback, "activities")
 }
 
 function appendToInsertPoint(point, html) {
@@ -273,10 +273,10 @@ function commonRequests(action, requestArgs, callback, returns, auth = true) {
                 }
             } catch (e) {
                 console.error("Failed: commonRequests failed to execute: ", e)
-                try{
+                try {
                     callback(false)
-                } catch(e){
-                    console.error("Failed: commonRequests failed to call callback function: ",e)
+                } catch (e) {
+                    console.error("Failed: commonRequests failed to call callback function: ", e)
                 }
 
             }
@@ -303,6 +303,30 @@ function commonRequests(action, requestArgs, callback, returns, auth = true) {
     $.post(servaddr, requestArgs, c(callback)).fail(d(callback))
 }
 
+function commonRequestsCached() {
+    req = true
+    x = getCookie("cache")
+    try {
+        o = JSON.parse(x)
+    } catch {
+        setCookie("cache", "")
+        o = {}
+    }
+    j = JSON.stringify(arguments[1])
+    if (o[arguments[0]] != undefined && o[arguments[0]][j]) {
+        d = new Date().getTime()
+        if (d - o[arguments[0]][j].creationTime <= 60000) {
+            console.log("cached response")
+            arguments[2](o[arguments[0]][j].response)
+            // }
+            return
+        }
+
+    }
+    arguments[2] = cache(arguments[2], arguments[0], j)
+    commonRequests.apply(this, arguments)
+}
+
 function getGroupDetail(groupid, callback) {
     commonRequests("getGroupDetail", { groupid: groupid }, callback, "detail")
 }
@@ -315,5 +339,35 @@ function getChatDetail(chatid, callback) {
 function loadingEffect(l) {
     rawhtml = "<div id=\"loadingEffect\"><svg class=\"spinner\" style=\"margin-left: auto;margin-right:auto;\" width=\"65px\"height=\"65px\" viewBox=\"0 0 66 66\" xmlns=\"http://www.w3.org/2000/svg\"><circle class=\"circle\" fill=\"none\" stroke-width=\"6\" stroke=\"#673ab7\" stroke-linecap=\"round\"cx=\"33\" cy=\"33\" r=\"30\"></circle></svg></div><style>.material_block {width: 580px;padding: 20px;background-color: #fff;box-shadow: 0 2px 5px rgba(0, 0, 0, .4);margin: auto;}.spinner {-webkit-animation: rotation 1.35s linear infinite;animation: rotation 1.35s linear infinite;}@-webkit-keyframes rotation {0% {-webkit-transform: rotate(0deg);transform: rotate(0deg);}100% {-webkit-transform: rotate(270deg);transform: rotate(270deg);}}@keyframes rotation {0% {-webkit-transform: rotate(0deg);transform: rotate(0deg);}100% {-webkit-transform: rotate(270deg);transform: rotate(270deg);}}.circle {stroke-dasharray: 180;stroke-dashoffset: 0;-webkit-transform-origin: center;-ms-transform-origin: center;transform-origin: center;-webkit-animation: turn 1.35s ease-in-out infinite;animation: turn 1.35s ease-in-out infinite;}@-webkit-keyframes turn {0% {stroke-dashoffset: 180;}50% {stroke-dashoffset: 45;-webkit-transform: rotate(135deg);transform: rotate(135deg);}100% {stroke-dashoffset: 180;-webkit-transform: rotate(450deg);transform: rotate(450deg);}}@keyframes turn {0% {stroke-dashoffset: 180;}50% {stroke-dashoffset: 45;-webkit-transform: rotate(135deg);transform: rotate(135deg);}100% {stroke-dashoffset: 180;-webkit-transform: rotate(450deg);transform: rotate(450deg);}}</style>"
     $(l).html(rawhtml)
+}
+
+function cache(callback, action, args) {
+    // setCookie()
+    return (data) => {
+        doCache(data, action, args)
+        console.log(callback)
+        callback(data)
+    }
+}
+
+function doCache(data, action, args) {
+    console.log("cache", data, action, args)
+    j = args
+    try {
+        o = JSON.parse(getCookie("cache"))
+    }
+    catch (e) {
+        setCookie("cache", "")
+        o = {}
+    }
+    o[action] = {}
+    o[action][j] = {}
+    o[action][j].response = data
+    o[action][j].creationTime = new Date().getTime()
+    setCookie("cache", JSON.stringify(o))
+}
+
+function clearCache() {
+    setCookie("cache", "")
 }
 flushMaterial()

@@ -8,6 +8,7 @@ $(document).ready(() => {
     // document.write("<p>Token="+getCookie("token")+"</p>")
     // document.close()
     document.searchDisplay = false
+    document.beforeSearch = "#"
     $("#left-container").resizable({
         // ghost: true,
         handles: 'e, w',
@@ -87,6 +88,7 @@ $(document).ready(() => {
 
     $(window).on("hashchange", onHashChange)
 
+    $(window).on("beforeunload",clearCache)
     $("#right-container").scroll(() => {
         if ($("#right-container").scrollTop() <= 20) {
             // $("#navbarBackground").css("height","80px")
@@ -204,21 +206,20 @@ function InitDivPosition(rightContainerFullScreen = undefined, manCookieChange =
 function search(searchValue, callback = null) {
     if (searchValue == "" && document.showingSearchResult == true) {
         document.showingSearchResult = false
-        top.location = "#"
+        top.location = document.beforeSearch
         return false
     }
     if (searchValue == "" || searchValue == undefined) {
         return false
     }
-    if (callback == null) {
-        callback = (result) => {
-            // Search Result Update
-            document.searchLock = false
-            document.showingSearchResult = true
-            top.location = "#searchResultExpired"
-            top.location = "#searchResult"
-        }
-    }
+    // if (callback == null) {
+    //     callback = (result) => {
+    //         // Search Result Update
+    //         document.searchLock = false
+    //         document.showingSearchResult = true
+    //         top.location = "#search@" + document.searchValue
+    //     }
+    // }
     if (searchValue.length > 1) {
         if (searchValue[0] == ">" && searchValue[searchValue.length - 1] == ";") {
             try {
@@ -229,11 +230,15 @@ function search(searchValue, callback = null) {
         }
     }
     if (document.searchLock == false || searchValue != document.searchValue) {
-        document.searchValue = searchValue
-        document.searchLock = true
-        getPublicGroups(searchValue, undefined, undefined, undefined, undefined, undefined, callback, () => {
-            document.searchLock = false
-        })
+        if (callback != null) {
+            document.searchValue = searchValue
+            document.searchLock = true
+            getPublicGroups(searchValue, undefined, undefined, undefined, undefined, undefined, callback, () => {
+                document.searchLock = false
+            })
+        } else {
+            top.location = "#search@" + document.searchValue
+        }
     } else {
         return false
     }
@@ -244,11 +249,16 @@ function search(searchValue, callback = null) {
 function presearch(searchValue) {
     updateSearchResult(undefined, undefined, true)
     console.log("Presearch Started")
-    updateSearchResult(undefined, undefined, true)
+    // updateSearchResult(undefined, undefined, true)
     search(searchValue, (result) => {
+
+        // TESTING
+        // top.location = "#search@" + document.searchValue
+
         document.searchLock = false
         // console.log("Presearch:", document.searchValue, result)
         updateSearchResult(undefined, undefined, true)
+        console.warn(result)
         for (var x = 0; x < result.length; x++) {
             updateSearchResult(result[x].title, result[x].groupURL)
         }
@@ -491,7 +501,7 @@ function onHashChange(ev, directURLMode = false) {
             case "allChats":
                 flushRightPage("allChats-in.html")
                 break
-            case "searchResult":
+            case "search":
                 flushRightPage("searchResult-in.html")
                 break
             case "plaza":
@@ -505,6 +515,9 @@ function onHashChange(ev, directURLMode = false) {
             case "":
                 flushRightPage("explore-in.html")
                 break
+        }
+        if (hash[0] != "search") {
+            document.beforeSearch = top.location.href
         }
         $("#searchResultDisplay").width($("#searchBar").width())
         $("#searchResultDisplay").css("left", $("#searchBar").offset().left)

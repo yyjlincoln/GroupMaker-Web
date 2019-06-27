@@ -1,8 +1,9 @@
 document.insertPoints=initInsertPoints()
 document.showingSearchResult=true
+searchV=document.rightPageResources.splice(1,document.rightPageResources.length-1).join("@")
 
-$("#SRTitle").text("Search Result for \"" + document.searchValue + "\"")
-search(document.searchValue, (result) => {
+$("#SRTitle").text("Search Result for \"" + searchV + "\"")
+search(searchV, (result) => {
     document.searchLock=false
     document.insertPoints.searchResultCards.html("")
     for (var x = 0; x < result.length; x++) {
