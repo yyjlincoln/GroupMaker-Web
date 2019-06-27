@@ -88,7 +88,7 @@ $(document).ready(() => {
 
     $(window).on("hashchange", onHashChange)
 
-    $(window).on("beforeunload",clearCache)
+    $(window).on("beforeunload", clearCache)
     $("#right-container").scroll(() => {
         if ($("#right-container").scrollTop() <= 20) {
             // $("#navbarBackground").css("height","80px")
@@ -247,6 +247,7 @@ function search(searchValue, callback = null) {
 }
 
 function presearch(searchValue) {
+    document.searchDone = false
     updateSearchResult(undefined, undefined, true)
     console.log("Presearch Started")
     // updateSearchResult(undefined, undefined, true)
@@ -258,7 +259,7 @@ function presearch(searchValue) {
         document.searchLock = false
         // console.log("Presearch:", document.searchValue, result)
         updateSearchResult(undefined, undefined, true)
-        console.warn(result)
+        document.searchDone = true
         for (var x = 0; x < result.length; x++) {
             updateSearchResult(result[x].title, result[x].groupURL)
         }
@@ -267,10 +268,12 @@ function presearch(searchValue) {
 
     if (searchValue != "") {
         if (searchValue.length > 0) {
-            if (document.searchValue[0] == ">") {
-                updateSearchResult("To run javascript, finish the sentence with \";\".", "#", true)
-            } else {
-                updateSearchResult("Searching \"" + searchValue + "\"...", "#", true)
+            if (document.searchDone == false) {
+                if (document.searchValue[0] == ">") {
+                    updateSearchResult("To run javascript, finish the sentence with \";\".", "#", true)
+                } else {
+                    updateSearchResult("Searching \"" + searchValue + "\"...", "#", true)
+                }
             }
         } else {
 

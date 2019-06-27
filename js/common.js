@@ -305,25 +305,25 @@ function commonRequests(action, requestArgs, callback, returns, auth = true) {
 
 function commonRequestsCached() {
     req = true
-    x = getCookie("cache")
+    x = getSS("cache")
     try {
         o = JSON.parse(x)
     } catch {
-        setCookie("cache", "")
+        setSS("cache", "")
         o = {}
     }
-    j = JSON.stringify(arguments[1])
-    if (o[arguments[0]] != undefined && o[arguments[0]][j]) {
+    j = JSON.stringify(arguments)
+    if (o[j] != undefined) {
         d = new Date().getTime()
-        if (d - o[arguments[0]][j].creationTime <= 60000) {
+        if (d - o[j].creationTime <= 60000) {
             console.log("cached response")
-            arguments[2](o[arguments[0]][j].response)
+            arguments[2](o[j].response)
             // }
             return
         }
 
     }
-    arguments[2] = cache(arguments[2], arguments[0], j)
+    arguments[2] = cache(arguments[2],  j)
     commonRequests.apply(this, arguments)
 }
 
@@ -341,33 +341,48 @@ function loadingEffect(l) {
     $(l).html(rawhtml)
 }
 
-function cache(callback, action, args) {
+function cache(callback, args) {
     // setCookie()
     return (data) => {
-        doCache(data, action, args)
-        console.log(callback)
+        doCache(data, args)
+        // console.log(callback)
         callback(data)
     }
 }
 
-function doCache(data, action, args) {
-    console.log("cache", data, action, args)
+function doCache(data, args) {
+    console.log("cache", data, args)
     j = args
     try {
-        o = JSON.parse(getCookie("cache"))
+        o = JSON.parse(getSS("cache"))
     }
     catch (e) {
-        setCookie("cache", "")
+        setSS("cache", "")
         o = {}
     }
-    o[action] = {}
-    o[action][j] = {}
-    o[action][j].response = data
-    o[action][j].creationTime = new Date().getTime()
-    setCookie("cache", JSON.stringify(o))
+    o[j] = {}
+    o[j].response = data
+    o[j].creationTime = new Date().getTime()
+    setSS("cache", JSON.stringify(o))
 }
 
 function clearCache() {
-    setCookie("cache", "")
+    setSS("cache", "")
+}
+
+function setSS(name,value){
+    if(value==undefined || value==""){
+        sessionStorage.removeItem(name)
+    } else{
+        sessionStorage.setItem(name,value)
+    }
+}
+
+function getSS(name){
+    x=sessionStorage.getItem(name)
+    if(x==null){
+        return ""
+    }
+    return x
 }
 flushMaterial()
