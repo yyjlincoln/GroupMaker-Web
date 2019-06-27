@@ -328,11 +328,11 @@ function commonRequestsCached() {
 }
 
 function getGroupDetail(groupid, callback) {
-    commonRequests("getGroupDetail", { groupid: groupid }, callback, "detail")
+    commonRequestsCached("getGroupDetail", { groupid: groupid }, callback, "detail")
 }
 
 function getChatDetail(chatid, callback) {
-    commonRequests("getChatDetail", { chatid: chatid }, callback, "detail")
+    commonRequestsCached("getChatDetail", { chatid: chatid }, callback, "detail")
 }
 
 
@@ -351,7 +351,7 @@ function cache(callback, args) {
 }
 
 function doCache(data, args) {
-    console.log("cache", data, args)
+    // console.log("cache", data, args)
     j = args
     try {
         o = JSON.parse(getSS("cache"))
