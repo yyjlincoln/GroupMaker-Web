@@ -17,7 +17,7 @@ if(document.rightPageResources.length<=1){
             $("#load").hide()
             $("#title").text(d.title)
             $("#subtitle").text(d.subtitle)
-            $("#bkg").css("background-image","url(\""+d.img+"\")")
+            $("#bkg").css("background-image","url(\""+d.imgURL+"\")")
             loadGroupMembers(d.participants)
             // $("#loadtext").text("Group Info "+d.groupid+" "+d.title+" "+d.subtitle)
         }

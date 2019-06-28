@@ -195,6 +195,14 @@ function getPublicGroups(search, cat, start, number, timeStart, timeEnd, callbac
     }, callback, "groups")
 }
 
+function getPublicCategories(search, categoryID, callback) {
+    commonRequests("getPublicCategories", {
+        search: search,
+        categoryID: categoryID
+    }, callback,"categories")
+}
+
+
 function getActivities(userid, sessionid, token, callback) {
     commonRequestsCached("getActivities", {}, callback, "activities")
 }
@@ -323,7 +331,7 @@ function commonRequestsCached() {
         }
 
     }
-    arguments[2] = cache(arguments[2],  j)
+    arguments[2] = cache(arguments[2], j)
     commonRequests.apply(this, arguments)
 }
 
@@ -370,19 +378,32 @@ function clearCache() {
     setSS("cache", "")
 }
 
-function setSS(name,value){
-    if(value==undefined || value==""){
+function setSS(name, value) {
+    if (value == undefined || value == "") {
         sessionStorage.removeItem(name)
-    } else{
-        sessionStorage.setItem(name,value)
+    } else {
+        sessionStorage.setItem(name, value)
     }
 }
 
-function getSS(name){
-    x=sessionStorage.getItem(name)
-    if(x==null){
+function getSS(name) {
+    x = sessionStorage.getItem(name)
+    if (x == null) {
         return ""
     }
     return x
+}
+
+
+function newGroup(title, subtitle, description, bottomline, imgURL, groupURL, categoryID, callback) {
+    commonRequests("newGroup", {
+        title: title,
+        subtitle: subtitle,
+        description: description,
+        bottomline: bottomline,
+        imgURL: imgURL,
+        groupURL: groupURL,
+        categoryID: categoryID
+    }, callback)
 }
 flushMaterial()

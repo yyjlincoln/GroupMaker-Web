@@ -32,6 +32,7 @@ function flushRecommendation() {
                     break
                 default:
                     console.log("Invalid", obj)
+                    insertRecommendation(obj.title, obj.subtitle, obj.description, obj.bottomline, obj.imgURL, obj.groupURL)
                     break
             }
         }
