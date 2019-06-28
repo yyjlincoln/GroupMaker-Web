@@ -57,7 +57,21 @@ body{
     /* height: fit-content; */
     height: 100%;
     width: 100%;
+    animation-name: f;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+    animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+    animation-iteration-count: 1;
     /* background-color: red; */
+}
+
+@keyframes f{
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+  }
 }
 
 .act-container{
