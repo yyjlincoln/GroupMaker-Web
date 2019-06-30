@@ -80,7 +80,7 @@ function sendlogin(user, pass, callback) {
             if (data === false) {
                 callback(errcode)
             } else {
-                callback(data.code, data.token, data.user.nickname, data.user.icon, data.user.imgURL, data.user.imgType)
+                callback(data.code, data.token, data.user.nickname, data.user.icon, data.user.imgURL, data.user.imgType,data.user.userID)
             }
         }
     }
@@ -93,7 +93,7 @@ function sendRegister(email, nickname, user, pass, callback) {
             if (data === false) {
                 callback(errcode)
             } else {
-                callback(data.code, data.token, data.user.nickname,data.user.icon,data.user.imgURL,data.user.imgType)
+                callback(data.code, data.token, data.user.nickname,data.user.icon,data.user.imgURL,data.user.imgType,data.user.userID)
             }
         }
     }

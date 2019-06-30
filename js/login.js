@@ -12,7 +12,7 @@ function login(user, pass) {
     }
     console.log("Login", user, pass)
     // [TODO] Encryption, etc
-    sendlogin(user, pass, (stat, token, nickname, icon, imgURL, imgType, userid = user) => {
+    sendlogin(user, pass, (stat, token, nickname, icon, imgURL, imgType, userid) => {
         console.log("Login stat", stat, "Token", token)
         switch (stat) {
             case 0:
@@ -102,7 +102,7 @@ function switchToLogin() {
 }
 
 function register(email, nickname, user, pass) {
-    sendRegister(email, nickname, user, pass, (stat, token, nickname, icon, imgURL, imgType, userid = user) => {
+    sendRegister(email, nickname, user, pass, (stat, token, nickname, icon, imgURL, imgType, userid) => {
         switch (stat) {
             case 0:
                 Success("Welcome to PaceMaker, " + String(nickname))
