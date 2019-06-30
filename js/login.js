@@ -102,7 +102,7 @@ function switchToLogin() {
 }
 
 function register(email, nickname, user, pass) {
-    sendRegister(email, nickname, user, pass, (stat, token, nickname, userid = user) => {
+    sendRegister(email, nickname, user, pass, (stat, token, nickname, icon, imgURL, imgType, userid = user) => {
         switch (stat) {
             case 0:
                 Success("Welcome to PaceMaker, " + String(nickname))
