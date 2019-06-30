@@ -76,10 +76,11 @@ function flushMaterial() {
 function sendlogin(user, pass, callback) {
     wrapped = (callback) => {
         return (data, errcode) => {
+            // console.warn(data)
             if (data === false) {
                 callback(errcode)
             } else {
-                callback(data.code, data.token, data.nickname)
+                callback(data.code, data.token, data.user.nickname, data.user.icon, data.user.imgURL, data.user.imgType)
             }
         }
     }
@@ -92,7 +93,7 @@ function sendRegister(email, nickname, user, pass, callback) {
             if (data === false) {
                 callback(errcode)
             } else {
-                callback(data.code, data.token, data.nickname)
+                callback(data.code, data.token, data.user.nickname,data.user.icon,data.user.imgURL,data.user.imgType)
             }
         }
     }
@@ -109,14 +110,15 @@ function encryptLogin(user, pass) {
     return user + pass
 }
 
-function verifySession(session, token, callback) {
+function verifySession(session, token, userid, callback) {
 
     c = (callback) => {
         return (data) => {
             try {
                 // djson = JSON.parse(data)
                 if (data.code == 0 && data.status == true) {
-                    callback(true)
+                    // console.warn(data)
+                    callback(true,data.user)
                 } else {
                     callback(false)
                 }
@@ -134,7 +136,8 @@ function verifySession(session, token, callback) {
     $.post(servaddr, {
         action: "verifySession",
         sessionid: session,
-        token: token
+        token: token,
+        userid: userid
     }, c(callback)).fail(d(callback))
     // [DEV] [TODO]
     // document._verifySession_callback(true)
@@ -147,7 +150,7 @@ function getSession(userid, token, callback) {
             try {
                 // djson = JSON.parse(data)
                 if (data.code == 0) {
-                    callback(data.sessionid)
+                    callback(data.sessionid,data.user)
                 } else {
                     callback(false)
                 }
@@ -253,10 +256,19 @@ function getImgURL(type, callback) {
 
     switch (type) {
         case "infobackground":
-            callback('https://yyjlincoln.github.io/istweb/Media/1.jpg')
+            if(getCookie("imgURL")==""){
+                callback("https://yyjlincoln.github.io/istweb/Media/1.jpg")
+            } else {
+                callback(getCookie("imgURL"))
+            }
             break
         case "usericon":
-            callback('https://yyjlincoln.github.io/istweb/Media/uparrow.svg')
+            if(getCookie("icon")==""){
+                callback('https://yyjlincoln.github.io/istweb/Media/uparrow.svg')
+            } else {
+                callback(getCookie("icon"))
+            }
+
     }
 }
 

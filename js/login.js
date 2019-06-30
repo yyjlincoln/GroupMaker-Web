@@ -12,12 +12,12 @@ function login(user, pass) {
     }
     console.log("Login", user, pass)
     // [TODO] Encryption, etc
-    sendlogin(user, pass, (stat, token, nickname, userid = user) => {
+    sendlogin(user, pass, (stat, token, nickname, icon, imgURL, imgType, userid = user) => {
         console.log("Login stat", stat, "Token", token)
         switch (stat) {
             case 0:
                 Success("Welcome back, " + String(nickname))
-                loginSuccess(token, userid, nickname)
+                loginSuccess(token, userid, nickname, icon, imgURL, imgType)
                 break
             case -103:
                 Err("Failed to log in. Please check your username and password.")
@@ -47,12 +47,15 @@ function login(user, pass) {
     })
 }
 
-function loginSuccess(token, userid, nickname) {
+function loginSuccess(token, userid, nickname,icon,imgURL,imgType) {
     // [TODO] Do something with token
     console.log(token)
     setCookie("token", token, 3)
     setCookie("userid", userid, 3)
     setCookie("nickname", nickname, 3)
+    setCookie("icon",icon,3)
+    setCookie("imgURL",imgURL,3)
+    setCookie("imgType",imgType,3)
     if (getCookie("fullscreen") == "") {
         setCookie("fullscreen", "false", 3)
     }
@@ -98,12 +101,12 @@ function switchToLogin() {
     $("#signupText").html("Don't have an account? <a id=\"signupLink\" style=\"cursor: pointer;text-decoration: none;font-style: italic;font-weight: bold;\" onclick=\"switchToRegister();\">Sign Up.</a>")
 }
 
-function register(email, nickname,user, pass) {
+function register(email, nickname, user, pass) {
     sendRegister(email, nickname, user, pass, (stat, token, nickname, userid = user) => {
         switch (stat) {
             case 0:
                 Success("Welcome to PaceMaker, " + String(nickname))
-                loginSuccess(token, userid, nickname)
+                loginSuccess(token, userid, nickname, icon, imgURL, imgType)
                 break
             case -103:
                 Err("Failed to register. Please check your username and password.")
@@ -133,6 +136,6 @@ function register(email, nickname,user, pass) {
     })
 }
 
-if(top.location.hash=="#reg"){
+if (top.location.hash == "#reg") {
     switchToRegister()
 }

@@ -347,7 +347,6 @@ function loginStatusCheck(loggedin, loggedout) {
     document.token = getCookie("token")
     document.nickname = getCookie("nickname")
     document.userid = getCookie("userid")
-
     session_trial = getCookie("sessionid")
 
     // 1) Get session from cookie
@@ -366,11 +365,11 @@ function loginStatusCheck(loggedin, loggedout) {
 
     if (document.userid != "" && document.token != "") {
         if (session_trial != "") {
-            verifySession(session_trial, document.token, (stat) => {
+            verifySession(session_trial, document.token, document.userid, (stat,user) => {
                 if (stat == true) {
                     document.loggedIn = true // valid token, valid sessionid
                     document.sessionid = session_trial
-                    loggedin(session_trial)
+                    loggedin(session_trial,user)
                 } else {
                     // invalid sessionid, unknown token
                     getSession(document.userid, document.token, (sessionid) => {
@@ -379,7 +378,7 @@ function loginStatusCheck(loggedin, loggedout) {
                             document.sessionid = sessionid
                             setCookie("sessionid", sessionid)
                             document.sessionid = sessionid
-                            loggedin(sessionid)
+                            loggedin(sessionid,user)
                         } else {
                             // Invalid token, invalid session id
                             loggedout()
@@ -393,7 +392,7 @@ function loginStatusCheck(loggedin, loggedout) {
                     // valid token, valid session id
                     document.sessionid = sessionid
                     setCookie("sessionid", sessionid)
-                    loggedin(sessionid)
+                    loggedin(sessionid,user)
                 } else {
                     // Invalid token, invalid session id
                     loggedout()
@@ -407,8 +406,13 @@ function loginStatusCheck(loggedin, loggedout) {
 
 loginStatusCheck(loggedin, loggedout)
 
-function loggedin(sessionid) {
+function loggedin(sessionid,user) {
     console.log('Logged in')
+    setCookie("nickname",user.nickname,3)
+    setCookie("icon",user.icon,3)
+    setCookie("description",user.description,3)
+    setCookie("imgURL",user.imgURL,3)
+    setCookie("imgType",user.imgType,3)
     flushChats()
     flushGroups()
     document.loggedIn = true
