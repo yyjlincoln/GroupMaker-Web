@@ -328,7 +328,7 @@ function commonRequestsCached() {
     x = getSS("cache")
     try {
         o = JSON.parse(x)
-    } catch {
+    } catch (e) {
         setSS("cache", "")
         o = {}
     }
