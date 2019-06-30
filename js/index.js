@@ -530,6 +530,7 @@ function onHashChange(ev, directURLMode = false) {
         $("#searchResultDisplay").css("left", $("#searchBar").offset().left)
     } else {
         flushRightPage("explore-in.html")
+        document.beforeSearch = top.location.href
     }
 }
 
