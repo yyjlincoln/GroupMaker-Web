@@ -372,7 +372,7 @@ function loginStatusCheck(loggedin, loggedout) {
                     loggedin(session_trial,user)
                 } else {
                     // invalid sessionid, unknown token
-                    getSession(document.userid, document.token, (sessionid) => {
+                    getSession(document.userid, document.token, (sessionid,user) => {
                         if (sessionid != false) {
                             // valid token, valid session id
                             document.sessionid = sessionid
@@ -387,7 +387,7 @@ function loginStatusCheck(loggedin, loggedout) {
                 }
             })
         } else {
-            getSession(document.userid, document.token, (sessionid) => {
+            getSession(document.userid, document.token, (sessionid,user) => {
                 if (sessionid != false) {
                     // valid token, valid session id
                     document.sessionid = sessionid
