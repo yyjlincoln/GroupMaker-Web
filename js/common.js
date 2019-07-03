@@ -23,6 +23,10 @@ function getCookie(cname) {
     return ""
 }
 
+function getNewActivationEmail(){
+    commonRequests("newActivationEmail")
+}
+
 function deleteAllCookies() {
     var cookies = document.cookie.split(";")
 
