@@ -24,7 +24,7 @@ function getCookie(cname) {
 }
 
 function getNewActivationEmail(){
-    commonRequests("newActivationEmail")
+    commonRequests("newActivationEmail",{},(d)=>{console.log(d)})
 }
 
 function deleteAllCookies() {
