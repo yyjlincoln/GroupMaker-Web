@@ -105,7 +105,7 @@ function register(email, nickname, user, pass) {
     sendRegister(email, nickname, user, pass, (stat, token, nickname, icon, imgURL, imgType, userid) => {
         switch (stat) {
             case 0:
-                Success("Welcome to PaceMaker, " + String(nickname))
+                Success("Welcome to GroupMaker, " + String(nickname))
                 loginSuccess(token, userid, nickname, icon, imgURL, imgType)
                 break
             case -103:
