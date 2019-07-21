@@ -3,7 +3,7 @@ _DEV_ = false
 if (_DEV_ == true) {
     servaddr = "http://localhost/api"
 } else {
-    servaddr = "https://teamer.xyz/api"
+    servaddr = "https://teamer.xyz:4430/api"
 }
 
 function setCookie(cname, cvalue, exdays) {
